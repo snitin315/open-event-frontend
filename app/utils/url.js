@@ -1,5 +1,5 @@
-import UrlParser from 'url-parse';
-import queryString from 'query-string';
+import { UrlParser } from 'url-parse';
+import { queryString } from 'query-string';
 import { merge, mapValues, isArray } from 'lodash-es';
 
 /**
@@ -20,6 +20,7 @@ export const buildUrlViaUrlParse = (baseUrl, queryParams, stringifyArray = false
       return value;
     });
   }
+
   parsedUrl.set('query', merge(parsedUrl.query, queryParams));
   return parsedUrl.toString();
 };
@@ -39,10 +40,12 @@ export const buildUrlViaQueryString = (baseUrl, queryParams, stringifyArray = fa
       if (isArray(value)) {
         return value.join(',');
       }
+
       return value;
     });
   }
   // eslint-disable-next-line prefer-template
+  
   return parsedUrl.url + '?' + queryString.stringify(merge(parsedUrl.query, queryParams), { arrayFormat: 'bracket' });
 };
 
