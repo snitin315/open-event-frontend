@@ -6,7 +6,7 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'ember'
+    'ember',
   ],
   extends: [
     'eslint:recommended',
@@ -70,6 +70,7 @@ module.exports = {
     'ember-suave/require-access-in-comments': 'off',
     'ember/no-get': 'error',
     'ember/no-get-properties': 'error',
+    "no-direct-property-access": ["error", ["Ember", "DS"]]
   },
   globals: {
     module     : true,
