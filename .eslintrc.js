@@ -70,7 +70,7 @@ module.exports = {
     'ember-suave/require-access-in-comments': 'off',
     'ember/no-get': 'error',
     'ember/no-get-properties': 'error',
-    'lines-between-object-properties': ['always', { exceptAfterSingleLine: true }]
+    'ember-suave/lines-between-object-properties': ['always', { exceptAfterSingleLine: true }]
   },
   globals: {
     module     : true,
