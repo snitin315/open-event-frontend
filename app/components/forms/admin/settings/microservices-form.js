@@ -5,30 +5,30 @@ import { protocolLessValidUrlPattern } from 'open-event-frontend/utils/validator
 export default Component.extend(FormMixin, {
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         androidApp: {
-          optional   : true,
-          identifier : 'android_app',
-          rules      : [
+          optional: true,
+          identifier: 'android_app',
+          rules: [
             {
-              type   : 'regExp',
-              value  : protocolLessValidUrlPattern,
-              prompt : this.l10n.t('Please enter a valid URL for Android app')
+              type: 'regExp',
+              value: protocolLessValidUrlPattern,
+              prompt: this.l10n.t('Please enter a valid URL for Android app')
             }
           ]
         },
 
         webApp: {
-          optional   : true,
-          identifier : 'web_app',
-          rules      : [
+          optional: true,
+          identifier: 'web_app',
+          rules: [
             {
-              type   : 'regExp',
-              value  : protocolLessValidUrlPattern,
-              prompt : this.l10n.t('Please enter a valid URL for web app')
+              type: 'regExp',
+              value: protocolLessValidUrlPattern,
+              prompt: this.l10n.t('Please enter a valid URL for web app')
             }
           ]
         }

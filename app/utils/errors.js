@@ -23,7 +23,9 @@ export const getErrorMessage = (input, defaultError = 'Unable to load data', att
       let error = input;
       try {
         error = JSON.parse(input);
-      } catch (ignored) { /* ignored */ }
+      } catch (ignored) {
+        /* ignored */
+      }
       if (isString(error) || isNumber(isNumber)) {
         return error;
       }
@@ -31,7 +33,13 @@ export const getErrorMessage = (input, defaultError = 'Unable to load data', att
     }
 
     if (!isArray(input) && isObjectLike(input)) {
-      input = input.error ? input.error : (input.message ? input.message : (input.messages ? input.messages : input));
+      input = input.error
+        ? input.error
+        : input.message
+        ? input.message
+        : input.messages
+        ? input.messages
+        : input;
     } else if (isArray(input)) {
       return input.join('. ');
     }

@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-
   titleToken(model) {
     let order = model.order.get('identifier');
     return this.l10n.t(`New Order -${order}`);
@@ -9,32 +8,34 @@ export default Route.extend({
 
   async model(params) {
     const order = await this.store.findRecord('order', params.order_id, {
-      include : 'attendees,event',
-      reload  : true
+      include: 'attendees,event',
+      reload: true
     });
     const tickets = await order.query('tickets', {});
-    await tickets.forEach(ticket => {
+    await tickets.forEach((ticket) => {
       ticket.query('attendees', {
-        filter: [{
-          name : 'order',
-          op   : 'has',
-          val  : {
-            name : 'id',
-            op   : 'eq',
-            val  : order.originalId
+        filter: [
+          {
+            name: 'order',
+            op: 'has',
+            val: {
+              name: 'id',
+              op: 'eq',
+              val: order.originalId
+            }
           }
-        }]
+        ]
       });
     });
 
     const eventDetails = await order.query('event', { include: 'tax' });
     return {
       order,
-      event : eventDetails,
+      event: eventDetails,
       tickets,
-      form  : await eventDetails.query('customForms', {
-        'page[size]' : 50,
-        sort         : 'id'
+      form: await eventDetails.query('customForms', {
+        'page[size]': 50,
+        sort: 'id'
       })
     };
   },
@@ -42,7 +43,10 @@ export default Route.extend({
   afterModel(model) {
     if (model.order.get('status') === 'expired') {
       this.transitionTo('orders.expired', model.order.get('identifier'));
-    } else if (model.order.get('status') === 'completed' || model.order.get('status') === 'placed') {
+    } else if (
+      model.order.get('status') === 'completed' ||
+      model.order.get('status') === 'placed'
+    ) {
       this.transitionTo('orders.view', model.order.get('identifier'));
     } else if (model.order.get('status') === 'pending') {
       this.transitionTo('orders.pending', model.order.get('identifier'));

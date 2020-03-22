@@ -4,7 +4,6 @@ import { coerceId } from 'open-event-frontend/utils/internal';
 import attr from 'ember-data/attr';
 
 export default Mixin.create({
-
   originalId: attr(),
 
   extractId(modelClass, resourceHash) {

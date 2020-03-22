@@ -10,9 +10,9 @@ export default Route.extend({
     return {
       discountCode: this.store.createRecord('discount-code', {
         event,
-        tickets  : [],
-        usedFor  : 'ticket',
-        marketer : this.authManager.currentUser
+        tickets: [],
+        usedFor: 'ticket',
+        marketer: this.authManager.currentUser
       }),
       tickets,
       event
@@ -27,7 +27,7 @@ export default Route.extend({
   },
   afterModel(model) {
     let allTickets = model.tickets;
-    allTickets.forEach(ticket => {
+    allTickets.forEach((ticket) => {
       ticket.set('isChecked', false);
     });
     let currentDiscountCode = model.discountCode;

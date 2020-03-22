@@ -3,9 +3,9 @@ import ModelBase from 'open-event-frontend/models/base';
 import { hasMany, belongsTo } from 'ember-data/relationships';
 
 export default ModelBase.extend({
-  name   : attr('string'),
-  length : attr('string', { defaultValue: '00:30' }),
+  name: attr('string'),
+  length: attr('string', { defaultValue: '00:30' }),
 
-  event    : belongsTo('event'),
-  sessions : hasMany('session')
+  event: belongsTo('event'),
+  sessions: hasMany('session')
 });

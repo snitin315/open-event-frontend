@@ -9,10 +9,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
   async model(params) {
     const eventDetails = this.modelFor('events.view');
     return {
-      event : eventDetails,
-      form  : await eventDetails.query('customForms', {
-        'page[size]' : 0,
-        sort         : 'id'
+      event: eventDetails,
+      form: await eventDetails.query('customForms', {
+        'page[size]': 0,
+        sort: 'id'
       }),
       speaker: await this.store.findRecord('speaker', params.speaker_id)
     };

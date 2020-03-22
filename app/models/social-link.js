@@ -6,13 +6,13 @@ import { belongsTo } from 'ember-data/relationships';
 import { computedSegmentedLink } from 'open-event-frontend/utils/computed-helpers';
 
 export default ModelBase.extend({
-  name       : attr('string'),
-  link       : attr('string'),
-  identifier : attr('string'), // used for providing css id for URL validations.
+  name: attr('string'),
+  link: attr('string'),
+  identifier: attr('string'), // used for providing css id for URL validations.
 
   event: belongsTo('event'),
 
-  normalizedName: computed('name', function() {
+  normalizedName: computed('name', function () {
     return this.name.trim().toLowerCase();
   }),
 

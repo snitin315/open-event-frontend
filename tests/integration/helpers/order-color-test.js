@@ -20,15 +20,15 @@ module('Integration | Helper | order-color', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'yellow');
 
     this.set('orderState', 'pending');
-    await render(hbs `{{order-color orderState}}`);
+    await render(hbs`{{order-color orderState}}`);
     assert.equal(this.element.textContent.trim(), 'orange');
 
     this.set('orderState', 'expired');
-    await render(hbs `{{order-color orderState}}`);
+    await render(hbs`{{order-color orderState}}`);
     assert.equal(this.element.textContent.trim(), 'red');
 
     this.set('orderState', undefined);
-    await render(hbs `{{order-color orderState}}`);
+    await render(hbs`{{order-color orderState}}`);
     assert.equal(this.element.textContent.trim(), 'grey');
   });
 });

@@ -4,19 +4,21 @@ import { camelize } from '@ember/string';
 import { mapKeys } from 'lodash-es';
 
 export default Service.extend({
+  session: service(),
+  metrics: service(),
+  store: service(),
+  bugTracker: service(),
 
-  session    : service(),
-  metrics    : service(),
-  store      : service(),
-  bugTracker : service(),
-
-  currentUser: computed('session.data.currentUserFallback.id', 'currentUserModel', function() {
+  currentUser: computed('session.data.currentUserFallback.id', 'currentUserModel', function () {
     if (this.currentUserModel) {
       return this.currentUserModel;
     }
 
     if (this.get('session.data.currentUserFallback')) {
-      let userModel = this.store.peekRecord('user', this.get('session.data.currentUserFallback.id'));
+      let userModel = this.store.peekRecord(
+        'user',
+        this.get('session.data.currentUserFallback.id')
+      );
       if (!userModel) {
         return this.restoreCurrentUser();
       }
@@ -27,13 +29,13 @@ export default Service.extend({
     return null;
   }),
 
-  userAuthenticatedStatusChange: observer('session.isAuthenticated', function() {
+  userAuthenticatedStatusChange: observer('session.isAuthenticated', function () {
     if (!this.get('session.isAuthenticated')) {
       this.identifyStranger();
     }
   }),
 
-  currentUserChangeListener: observer('currentUser', function() {
+  currentUserChangeListener: observer('currentUser', function () {
     if (this.currentUser && this.get('session.isAuthenticated')) {
       this.identify();
     }
@@ -57,12 +59,12 @@ export default Service.extend({
   identify() {
     if (this.currentUser) {
       this.metrics.identify({
-        distinctId : this.currentUser.id,
-        email      : this.currentUser.email
+        distinctId: this.currentUser.id,
+        email: this.currentUser.email
       });
       this.bugTracker.setUser({
-        id    : this.currentUser.id,
-        email : this.currentUser.email
+        id: this.currentUser.id,
+        email: this.currentUser.email
       });
     }
   },
@@ -79,9 +81,7 @@ export default Service.extend({
 
     const tokenPayload = this.getTokenPayload();
     if (tokenPayload) {
-      this.persistCurrentUser(
-        await this.store.findRecord('user', tokenPayload.identity)
-      );
+      this.persistCurrentUser(await this.store.findRecord('user', tokenPayload.identity));
     }
 
     return this.currentUserModel;
@@ -113,9 +113,9 @@ export default Service.extend({
 
     this.store.push({
       data: {
-        id         : userId,
-        type       : 'user',
-        attributes : data
+        id: userId,
+        type: 'user',
+        attributes: data
       }
     });
     let userModel = this.store.peekRecord('user', userId);
@@ -127,7 +127,10 @@ export default Service.extend({
     if (this.get('session.isAuthenticated')) {
       if (this.get('session.data.currentUserFallback.id')) {
         try {
-          const user = await this.store.findRecord('user', this.get('session.data.currentUserFallback.id'));
+          const user = await this.store.findRecord(
+            'user',
+            this.get('session.data.currentUserFallback.id')
+          );
           this.set('currentUserModel', user);
           this.identify();
         } catch (e) {
@@ -135,7 +138,6 @@ export default Service.extend({
           this.session.invalidate();
           this.notify.error(this.l10n.t('An unexpected error has occurred'));
         }
-
       } else {
         this.identifyStranger();
       }

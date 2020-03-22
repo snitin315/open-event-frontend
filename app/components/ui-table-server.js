@@ -10,7 +10,6 @@ import { merge, kebabCase } from 'lodash-es';
 import moment from 'moment';
 
 export default ModelsTable.extend({
-
   layout,
 
   isLoading: false,
@@ -26,29 +25,36 @@ export default ModelsTable.extend({
   debounceDataLoadTime: 500,
 
   filterQueryParameters: {
-    globalFilter : 'contains',
-    sort         : 'sort',
-    page         : 'page[number]',
-    pageSize     : 'page[size]'
+    globalFilter: 'contains',
+    sort: 'sort',
+    page: 'page[number]',
+    pageSize: 'page[size]'
   },
 
-  observedProperties: ['currentPageNumber', 'pagesCount', 'sortProperties.[]', 'pageSize', 'filterString', 'processedColumns.@each.filterString'],
+  observedProperties: [
+    'currentPageNumber',
+    'pagesCount',
+    'sortProperties.[]',
+    'pageSize',
+    'filterString',
+    'processedColumns.@each.filterString'
+  ],
 
   filteredContent: [],
 
-  visibleContent  : alias('arrangedContent'),
-  arrangedContent : alias('filteredContent'),
+  visibleContent: alias('arrangedContent'),
+  arrangedContent: alias('filteredContent'),
 
-  arrangedContentLength: computed('router.currentURL', 'filteredContent.meta', function() {
+  arrangedContentLength: computed('router.currentURL', 'filteredContent.meta', function () {
     let itemsCountProperty = this.metaItemsCountProperty;
     let meta = get(this, 'filteredContent.meta') || {};
     return get(meta, itemsCountProperty) || 0;
   }),
 
-  pagesCount: computed('router.currentURL', 'currentPageNumber', 'pageSize', function() {
+  pagesCount: computed('router.currentURL', 'currentPageNumber', 'pageSize', function () {
     let itemsCountProperty = this.metaItemsCountProperty;
     let meta = this.get('filteredContent.meta') || {};
-    let items = (get(meta, itemsCountProperty));
+    let items = get(meta, itemsCountProperty);
     let pages = 0;
     if (this.pageSize > items) {
       $('.pagination', this.element).css({
@@ -56,7 +62,7 @@ export default ModelsTable.extend({
       });
     } else {
       $('.pagination', this.element).removeAttr('style');
-      pages = parseInt((items / this.pageSize));
+      pages = parseInt(items / this.pageSize);
       if (items % this.pageSize) {
         pages = pages + 1;
       }
@@ -64,24 +70,32 @@ export default ModelsTable.extend({
     return pages || 1;
   }),
 
-  gotoForwardEnabled: computed('currentPageNumber', 'pagesCount', function() {
+  gotoForwardEnabled: computed('currentPageNumber', 'pagesCount', function () {
     return this.currentPageNumber < this.pagesCount;
   }),
 
-  gotoBackwardEnabled: computed('currentPageNumber', function() {
+  gotoBackwardEnabled: computed('currentPageNumber', function () {
     return this.currentPageNumber > 1;
   }),
 
-  lastIndex: computed('router.currentURL', 'pageSize', 'currentPageNumber', 'arrangedContentLength', function() {
-    let pageMax = this.pageSize * this.currentPageNumber;
-    let itemsCount = this.arrangedContentLength;
-    return Math.min(pageMax, itemsCount);
-  }),
+  lastIndex: computed(
+    'router.currentURL',
+    'pageSize',
+    'currentPageNumber',
+    'arrangedContentLength',
+    function () {
+      let pageMax = this.pageSize * this.currentPageNumber;
+      let itemsCount = this.arrangedContentLength;
+      return Math.min(pageMax, itemsCount);
+    }
+  ),
 
   _loadData() {
     let query, store, modelName;
     if (!get(this.data, 'query')) {
-      console.warn('You must use https://emberjs.com/api/data/classes/DS.Store.html#method_query for loading data');
+      console.warn(
+        'You must use https://emberjs.com/api/data/classes/DS.Store.html#method_query for loading data'
+      );
       query = merge({}, this.query);
       ({ store, modelName } = this);
     } else {
@@ -113,20 +127,20 @@ export default ModelsTable.extend({
     if (globalFilter) {
       if (this.filterString) {
         query.filter.pushObject({
-          name : globalFilter,
-          op   : 'ilike',
-          val  : `%${this.filterString}%`
+          name: globalFilter,
+          op: 'ilike',
+          val: `%${this.filterString}%`
         });
       }
     } else {
       query.filter.removeObject({
-        name : globalFilter,
-        op   : 'ilike',
-        val  : `%${this.filterString}%`
+        name: globalFilter,
+        op: 'ilike',
+        val: `%${this.filterString}%`
       });
     }
 
-    this.processedColumns.forEach(column => {
+    this.processedColumns.forEach((column) => {
       let filter = get(column, 'filterString');
       let filterTitle = this.getCustomFilterTitle(column);
       let filterHeading = this.getFilterHeading(column);
@@ -138,21 +152,21 @@ export default ModelsTable.extend({
       }
       if (filter && !isMomentQuery) {
         query.filter.pushObject({
-          name : filterTitle,
-          op   : 'ilike',
-          val  : `%${filter}%`
+          name: filterTitle,
+          op: 'ilike',
+          val: `%${filter}%`
         });
       } else if (isMomentQuery && queryParam.isValid()) {
         query.filter.pushObject({
-          name : filterTitle,
-          op   : 'ge',
-          val  : queryParam
+          name: filterTitle,
+          op: 'ge',
+          val: queryParam
         });
       } else {
         query.filter.removeObject({
-          name : filterTitle,
-          op   : 'ilike',
-          val  : `%${filter}%`
+          name: filterTitle,
+          op: 'ilike',
+          val: `%${filter}%`
         });
       }
     });
@@ -160,9 +174,12 @@ export default ModelsTable.extend({
       if (!this.isDestroyed) {
         setProperties(this, { isLoading: true, isError: false });
       }
-      store.query(modelName, query)
-        .then(newData => setProperties(this, { isLoading: false, isError: false, filteredContent: newData }))
-        .catch(e => {
+      store
+        .query(modelName, query)
+        .then((newData) =>
+          setProperties(this, { isLoading: false, isError: false, filteredContent: newData })
+        )
+        .catch((e) => {
           console.error('Error while querying data in UI Table', e);
           if (!this.isDestroyed) {
             setProperties(this, { isLoading: false, isError: true });
@@ -188,12 +205,11 @@ export default ModelsTable.extend({
     return get(column, 'title');
   },
 
-  pageSizeValues: computed(function() {
+  pageSizeValues: computed(function () {
     return A([10, 25, 50, 100, 250, 'All']);
   }),
 
   actions: {
-
     gotoNext() {
       if (!this.gotoForwardEnabled) {
         return;
@@ -228,14 +244,14 @@ export default ModelsTable.extend({
 
     sort(column) {
       const sortMap = {
-        none : 'asc',
-        asc  : 'desc',
-        desc : 'none'
+        none: 'asc',
+        asc: 'desc',
+        desc: 'none'
       };
       const sortSign = {
-        none : '',
-        asc  : '-',
-        desc : ''
+        none: '',
+        asc: '-',
+        desc: ''
       };
       let sortedBy = get(column, 'sortedBy');
       if (typeOf(sortedBy) === 'undefined' || typeOf(sortedBy) === 'null') {
@@ -252,7 +268,6 @@ export default ModelsTable.extend({
       let sortingArgs = [column, sortedBy, newSorting];
       this._singleColumnSorting(...sortingArgs);
     }
-
   },
 
   didReceiveAttrs() {
@@ -275,13 +290,15 @@ export default ModelsTable.extend({
 
   willInsertElement() {
     this._super(...arguments);
-    this.observedProperties.forEach(propertyName => this.addObserver(propertyName, this._addPropertyObserver));
+    this.observedProperties.forEach((propertyName) =>
+      this.addObserver(propertyName, this._addPropertyObserver)
+    );
   },
 
   willDestroyElement() {
     this._super(...arguments);
     this.set('isLoading', false);
     this.set('isInitialLoad', true);
-    this.observedProperties.forEach(propertyName => this.removeObserver(propertyName));
+    this.observedProperties.forEach((propertyName) => this.removeObserver(propertyName));
   }
 });

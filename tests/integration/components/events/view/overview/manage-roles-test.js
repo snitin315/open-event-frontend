@@ -8,20 +8,18 @@ import { render } from '@ember/test-helpers';
 module('Integration | Component | events/overview/manage roles', function(hooks) {
   setupIntegrationTest(hooks);
 
-  let invites = A(
-    [
-      EmberObject.create({
-        email    : 'test@test.com',
-        status   : 'accepted',
-        roleName : 'organizer'
-      }),
-      EmberObject.create({
-        email    : 'test@test.com',
-        status   : 'pending',
-        roleName : 'co-organizer'
-      })
-    ]
-  );
+  let invites = A([
+    EmberObject.create({
+      email    : 'test@test.com',
+      status   : 'accepted',
+      roleName : 'organizer'
+    }),
+    EmberObject.create({
+      email    : 'test@test.com',
+      status   : 'pending',
+      roleName : 'co-organizer'
+    })
+  ]);
   let data = EmberObject.create({
     roleInvites: invites
   });

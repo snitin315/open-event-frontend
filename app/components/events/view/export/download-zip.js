@@ -23,5 +23,4 @@ export default class extends Component {
     }
     this.set('isLoading', false);
   }
-
 }

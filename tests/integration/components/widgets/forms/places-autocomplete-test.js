@@ -12,8 +12,10 @@ module('Integration | Component | widgets/forms/places autocomplete', function(h
   });
 
   test('it renders', async function(assert) {
-    this.actions.placeChanged = function() { };
-    await render(hbs`{{widgets/forms/places-autocomplete placeChangedCallback=(action 'placeChanged')}}`);
+    this.actions.placeChanged = function() {};
+    await render(
+      hbs`{{widgets/forms/places-autocomplete placeChangedCallback=(action 'placeChanged')}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('place-autocomplete--input'));
   });
 });

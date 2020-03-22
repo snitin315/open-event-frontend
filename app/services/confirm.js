@@ -2,10 +2,10 @@ import Service from '@ember/service';
 import { Promise as RSVPPromise } from 'rsvp';
 
 export default Service.extend({
-  isOpen         : false,
-  pendingPromise : {
-    resolve : null,
-    reject  : null
+  isOpen: false,
+  pendingPromise: {
+    resolve: null,
+    reject: null
   },
 
   prompt(promptText = 'Are you sure ?', options = {}) {

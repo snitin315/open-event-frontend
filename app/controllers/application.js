@@ -4,15 +4,14 @@ import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import moment from 'moment';
 
-
 export default Controller.extend({
-  routing             : service('-routing'),
-  cookies             : service(),
-  fastboot            : service(),
-  unreadNotifications : filterBy('model.notifications', 'isRead', false),
-  footerPages         : filterBy('model.pages', 'place', 'footer'),
+  routing: service('-routing'),
+  cookies: service(),
+  fastboot: service(),
+  unreadNotifications: filterBy('model.notifications', 'isRead', false),
+  footerPages: filterBy('model.pages', 'place', 'footer'),
 
-  showCookie: computed(function() {
+  showCookie: computed(function () {
     const cookieName = 'seen-cookie-message';
     let cookie = this.cookies.read(cookieName);
     let cookieExists = false;

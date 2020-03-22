@@ -3,8 +3,7 @@ import { debounce } from '@ember/runloop';
 import { action } from '@ember/object';
 
 export default class extends Component {
-
-  debouncePeriod = 1000 // 1 second
+  debouncePeriod = 1000; // 1 second
 
   setSearchQueryLazily(value) {
     this.set('searchQuery', value);
@@ -14,5 +13,4 @@ export default class extends Component {
   setSearchQuery(value) {
     debounce(this, this.setSearchQueryLazily, value, this.debouncePeriod);
   }
-
 }

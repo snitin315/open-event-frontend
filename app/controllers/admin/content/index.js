@@ -6,19 +6,21 @@ export default class extends Controller {
   saveSocials() {
     this.set('isLoading', true);
     let settings = this.model;
-    settings.save()
+    settings
+      .save()
       .then(() => {
-        this.notify.success(this.l10n.t('Social links have been saved successfully.'),
-          {
-            id: 'social_link_upd'
-          });
+        this.notify.success(this.l10n.t('Social links have been saved successfully.'), {
+          id: 'social_link_upd'
+        });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error updating social links', e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. Social links not saved.'),
+        this.notify.error(
+          this.l10n.t('An unexpected error has occurred. Social links not saved.'),
           {
             id: 'unex_social_error'
-          });
+          }
+        );
       })
       .finally(() => {
         this.set('isLoading', false);

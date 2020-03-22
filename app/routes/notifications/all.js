@@ -19,23 +19,23 @@ export default Route.extend({
     if (params.notification_state === 'unread') {
       filterOptions = [
         {
-          name : 'is-read',
-          op   : 'eq',
-          val  : false
+          name: 'is-read',
+          op: 'eq',
+          val: false
         }
       ];
       data.unread = true;
     }
 
     data.notifications = this.infinity.model('notifications', {
-      perPage      : 10,
-      startingPage : 1,
-      sort         : '-received-at',
-      include      : 'notification-actions',
-      store        : this.authManager.currentUser,
-      filter       : filterOptions,
-      perPageParam : 'page[size]',
-      pageParam    : 'page[number]'
+      perPage: 10,
+      startingPage: 1,
+      sort: '-received-at',
+      include: 'notification-actions',
+      store: this.authManager.currentUser,
+      filter: filterOptions,
+      perPageParam: 'page[size]',
+      pageParam: 'page[number]'
     });
 
     return data;

@@ -11,9 +11,10 @@ module('Integration | Component | forms/reset-password-form', function(hooks) {
       errorMessage   : null,
       successMessage : 'This is a success message'
     });
-    await render(hbs`{{forms/reset-password-form errorMessage=errorMessage successMessage=successMessage}}`);
+    await render(
+      hbs`{{forms/reset-password-form errorMessage=errorMessage successMessage=successMessage}}`
+    );
 
     assert.ok(this.element.innerHTML.trim().includes('This is a success message'));
-
   });
 });

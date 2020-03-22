@@ -7,7 +7,6 @@ module('Integration | Component | ui table/cell/admin/users/cell system roles', 
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{ui-table/cell/admin/users/cell-system-roles}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
   });

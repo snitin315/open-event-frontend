@@ -7,7 +7,7 @@ module('Integration | Component | ui table/cell/cell event state', function(hook
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/cell/cell-event-state}}`);
+    await render(hbs`{{ui-table/cell/cell-event-state}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
   });
 });

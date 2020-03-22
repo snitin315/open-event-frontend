@@ -4,7 +4,7 @@ import { computed } from '@ember/object';
 import { orderBy } from 'lodash-es';
 
 export default Component.extend({
-  countries: computed(function() {
+  countries: computed(function () {
     return orderBy(countries, 'name');
   })
 });

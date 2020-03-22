@@ -14,7 +14,6 @@ module('Integration | Component | ui table/cell/cell sponsor options', function(
   };
 
   test('it renders', async function(assert) {
-
     this.setProperties({
       props
     });

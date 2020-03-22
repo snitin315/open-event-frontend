@@ -5,7 +5,6 @@ import moment from 'moment';
 import { hasMany, belongsTo } from 'ember-data/relationships';
 import { computedDateTimeSplit } from 'open-event-frontend/utils/computed-helpers';
 
-
 /**
  * Two different forms of discount code can exist. (Both use the same model)
  *
@@ -15,22 +14,22 @@ import { computedDateTimeSplit } from 'open-event-frontend/utils/computed-helper
  * 2. Created by an event's organizer to be used on that event's tickets
  */
 export default ModelBase.extend({
-  code          : attr('string'),
-  type          : attr('string', { defaultValue: 'amount' }),
-  value         : attr('number'),
-  ticketsNumber : attr('number'), // For form (1) this holds the max. times this can be used for events
-  minQuantity   : attr('number', { defaultValue: 0 }), // Not of any significance for form (1)
-  maxQuantity   : attr('number'), // For form (1) this holds the number of months this code is valid for events
-  validFrom     : attr('moment', { defaultValue: () => moment().startOf('day') }),
-  discountUrl   : attr('string'),
-  validTill     : attr('moment', { defaultValue: () => moment().add(1, 'months').startOf('day') }),
-  usedFor       : attr('string'),
-  isActive      : attr('boolean', { defaultValue: true }),
-  createdAt     : attr('moment'),
+  code: attr('string'),
+  type: attr('string', { defaultValue: 'amount' }),
+  value: attr('number'),
+  ticketsNumber: attr('number'), // For form (1) this holds the max. times this can be used for events
+  minQuantity: attr('number', { defaultValue: 0 }), // Not of any significance for form (1)
+  maxQuantity: attr('number'), // For form (1) this holds the number of months this code is valid for events
+  validFrom: attr('moment', { defaultValue: () => moment().startOf('day') }),
+  discountUrl: attr('string'),
+  validTill: attr('moment', { defaultValue: () => moment().add(1, 'months').startOf('day') }),
+  usedFor: attr('string'),
+  isActive: attr('boolean', { defaultValue: true }),
+  createdAt: attr('moment'),
 
-  tickets   : hasMany('ticket'),
-  orders    : hasMany('order'),
-  isExpired : computed('validTill', function() {
+  tickets: hasMany('ticket'),
+  orders: hasMany('order'),
+  isExpired: computed('validTill', function () {
     return new Date() > new Date(this.validTill);
   }),
   event: belongsTo('event', {
@@ -41,8 +40,8 @@ export default ModelBase.extend({
   }), // The events that this discount code has been applied to [Form (1)]
   marketer: belongsTo('user'),
 
-  validFromDate : computedDateTimeSplit.bind(this)('validFrom', 'date', 'validTill'),
-  validFromTime : computedDateTimeSplit.bind(this)('validFrom', 'time', 'validTill'),
-  validTillDate : computedDateTimeSplit.bind(this)('validTill', 'date'),
-  validTillTime : computedDateTimeSplit.bind(this)('validTill', 'time')
+  validFromDate: computedDateTimeSplit.bind(this)('validFrom', 'date', 'validTill'),
+  validFromTime: computedDateTimeSplit.bind(this)('validFrom', 'time', 'validTill'),
+  validTillDate: computedDateTimeSplit.bind(this)('validTill', 'date'),
+  validTillTime: computedDateTimeSplit.bind(this)('validTill', 'time')
 });

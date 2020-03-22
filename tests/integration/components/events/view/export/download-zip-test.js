@@ -11,12 +11,13 @@ module('Integration | Component | events/view/export/download zip', function(hoo
     this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-
   test('it renders', async function(assert) {
-    this.actions.startGeneration = function() { };
+    this.actions.startGeneration = function() {};
     this.set('eventExportStatus', '');
     this.set('eventDownloadUrl', '');
-    await render(hbs`{{events/view/export/download-zip startGeneration=(action 'startGeneration') eventExportStatus=eventExportStatus eventDownloadUrl=eventDownloadUrl l10n=l10n}}`);
+    await render(
+      hbs`{{events/view/export/download-zip startGeneration=(action 'startGeneration') eventExportStatus=eventExportStatus eventDownloadUrl=eventDownloadUrl l10n=l10n}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('Zip'));
   });
 });

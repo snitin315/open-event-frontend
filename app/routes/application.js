@@ -4,8 +4,8 @@ import { inject as service } from '@ember/service';
 import { merge, values, isEmpty } from 'lodash-es';
 
 export default Route.extend(ApplicationRouteMixin, {
-  session     : service(),
-  currentUser : service(),
+  session: service(),
+  currentUser: service(),
 
   title(tokens) {
     if (!tokens) {
@@ -20,7 +20,10 @@ export default Route.extend(ApplicationRouteMixin, {
     this._super(...arguments);
     await this.authManager.initialize();
     await this.settings.initialize();
-    if (!transition.intent.url.includes('login') && !transition.intent.url.includes('reset-password')) {
+    if (
+      !transition.intent.url.includes('login') &&
+      !transition.intent.url.includes('reset-password')
+    ) {
       this.set('session.previousRouteName', transition.intent.url);
     } else {
       this.set('session.previousRouteName', null);
@@ -36,9 +39,9 @@ export default Route.extend(ApplicationRouteMixin, {
         notificationsPromise = this.authManager.currentUser.query('notifications', {
           filter: [
             {
-              name : 'is-read',
-              op   : 'eq',
-              val  : false
+              name: 'is-read',
+              op: 'eq',
+              val: false
             }
           ],
           sort: '-received-at'
@@ -62,14 +65,15 @@ export default Route.extend(ApplicationRouteMixin, {
       pagesPromise,
       settingsPromise,
       eventTypesPromise,
-      eventLocationsPromise]);
+      eventLocationsPromise
+    ]);
 
     return {
       notifications,
       pages,
-      cookiePolicy     : settings.cookiePolicy,
-      cookiePolicyLink : settings.cookiePolicyLink,
-      socialLinks      : settings,
+      cookiePolicy: settings.cookiePolicy,
+      cookiePolicyLink: settings.cookiePolicyLink,
+      socialLinks: settings,
       eventTypes,
       eventLocations
     };

@@ -5,29 +5,31 @@ export default class extends Controller {
   @action
   saveImages() {
     this.set('isLoading', true);
-    this.model.eventImageSize.save()
+    this.model.eventImageSize
+      .save()
       .then(() => {
-        this.model.speakerImageSize.save()
+        this.model.speakerImageSize
+          .save()
           .then(() => {
-            this.notify.success(this.l10n.t('Image sizes have been saved successfully.'),
-              {
-                id: 'image_size_save'
-              });
+            this.notify.success(this.l10n.t('Image sizes have been saved successfully.'), {
+              id: 'image_size_save'
+            });
           })
-          .catch(e => {
+          .catch((e) => {
             console.error('Error while saving speaker image sizes', e);
-            this.notify.error(this.l10n.t('An unexpected error has occurred. Image sizes not saved.'),
+            this.notify.error(
+              this.l10n.t('An unexpected error has occurred. Image sizes not saved.'),
               {
                 id: 'image_size_error'
-              });
+              }
+            );
           });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while saving image image size', e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. Image sizes not saved.'),
-          {
-            id: 'image_size_error_unex'
-          });
+        this.notify.error(this.l10n.t('An unexpected error has occurred. Image sizes not saved.'), {
+          id: 'image_size_error_unex'
+        });
       })
       .finally(() => {
         this.set('isLoading', false);

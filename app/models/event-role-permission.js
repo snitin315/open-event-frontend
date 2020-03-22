@@ -4,12 +4,12 @@ import { belongsTo } from 'ember-data/relationships';
 import { computed } from '@ember/object';
 
 export default ModelBase.extend({
-  canDelete : attr('boolean'),
-  canUpdate : attr('boolean'),
-  canCreate : attr('boolean'),
-  canRead   : attr('boolean'),
+  canDelete: attr('boolean'),
+  canUpdate: attr('boolean'),
+  canCreate: attr('boolean'),
+  canRead: attr('boolean'),
 
-  role        : belongsTo('role'),
-  service     : belongsTo('service'),
-  serviceName : computed.alias('service.name')
+  role: belongsTo('role'),
+  service: belongsTo('service'),
+  serviceName: computed.alias('service.name')
 });

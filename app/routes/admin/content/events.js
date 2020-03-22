@@ -6,12 +6,12 @@ export default Route.extend({
   },
   async model() {
     return {
-      'eventTopics': await this.store.query('event-topic', {
-        sort    : 'name',
-        include : 'event-sub-topics'
+      eventTopics: await this.store.query('event-topic', {
+        sort: 'name',
+        include: 'event-sub-topics'
       }),
 
-      'eventTypes': await this.store.query('event-type', {})
+      eventTypes: await this.store.query('event-type', {})
     };
   },
   setupController(controller, model) {

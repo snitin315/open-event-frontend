@@ -6,7 +6,9 @@ export default Route.extend({
   },
 
   async beforeModel(transition) {
-    let hash = transition.to.params['public.cfs'] ? transition.to.params['public.cfs'].speaker_call_hash : null;
+    let hash = transition.to.params['public.cfs']
+      ? transition.to.params['public.cfs'].speaker_call_hash
+      : null;
     const eventDetails = this.modelFor('public');
     const speakersCall = await eventDetails.get('speakersCall');
     /*
@@ -20,32 +22,37 @@ export default Route.extend({
       this.notify.error(this.l10n.t('Call For Speakers has not been issued yet.'));
       this.transitionTo('public', eventDetails.identifier);
     }
-    if (!((speakersCall.privacy === 'public' && (!hash || speakersCall.hash === hash)) || (speakersCall.privacy === 'private' && hash === speakersCall.hash))) {
+    if (
+      !(
+        (speakersCall.privacy === 'public' && (!hash || speakersCall.hash === hash)) ||
+        (speakersCall.privacy === 'private' && hash === speakersCall.hash)
+      )
+    ) {
       this.transitionTo('not-found');
     }
   },
 
   async model() {
     const eventDetails = this.modelFor('public');
-    const currentUser  = this.get('authManager.currentUser');
+    const currentUser = this.get('authManager.currentUser');
     if (this.get('session.isAuthenticated')) {
       const userSpeaker = await currentUser.query('speakers', {
         filter: [
           {
             and: [
               {
-                name : 'event',
-                op   : 'has',
-                val  : {
-                  name : 'identifier',
-                  op   : 'eq',
-                  val  : eventDetails.id
+                name: 'event',
+                op: 'has',
+                val: {
+                  name: 'identifier',
+                  op: 'eq',
+                  val: eventDetails.id
                 }
               },
               {
-                name : 'email',
-                op   : 'eq',
-                val  : currentUser.email
+                name: 'email',
+                op: 'eq',
+                val: currentUser.email
               }
             ]
           }
@@ -56,21 +63,21 @@ export default Route.extend({
           {
             and: [
               {
-                name : 'event',
-                op   : 'has',
-                val  : {
-                  name : 'identifier',
-                  op   : 'eq',
-                  val  : eventDetails.id
+                name: 'event',
+                op: 'has',
+                val: {
+                  name: 'identifier',
+                  op: 'eq',
+                  val: eventDetails.id
                 }
               },
               {
-                name : 'speakers',
-                op   : 'any',
-                val  : {
-                  name : 'email',
-                  op   : 'eq',
-                  val  : currentUser.email
+                name: 'speakers',
+                op: 'any',
+                val: {
+                  name: 'email',
+                  op: 'eq',
+                  val: currentUser.email
                 }
               }
             ]
@@ -78,16 +85,16 @@ export default Route.extend({
         ]
       });
       return {
-        event        : eventDetails,
-        user         : currentUser,
+        event: eventDetails,
+        user: currentUser,
         userSpeaker,
         userSession,
-        speakersCall : await eventDetails.get('speakersCall')
+        speakersCall: await eventDetails.get('speakersCall')
       };
     } else {
       return {
-        event        : eventDetails,
-        speakersCall : await eventDetails.get('speakersCall')
+        event: eventDetails,
+        speakersCall: await eventDetails.get('speakersCall')
       };
     }
   }

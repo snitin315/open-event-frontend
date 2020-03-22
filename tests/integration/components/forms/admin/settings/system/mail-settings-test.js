@@ -7,10 +7,8 @@ module('Integration | Component | forms/admin/settings/system/mail-settings', fu
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{forms/admin/settings/system/mail-settings}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('Mail Settings'));
-
   });
 });

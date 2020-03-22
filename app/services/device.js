@@ -11,20 +11,20 @@ import { forOwn } from 'lodash-es';
  */
 const breakpoints = {
   mobile: {
-    max : 767,
-    min : 0
+    max: 767,
+    min: 0
   },
   tablet: {
-    max : 991,
-    min : 768
+    max: 991,
+    min: 768
   },
   computer: {
-    max : 1199,
-    min : 992
+    max: 1199,
+    min: 992
   },
   largeMonitor: {
-    max : 1919,
-    min : 1200
+    max: 1919,
+    min: 1200
   },
   widescreen: {
     min: 1920
@@ -32,29 +32,29 @@ const breakpoints = {
 };
 
 export default Service.extend({
-
   fastboot: service(),
 
-  deviceType: computed('currentWidth', function() {
+  deviceType: computed('currentWidth', function () {
     let deviceType = 'computer';
     forOwn(breakpoints, (value, key) => {
-      if (this.currentWidth >= value.min && (!Object.prototype.hasOwnProperty.call(value, 'max') || this.currentWidth <= value.max)) {
+      if (
+        this.currentWidth >= value.min &&
+        (!Object.prototype.hasOwnProperty.call(value, 'max') || this.currentWidth <= value.max)
+      ) {
         deviceType = key;
       }
     });
     return deviceType;
   }),
 
-  isMobile           : equal('deviceType', 'mobile'),
-  isComputer         : equal('deviceType', 'computer'),
-  isTablet           : equal('deviceType', 'tablet'),
-  isLargeMonitor     : equal('deviceType', 'largeMonitor'),
-  isWideScreen       : equal('deviceType', 'widescreen'),
-  isBiggerThanTablet : or('isComputer', 'isLargeMonitor', 'isWideScreen'),
+  isMobile: equal('deviceType', 'mobile'),
+  isComputer: equal('deviceType', 'computer'),
+  isTablet: equal('deviceType', 'tablet'),
+  isLargeMonitor: equal('deviceType', 'largeMonitor'),
+  isWideScreen: equal('deviceType', 'widescreen'),
+  isBiggerThanTablet: or('isComputer', 'isLargeMonitor', 'isWideScreen'),
 
-
-  isInternetExplorer: computed(function() {
-
+  isInternetExplorer: computed(function () {
     if (this.get('fastboot.isFastBoot')) {
       return false;
     }
@@ -94,5 +94,4 @@ export default Service.extend({
       }, 200);
     });
   }
-
 });

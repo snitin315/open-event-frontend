@@ -18,6 +18,5 @@ module('Integration | Helper | payment-icon', function(hooks) {
     this.set('inputIcon', 'American Express');
     await render(hbs`{{payment-icon inputIcon}}`);
     assert.equal(this.element.textContent.trim(), 'big amex icon');
-
   });
 });

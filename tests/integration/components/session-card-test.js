@@ -7,7 +7,14 @@ import { render } from '@ember/test-helpers';
 module('Integration | Component | session card', function(hooks) {
   setupIntegrationTest(hooks);
 
-  const session = EmberObject.create({ id: 123, title: 'Super cool JS', state: 'rejected', event: 'OS Tech', startsAt: new Date(), endsAt: new Date() });
+  const session = EmberObject.create({
+    id       : 123,
+    title    : 'Super cool JS',
+    state    : 'rejected',
+    event    : 'OS Tech',
+    startsAt : new Date(),
+    endsAt   : new Date()
+  });
 
   test('it renders', async function(assert) {
     this.set('session', session);

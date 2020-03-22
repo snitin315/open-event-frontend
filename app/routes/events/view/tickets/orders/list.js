@@ -24,23 +24,23 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     if (params.orders_status !== 'all') {
       filterOptions = [
         {
-          name : 'status',
-          op   : 'eq',
-          val  : params.orders_status
+          name: 'status',
+          op: 'eq',
+          val: params.orders_status
         }
       ];
     }
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
 
     let queryString = {
-      include        : 'tickets,user',
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 1
+      include: 'tickets,user',
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 1
     };
 
     queryString = this.applySortFilters(queryString, params);
 
-    return  this.asArray(this.modelFor('events.view').query('orders', queryString));
+    return this.asArray(this.modelFor('events.view').query('orders', queryString));
   }
 }

@@ -10,7 +10,7 @@ module('Integration | Component | ui table/cell/cell roles', function(hooks) {
 
   test('it renders', async function(assert) {
     this.set('record', record);
-    await render(hbs `{{ui-table/cell/cell-roles record=record}}`);
+    await render(hbs`{{ui-table/cell/cell-roles record=record}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
   });
 });

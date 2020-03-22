@@ -7,7 +7,7 @@ module('Integration | Component | events/imports history section', function(hook
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{events/imports-history-section}}`);
+    await render(hbs`{{events/imports-history-section}}`);
     assert.ok(this.element.innerHTML.trim().includes('Previous Events'));
   });
 });

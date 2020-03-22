@@ -12,9 +12,10 @@ module('Integration | Component | forms/register-form', function(hooks) {
       showSignupPass  : false,
       showConfirmPass : false
     });
-    await render(hbs`{{forms/register-form errorMessage=errorMessage showSignupPass=showSignupPass showConfirmPass=showConfirmPass}}`);
+    await render(
+      hbs`{{forms/register-form errorMessage=errorMessage showSignupPass=showSignupPass showConfirmPass=showConfirmPass}}`
+    );
 
     assert.ok(this.element.innerHTML.trim().includes('Already have an account? Login'));
-
   });
 });

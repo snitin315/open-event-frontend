@@ -8,12 +8,14 @@ module('Integration | Component | modals/paytm otp modal', function(hooks) {
 
   test('it renders', async function(assert) {
     this.setProperties({
-      'isOpen'    : false,
-      'currency'  : 'USD',
-      'amount'    : 100,
-      'verifyOtp' : () => {}
+      isOpen    : false,
+      currency  : 'USD',
+      amount    : 100,
+      verifyOtp : () => {}
     });
-    await render(hbs`{{modals/paytm-otp isOpen=isOpen currency=currency amount=amount verifyOtp=(action verifyOtp)}}`);
+    await render(
+      hbs`{{modals/paytm-otp isOpen=isOpen currency=currency amount=amount verifyOtp=(action verifyOtp)}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('Enter OTP sent to mobile number'));
   });
 });

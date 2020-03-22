@@ -8,16 +8,26 @@ import { render } from '@ember/test-helpers';
 module('Integration | Component | order card', function(hooks) {
   setupIntegrationTest(hooks);
 
-  const event = EmberObject.create({ originalImageUrl: 'abc.png', name: 'Pragma', startsAt: new Date(), shortLocationName: 'IN', paymentCurrency: 'INR' });
-  const attendees = A(
-    [
-      EmberObject.create({
-        email       : 'test@gmail.com',
-        isCheckedIn : false
-      })
-    ]
-  );
-  const order = EmberObject.create({ identifier: 123, amount: 1000, event, attendees, completedAt: new Date() });
+  const event = EmberObject.create({
+    originalImageUrl  : 'abc.png',
+    name              : 'Pragma',
+    startsAt          : new Date(),
+    shortLocationName : 'IN',
+    paymentCurrency   : 'INR'
+  });
+  const attendees = A([
+    EmberObject.create({
+      email       : 'test@gmail.com',
+      isCheckedIn : false
+    })
+  ]);
+  const order = EmberObject.create({
+    identifier  : 123,
+    amount      : 1000,
+    event,
+    attendees,
+    completedAt : new Date()
+  });
   const currentUser = EmberObject.create({ email: 'test1@gmail.com' });
   const authManager = EmberObject.create({ currentUser });
 

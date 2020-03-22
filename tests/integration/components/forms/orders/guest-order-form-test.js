@@ -11,7 +11,7 @@ module('Integration | Component | forms/orders/guest-order-form', function(hooks
       errorMessage : null,
       userExists   : false,
       loginExistingUser() {},
-      createNewUserViaEmail() { }
+      createNewUserViaEmail() {}
     });
     await render(hbs`{{forms/orders/guest-order-form isLoading=isLoading
         errorMessage=errorMessage
@@ -19,7 +19,8 @@ module('Integration | Component | forms/orders/guest-order-form', function(hooks
         loginExistingUser=loginExistingUser
         createNewUserViaEmail=createNewUserViaEmail}}`);
 
-    assert.ok(this.element.innerHTML.trim().includes('Please enter your email address to continue.'));
-
+    assert.ok(
+      this.element.innerHTML.trim().includes('Please enter your email address to continue.')
+    );
   });
 });

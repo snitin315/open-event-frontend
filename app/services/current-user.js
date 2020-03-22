@@ -3,13 +3,13 @@ import { isEmpty } from '@ember/utils';
 import { resolve } from 'rsvp';
 
 export default Service.extend({
-  session : service(),
-  store   : service(),
+  session: service(),
+  store: service(),
 
   load() {
     let userId = this.get('session.data.authenticated.user_id');
     if (!isEmpty(userId)) {
-      return this.store.findRecord('user', userId).then(user => {
+      return this.store.findRecord('user', userId).then((user) => {
         this.set('user', user);
       });
     } else {

@@ -5,7 +5,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { set } from '@ember/object';
 
 export function setupIntegrationTest(hooks) {
-
   setupRenderingTest(hooks);
 
   hooks.beforeEach(async function() {
@@ -17,5 +16,4 @@ export function setupIntegrationTest(hooks) {
     set(this, 'l10n', this.owner.lookup('service:l10n'));
     set(this, 'router', this.owner.lookup('service:router'));
   });
-
 }

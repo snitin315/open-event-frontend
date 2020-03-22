@@ -9,15 +9,15 @@ export default Route.extend({
   async model() {
     return RSVP.hash({
       accessCode: this.store.createRecord('access-code', {
-        event         : this.modelFor('events.view'),
-        tickets       : [],
-        marketer      : this.get('authManager.currentUser'),
-        validFromDate : moment(),
-        validFromTime : '12:00',
-        validTillDate : moment().add(7, 'days'),
-        validTillTime : '16:00',
-        minQuantity   : 1,
-        maxQuantity   : 1
+        event: this.modelFor('events.view'),
+        tickets: [],
+        marketer: this.get('authManager.currentUser'),
+        validFromDate: moment(),
+        validFromTime: '12:00',
+        validTillDate: moment().add(7, 'days'),
+        validTillTime: '16:00',
+        minQuantity: 1,
+        maxQuantity: 1
       }),
       tickets: this.modelFor('events.view').query('tickets', {})
     });
@@ -31,7 +31,7 @@ export default Route.extend({
   },
   afterModel(model) {
     let allTickets = model.tickets;
-    allTickets.forEach(ticket => {
+    allTickets.forEach((ticket) => {
       ticket.set('isChecked', false);
     });
   }

@@ -3,10 +3,10 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-  classNames : ['tabbed-navigation'],
-  item       : null,
+  classNames: ['tabbed-navigation'],
+  item: null,
 
-  currentRoute: computed('session.currentRouteName', 'item', function() {
+  currentRoute: computed('session.currentRouteName', 'item', function () {
     const path = this.get('session.currentRouteName');
     if (path) {
       return this.item;

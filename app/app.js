@@ -5,8 +5,8 @@ import config from 'open-event-frontend/config/environment';
 import './sentry';
 
 const App = Application.extend({
-  modulePrefix    : config.modulePrefix,
-  podModulePrefix : config.podModulePrefix,
+  modulePrefix: config.modulePrefix,
+  podModulePrefix: config.podModulePrefix,
   Resolver
 });
 

@@ -19,6 +19,6 @@ export default class extends Component {
 
   @computed('fields.@each.form')
   get allFields() {
-    return groupBy(this.fields.toArray(), field => field.form);
+    return groupBy(this.fields.toArray(), (field) => field.form);
   }
 }

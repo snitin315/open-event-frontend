@@ -7,35 +7,33 @@ export default Route.extend({
       {
         or: [
           {
-            name : 'sessions',
-            op   : 'any',
-            val  : {
-              name : 'state',
-              op   : 'eq',
-              val  : 'accepted'
+            name: 'sessions',
+            op: 'any',
+            val: {
+              name: 'state',
+              op: 'eq',
+              val: 'accepted'
             }
           },
           {
-            name : 'sessions',
-            op   : 'any',
-            val  : {
-              name : 'state',
-              op   : 'eq',
-              val  : 'confirmed'
+            name: 'sessions',
+            op: 'any',
+            val: {
+              name: 'state',
+              op: 'eq',
+              val: 'confirmed'
             }
           }
         ]
       }
     ];
     return this.infinity.model('speakers', {
-      filter       : filterOptions,
-      perPage      : 12,
-      startingPage : 1,
-      perPageParam : 'page[size]',
-      pageParam    : 'page[number]',
-      store        : eventDetails
+      filter: filterOptions,
+      perPage: 12,
+      startingPage: 1,
+      perPageParam: 'page[size]',
+      pageParam: 'page[number]',
+      store: eventDetails
     });
-
-
   }
 });

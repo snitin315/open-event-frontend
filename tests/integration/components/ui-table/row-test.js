@@ -6,7 +6,7 @@ import { render } from '@ember/test-helpers';
 module('Integration | Component | ui table/row', function(hooks) {
   setupIntegrationTest(hooks);
   test('it renders', async function(assert) {
-    await render(hbs `{{partial ui-table/row}}`);
+    await render(hbs`{{partial ui-table/row}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
   });
 });

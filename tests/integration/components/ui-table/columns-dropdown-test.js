@@ -9,7 +9,7 @@ module('Integration | Component | ui table/columns dropdown', function(hooks) {
   const messages = { columnTitle: 'Columns' };
   test('it renders', async function(assert) {
     this.set('messages', messages);
-    await render(hbs `{{ui-table/columns-dropdown messages=messages}}`);
+    await render(hbs`{{ui-table/columns-dropdown messages=messages}}`);
     assert.ok(this.element.innerHTML.trim().includes('Columns'));
   });
 });

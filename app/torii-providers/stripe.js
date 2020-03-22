@@ -7,9 +7,12 @@ import ENV from 'open-event-frontend/config/environment';
 export default stripeConnect.extend({
   settings: inject(),
 
-  clientId: ENV.environment === 'development' || ENV.environment === 'test' ? alias('settings.stripeTestClientId') : alias('settings.stripeClientId'),
+  clientId:
+    ENV.environment === 'development' || ENV.environment === 'test'
+      ? alias('settings.stripeTestClientId')
+      : alias('settings.stripeClientId'),
 
-  redirectUri: configurable('redirectUri', function() {
+  redirectUri: configurable('redirectUri', function () {
     return `${window.location.origin}/torii/redirect.html`;
   })
 });

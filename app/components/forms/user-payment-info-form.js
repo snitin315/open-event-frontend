@@ -8,81 +8,95 @@ import { countries } from 'open-event-frontend/utils/dictionary/demography';
 export default class extends Component.extend(FormMixin) {
   didInsertElement() {
     super.didInsertElement(...arguments);
-    this.set('userBillingInfo', pick(this.authManager.currentUser, ['billingContactName', 'billingCity', 'billingPhone', 'company', 'billingTaxInfo', 'billingCountry', 'billingState', 'billingAddress', 'billingZipCode', 'billingAdditionalInfo']));
+    this.set(
+      'userBillingInfo',
+      pick(this.authManager.currentUser, [
+        'billingContactName',
+        'billingCity',
+        'billingPhone',
+        'company',
+        'billingTaxInfo',
+        'billingCountry',
+        'billingState',
+        'billingAddress',
+        'billingZipCode',
+        'billingAdditionalInfo'
+      ])
+    );
   }
 
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
+      inline: true,
+      delay: false,
+      on: 'blur',
 
       fields: {
         name: {
-          identifier : 'contactName',
-          rules      : [
+          identifier: 'contactName',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your name')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your name')
             }
           ]
         },
         company: {
-          identifier : 'company',
-          rules      : [
+          identifier: 'company',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your company')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your company')
             }
           ]
         },
         country: {
-          identifier : 'country',
-          rules      : [
+          identifier: 'country',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your country')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your country')
             }
           ]
         },
         address: {
-          identifier : 'address',
-          rules      : [
+          identifier: 'address',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your billing address')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your billing address')
             }
           ]
         },
         city: {
-          identifier : 'city',
-          rules      : [
+          identifier: 'city',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your billing city')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your billing city')
             }
           ]
         },
         zipCode: {
-          identifier : 'zip',
-          rules      : [
+          identifier: 'zip',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the zip code')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the zip code')
             }
           ]
         },
         phone: {
-          identifier : 'phone',
-          rules      : [
+          identifier: 'phone',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter a phone number.')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter a phone number.')
             },
             {
-              type   : 'regExp',
-              value  : validPhoneNumber,
-              prompt : this.l10n.t('Please enter a valid phone number.')
+              type: 'regExp',
+              value: validPhoneNumber,
+              prompt: this.l10n.t('Please enter a valid phone number.')
             }
           ]
         }
@@ -97,7 +111,7 @@ export default class extends Component.extend(FormMixin) {
 
   @action
   submit() {
-    this.onValid(async() => {
+    this.onValid(async () => {
       this.set('isLoading', true);
       try {
         this.authManager.currentUser.setProperties(this.userBillingInfo);

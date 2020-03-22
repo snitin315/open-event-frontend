@@ -12,4 +12,3 @@ module('Integration | Helper | ticket-attendees', function(hooks) {
     assert.equal(this.element.textContent.trim(), 3);
   });
 });
-

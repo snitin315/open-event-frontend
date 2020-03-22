@@ -19,15 +19,15 @@ export const humanReadableBytes = (sizeInKb, absolute = true, si = true) => {
 
 export const isFileValid = (file, maxSizeInMb, fileTypes = []) => {
   return new RSVPPromise((resolve, reject) => {
-    if (file.size > (maxSizeInMb * 1024)) {
+    if (file.size > maxSizeInMb * 1024) {
       return reject(`File size larger than ${humanReadableBytes(maxSizeInMb)}`);
     }
 
     // If Uint8Array support is available, get the actual file type using file header. (Preferred way)
     if ('Uint8Array' in window) {
       let fileReader = new FileReader();
-      fileReader.onloadend = function(e) {
-        let arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+      fileReader.onloadend = function (e) {
+        let arr = new Uint8Array(e.target.result).subarray(0, 4);
         let header = '';
         for (let i = 0; i < arr.length; i++) {
           header += arr[i].toString(16);
@@ -71,7 +71,6 @@ export const isFileValid = (file, maxSizeInMb, fileTypes = []) => {
         }
       };
       fileReader.readAsArrayBuffer(file);
-
     } else {
       // If no support for Uint8Array, get the mime from the blob directly (Easily spoof-able)
       if (fileTypes.includes(file.type)) {

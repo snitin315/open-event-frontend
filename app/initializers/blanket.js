@@ -1,5 +1,4 @@
 export function initialize(application) {
-
   const inject = (property, what) => {
     application.inject('controller', property, what);
     application.inject('component', property, what);

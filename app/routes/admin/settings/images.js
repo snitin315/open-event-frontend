@@ -7,8 +7,8 @@ export default Route.extend({
 
   async model() {
     return {
-      speakerImageSize : await this.store.queryRecord('speaker-image-size', 1),
-      eventImageSize   : await this.store.queryRecord('event-image-size', 1)
+      speakerImageSize: await this.store.queryRecord('speaker-image-size', 1),
+      eventImageSize: await this.store.queryRecord('event-image-size', 1)
     };
   },
   actions: {

@@ -4,7 +4,9 @@ import hbs from 'htmlbars-inline-precompile';
 import { render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | ui table/cell/events/view/tickets/orders/cell order', function(hooks) {
+module('Integration | Component | ui table/cell/events/view/tickets/orders/cell order', function(
+  hooks
+) {
   setupIntegrationTest(hooks);
 
   const props = {
@@ -25,7 +27,9 @@ module('Integration | Component | ui table/cell/events/view/tickets/orders/cell 
       record,
       props
     });
-    await render(hbs`{{ui-table/cell/events/view/tickets/orders/cell-order props=props record=record}}`);
+    await render(
+      hbs`{{ui-table/cell/events/view/tickets/orders/cell-order props=props record=record}}`
+    );
     assert.ok(this.element.textContent.trim().includes(''));
   });
 });

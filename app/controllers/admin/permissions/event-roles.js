@@ -15,19 +15,21 @@ export default class extends Controller {
   @action
   updatePermissions() {
     this.set('isLoading', true);
-    this.model.permissions.save()
+    this.model.permissions
+      .save()
       .then(() => {
-        this.notify.success(this.l10n.t('Admin Event role permissions have been saved successfully.'),
+        this.notify.success(
+          this.l10n.t('Admin Event role permissions have been saved successfully.'),
           {
             id: 'admin_event_succ'
-          });
+          }
+        );
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error while saving admin event role permissions', err);
-        this.notify.error(this.l10n.t(err),
-          {
-            id: 'admin_event_error'
-          });
+        this.notify.error(this.l10n.t(err), {
+          id: 'admin_event_error'
+        });
       })
       .finally(() => {
         this.set('isLoading', false);

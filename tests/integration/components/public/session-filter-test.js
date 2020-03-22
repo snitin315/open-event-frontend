@@ -10,7 +10,7 @@ module('Integration | Component | public/session filter', function(hooks) {
 
   test('it renders', async function(assert) {
     this.set('tracks', tracks);
-    await render(hbs `{{public/session-filter tracks=tracks}}`);
+    await render(hbs`{{public/session-filter tracks=tracks}}`);
     assert.ok(this.element.innerHTML.trim().includes('Track'));
   });
 });

@@ -10,6 +10,5 @@ module('Integration | Component | forms/user-payment-info-form', function(hooks)
     await render(hbs`{{forms/user-payment-info-form}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('Payment Information'));
-
   });
 });

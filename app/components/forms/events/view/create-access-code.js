@@ -12,104 +12,113 @@ export default Component.extend(FormMixin, {
       return this.get('data.maxQuantity') <= this.get('data.ticketsNumber');
     };
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
+      inline: true,
+      delay: false,
+      on: 'blur',
 
       fields: {
         accessCode: {
-          identifier : 'access_code',
-          rules      : [
+          identifier: 'access_code',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter access code')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter access code')
             },
             {
-              type  : 'regExp',
-              value : '^[a-zA-Z0-9_-]*$'
+              type: 'regExp',
+              value: '^[a-zA-Z0-9_-]*$'
             }
           ]
         },
         numberOfAccessTickets: {
-          identifier : 'number_of_access_tickets',
-          rules      : [
+          identifier: 'number_of_access_tickets',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter number of tickets')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter number of tickets')
             },
             {
-              type   : 'number',
-              prompt : this.l10n.t('Please enter proper number of tickets')
+              type: 'number',
+              prompt: this.l10n.t('Please enter proper number of tickets')
             }
           ]
         },
         min: {
-          identifier : 'min',
-          optional   : true,
-          rules      : [
+          identifier: 'min',
+          optional: true,
+          rules: [
             {
-              type   : 'number',
-              prompt : this.l10n.t('Please enter the proper number')
+              type: 'number',
+              prompt: this.l10n.t('Please enter the proper number')
             },
             {
-              type   : 'checkMaxMin',
-              prompt : this.l10n.t('Minimum value should not be greater than maximum')
+              type: 'checkMaxMin',
+              prompt: this.l10n.t('Minimum value should not be greater than maximum')
             }
           ]
         },
         max: {
-          identifier : 'max',
-          optional   : true,
-          rules      : [
+          identifier: 'max',
+          optional: true,
+          rules: [
             {
-              type   : 'number',
-              prompt : this.l10n.t('Please enter the proper number')
+              type: 'number',
+              prompt: this.l10n.t('Please enter the proper number')
             },
             {
-              type   : 'checkMaxMin',
-              prompt : this.l10n.t('Maximum value should not be less than minimum')
+              type: 'checkMaxMin',
+              prompt: this.l10n.t('Maximum value should not be less than minimum')
             },
             {
-              type   : 'checkMaxTotal',
-              prompt : this.l10n.t('Maximum value should not be greater than number of tickets')
+              type: 'checkMaxTotal',
+              prompt: this.l10n.t('Maximum value should not be greater than number of tickets')
             }
           ]
         },
         accessCodeStartDate: {
-          identifier : 'start_date',
-          optional   : true,
-          rules      : [
+          identifier: 'start_date',
+          optional: true,
+          rules: [
             {
-              type   : 'date',
-              prompt : this.l10n.t('Please enter the proper date')
+              type: 'date',
+              prompt: this.l10n.t('Please enter the proper date')
             }
           ]
         },
         accessCodeEndDate: {
-          identifier : 'end_date',
-          optional   : true,
-          rules      : [
+          identifier: 'end_date',
+          optional: true,
+          rules: [
             {
-              type   : 'date',
-              prompt : this.l10n.t('Please enter the proper date')
+              type: 'date',
+              prompt: this.l10n.t('Please enter the proper date')
             }
           ]
         }
       }
     };
   },
-  accessCode : '',
-  accessLink : computed('data.code', function() {
+  accessCode: '',
+  accessLink: computed('data.code', function () {
     const params = this.get('router._router.currentState.routerJsState.params');
-    const origin = this.get('fastboot.isFastBoot') ? `${this.get('fastboot.request.protocol')}//${this.get('fastboot.request.host')}` : location.origin;
-    let link = origin + this.router.urlFor('public', params['events.view'].event_id, { queryParams: { code: this.get('data.code') } });
+    const origin = this.get('fastboot.isFastBoot')
+      ? `${this.get('fastboot.request.protocol')}//${this.get('fastboot.request.host')}`
+      : location.origin;
+    let link =
+      origin +
+      this.router.urlFor('public', params['events.view'].event_id, {
+        queryParams: { code: this.get('data.code') }
+      });
     this.set('data.accessUrl', link);
     return link;
   }),
   hiddenTickets: computed.filterBy('tickets', 'isHidden', true),
 
-  allTicketTypesChecked: computed('tickets', function() {
-    if (this.hiddenTickets.length && this.get('data.tickets').length === this.hiddenTickets.length) {
+  allTicketTypesChecked: computed('tickets', function () {
+    if (
+      this.hiddenTickets.length &&
+      this.get('data.tickets').length === this.hiddenTickets.length
+    ) {
       return true;
     }
     return false;
@@ -126,7 +135,7 @@ export default Component.extend(FormMixin, {
       } else {
         this.get('data.tickets').clear();
       }
-      tickets.forEach(ticket => {
+      tickets.forEach((ticket) => {
         ticket.set('isChecked', allTicketTypesChecked);
       });
     },
@@ -150,9 +159,13 @@ export default Component.extend(FormMixin, {
     },
     copiedText() {
       this.set('isLinkSuccess', true);
-      later(this, () => {
-        this.set('isLinkSuccess', false);
-      }, 5000);
+      later(
+        this,
+        () => {
+          this.set('isLinkSuccess', false);
+        },
+        5000
+      );
     }
   }
 });

@@ -28,17 +28,17 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     if (params.attendees_status === 'checkedIn') {
       filterOptions = [
         {
-          name : 'is-checked-in',
-          op   : 'eq',
-          val  : true
+          name: 'is-checked-in',
+          op: 'eq',
+          val: true
         }
       ];
     } else if (params.attendees_status === 'notCheckedIn') {
       filterOptions = [
         {
-          name : 'is-checked-in',
-          op   : 'eq',
-          val  : false
+          name: 'is-checked-in',
+          op: 'eq',
+          val: false
         }
       ];
     } else if (params.attendees_status === 'all') {
@@ -46,12 +46,12 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     } else {
       filterOptions = [
         {
-          name : 'order',
-          op   : 'has',
-          val  : {
-            name : 'status',
-            op   : 'eq',
-            val  : params.attendees_status
+          name: 'order',
+          op: 'has',
+          val: {
+            name: 'status',
+            op: 'eq',
+            val: params.attendees_status
           }
         }
       ];
@@ -59,15 +59,14 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
 
     let queryString = {
-      include        : 'user,order',
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 1
+      include: 'user,order',
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 1
     };
-
 
     queryString = this.applySortFilters(queryString, params);
 
-    return  this.asArray(this.modelFor('events.view').query('attendees', queryString));
+    return this.asArray(this.modelFor('events.view').query('attendees', queryString));
   }
 }

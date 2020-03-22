@@ -13,17 +13,15 @@ export default class extends Controller {
       anchor.download = `${eventName}-EventInvoice-${orderId}.pdf`;
       document.body.appendChild(anchor);
       anchor.click();
-      this.notify.success(this.l10n.t('Here is your Event Invoice'),
-        {
-          id: 'here_event_invoice'
-        });
+      this.notify.success(this.l10n.t('Here is your Event Invoice'), {
+        id: 'here_event_invoice'
+      });
       document.body.removeChild(anchor);
     } catch (e) {
       console.error('Error while downloading event invoice', e);
-      this.notify.error(this.l10n.t('Unexpected error occurred.'),
-        {
-          id: 'event_here_error'
-        });
+      this.notify.error(this.l10n.t('Unexpected error occurred.'), {
+        id: 'event_here_error'
+      });
     }
     this.set('isLoading', false);
   }

@@ -11,12 +11,11 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     let filterOptions = [];
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
     let queryString = {
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.per_page || 1
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.per_page || 1
     };
     queryString = this.applySortFilters(queryString, params);
-
 
     return {
       importJobs: await this.asArray(this.store.query('importJob', queryString))

@@ -7,9 +7,7 @@ module('Integration | Component | ui table/cell/admin/sales/status/cell amount',
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{ui-table/cell/admin/sales/status/cell-amount}}`);
     assert.ok(this.element.textContent.trim().includes(''));
-
   });
 });

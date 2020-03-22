@@ -9,7 +9,7 @@ module('Integration | Component | ui table/header rows grouped', function(hooks)
   const groupedHeaders = [[{ title: 'Cat1' }], [{ title: 'Cat2' }]];
   test('it renders', async function(assert) {
     this.set('groupedHeaders', groupedHeaders);
-    await render(hbs `{{ui-table/header-rows-grouped groupedHeaders=groupedHeaders}}`);
+    await render(hbs`{{ui-table/header-rows-grouped groupedHeaders=groupedHeaders}}`);
     assert.ok(this.element.innerHTML.trim().includes('Cat1'));
   });
 });

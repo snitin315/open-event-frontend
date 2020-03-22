@@ -6,36 +6,36 @@ export default class extends Controller {
   @action
   togglePublishState() {
     if (isEmpty(this.model.locationName)) {
-      this.notify.error(this.l10n.t('Your event must have a location before it can be published.'),
+      this.notify.error(
+        this.l10n.t('Your event must have a location before it can be published.'),
         {
           id: 'event_location'
-        });
+        }
+      );
       return;
     }
     this.set('isLoading', true);
     const { state } = this.model;
     this.set('model.state', state === 'draft' ? 'published' : 'draft');
-    this.model.save()
+    this.model
+      .save()
       .then(() => {
         if (state === 'draft') {
-          this.notify.success(this.l10n.t('Your event has been published successfully.'),
-            {
-              id: 'event_publish'
-            });
+          this.notify.success(this.l10n.t('Your event has been published successfully.'), {
+            id: 'event_publish'
+          });
         } else {
-          this.notify.success(this.l10n.t('Your event has been unpublished.'),
-            {
-              id: 'event_unpublish'
-            });
+          this.notify.success(this.l10n.t('Your event has been unpublished.'), {
+            id: 'event_unpublish'
+          });
         }
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while publishing/unpublishing event', e);
         this.set('model.state', state);
-        this.notify.error(this.l10n.t('An unexpected error has occurred.'),
-          {
-            id: 'event_publish_error'
-          });
+        this.notify.error(this.l10n.t('An unexpected error has occurred.'), {
+          id: 'event_publish_error'
+        });
       })
       .finally(() => {
         this.set('isLoading', false);
@@ -47,18 +47,16 @@ export default class extends Controller {
     this.set('isCopying', true);
     this.loader
       .post(`events/${this.model.id}/copy`, {})
-      .then(copiedEvent => {
+      .then((copiedEvent) => {
         this.transitionToRoute('events.view.edit', copiedEvent.identifier);
-        this.notify.success(this.l10n.t('Event copied successfully'),
-          {
-            id: 'event_copy_succ'
-          });
+        this.notify.success(this.l10n.t('Event copied successfully'), {
+          id: 'event_copy_succ'
+        });
       })
       .catch(() => {
-        this.notify.error(this.l10n.t('Copying of event failed'),
-          {
-            id: 'event_copy_fail'
-          });
+        this.notify.error(this.l10n.t('Copying of event failed'), {
+          id: 'event_copy_fail'
+        });
       })
       .finally(() => {
         this.set('isCopying', false);

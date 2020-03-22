@@ -7,8 +7,12 @@
 //
 // From: ember-data/addon/-private/system/coerce-id.js
 //
-export const coerceId = id => {
-  if (id === null || id === undefined || id === '') { return null }
-  if (typeof id === 'string') { return id }
+export const coerceId = (id) => {
+  if (id === null || id === undefined || id === '') {
+    return null;
+  }
+  if (typeof id === 'string') {
+    return id;
+  }
   return `${id}`;
 };

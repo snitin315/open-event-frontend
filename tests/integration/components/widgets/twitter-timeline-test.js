@@ -10,10 +10,15 @@ module('Integration | Component | widgets/twitter timeline', function(hooks) {
     await render(hbs`{{widgets/twitter-timeline handleOrProfile='https://twitter.com/fossasia'}}`);
     assert.ok(this.element.innerHTML.trim().includes('@fossasia'), this.element.innerHTML.trim());
 
-    await render(hbs`{{widgets/twitter-timeline handleOrProfile='https://twitter.com/hashtag/xyzzy'}}`);
+    await render(
+      hbs`{{widgets/twitter-timeline handleOrProfile='https://twitter.com/hashtag/xyzzy'}}`
+    );
     assert.ok(this.element.textContent.trim() === '', this.element.textContent.trim());
 
     await render(hbs`{{widgets/twitter-timeline handleOrProfile='holamola'}}`);
-    assert.ok(this.element.innerHTML.trim().includes('https://twitter.com/holamola'), this.element.innerHTML.trim());
+    assert.ok(
+      this.element.innerHTML.trim().includes('https://twitter.com/holamola'),
+      this.element.innerHTML.trim()
+    );
   });
 });

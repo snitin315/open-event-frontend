@@ -5,7 +5,6 @@ import { v1 } from 'ember-uuid';
 import CustomFormMixin from 'open-event-frontend/mixins/custom-form';
 
 export default Mixin.create(MutableArray, CustomFormMixin, {
-
   /**
    * Get the steps of the wizard
    *
@@ -14,28 +13,28 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
   getSteps() {
     return [
       {
-        title       : this.l10n.t('Basic Details'),
-        description : this.l10n.t('Tell about your event'),
-        icon        : 'info icon',
-        route       : 'events.view.edit.basic-details'
+        title: this.l10n.t('Basic Details'),
+        description: this.l10n.t('Tell about your event'),
+        icon: 'info icon',
+        route: 'events.view.edit.basic-details'
       },
       {
-        title       : this.l10n.t('Attendee Form'),
-        description : this.l10n.t('Know your audience'),
-        icon        : 'list icon',
-        route       : 'events.view.edit.attendee'
+        title: this.l10n.t('Attendee Form'),
+        description: this.l10n.t('Know your audience'),
+        icon: 'list icon',
+        route: 'events.view.edit.attendee'
       },
       {
-        title       : this.l10n.t('Sponsors'),
-        description : this.l10n.t('Advertise your sponsors'),
-        icon        : 'dollar icon',
-        route       : 'events.view.edit.sponsors'
+        title: this.l10n.t('Sponsors'),
+        description: this.l10n.t('Advertise your sponsors'),
+        icon: 'dollar icon',
+        route: 'events.view.edit.sponsors'
       },
       {
-        title       : this.l10n.t('Sessions & Speakers'),
-        description : this.l10n.t('Expand your event'),
-        icon        : 'list icon',
-        route       : 'events.view.edit.sessions-speakers'
+        title: this.l10n.t('Sessions & Speakers'),
+        description: this.l10n.t('Expand your event'),
+        icon: 'list icon',
+        route: 'events.view.edit.sessions-speakers'
       }
     ];
   },
@@ -48,16 +47,18 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
   async saveEventData(propsToSave = []) {
     const event = this.get('model.event');
     const data = {};
-    const results = await Promise.allSettled(propsToSave.map(property => {
-      try {
-        return event.get(property);
-      } catch (e) {
-        if (!(e.errors && e.errors.length && e.errors.length > 0 && e.errors[0].status === 404)) {
-          // Lets just ignore any 404s that might occur. And throw the rest for the caller fn to catch
-          throw e;
+    const results = await Promise.allSettled(
+      propsToSave.map((property) => {
+        try {
+          return event.get(property);
+        } catch (e) {
+          if (!(e.errors && e.errors.length && e.errors.length > 0 && e.errors[0].status === 404)) {
+            // Lets just ignore any 404s that might occur. And throw the rest for the caller fn to catch
+            throw e;
+          }
         }
-      }
-    }));
+      })
+    );
     for (const result of results) {
       if (result.status === 'fulfilled') {
         if (result?.value?.key) {
@@ -68,15 +69,25 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
       }
     }
     const numberOfTickets = data.tickets ? data.tickets.length : 0;
-    if (event.name && event.locationName && event.startsAtDate && event.endsAtDate && numberOfTickets > 0) {
+    if (
+      event.name &&
+      event.locationName &&
+      event.startsAtDate &&
+      event.endsAtDate &&
+      numberOfTickets > 0
+    ) {
       await event.save();
 
-      await Promise.all((data.tickets ? data.tickets.toArray() : []).map(ticket => {
-        ticket.set('maxOrder', Math.min(ticket.get('maxOrder'), ticket.get('quantity')));
-        return ticket.save();
-      }));
+      await Promise.all(
+        (data.tickets ? data.tickets.toArray() : []).map((ticket) => {
+          ticket.set('maxOrder', Math.min(ticket.get('maxOrder'), ticket.get('quantity')));
+          return ticket.save();
+        })
+      );
 
-      await Promise.all((data.socialLinks ? data.socialLinks.toArray() : []).map(socialLink => socialLink.save()));
+      await Promise.all(
+        (data.socialLinks ? data.socialLinks.toArray() : []).map((socialLink) => socialLink.save())
+      );
 
       if (data.copyright && data.copyright.get('licence')) {
         await data.copyright.save();
@@ -105,7 +116,9 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
       for (const property of ['tracks', 'sessionTypes', 'microlocations', 'customForms']) {
         const items = data[property];
         for (const item of items ? items.toArray() : []) {
-          bulkPromises.push(event.get('isSessionsSpeakersEnabled') ? item.save() : item.destroyRecord());
+          bulkPromises.push(
+            event.get('isSessionsSpeakersEnabled') ? item.save() : item.destroyRecord()
+          );
         }
       }
 
@@ -120,17 +133,17 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
 
       return event;
     } else {
-      let errorObject = { 'errors': [] };
+      let errorObject = { errors: [] };
       if (event.name === undefined || event.name === '') {
-        errorObject.errors.push({ 'detail': 'Event name has not been provided' });
+        errorObject.errors.push({ detail: 'Event name has not been provided' });
       }
       if (event.startsAtDate === undefined || event.endsAtDate === undefined) {
-        errorObject.errors.push({ 'detail': 'Dates have not been provided' });
+        errorObject.errors.push({ detail: 'Dates have not been provided' });
       }
       if (numberOfTickets === 0) {
-        errorObject.errors.push({ 'detail': 'Tickets are required for publishing event' });
+        errorObject.errors.push({ detail: 'Tickets are required for publishing event' });
       }
-      throw (errorObject);
+      throw errorObject;
     }
   },
 
@@ -143,14 +156,14 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
   saveEventDataAndRedirectTo(route, propsToSave = []) {
     this.set('isLoading', true);
     this.saveEventData(propsToSave)
-      .then(data => {
+      .then((data) => {
         this.notify.success(this.l10n.t('Your event has been saved'));
         this.transitionToRoute(route, data.id);
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while saving event', e);
         if (e.errors) {
-          e.errors.forEach(error => {
+          e.errors.forEach((error) => {
             this.notify.error(this.l10n.tVar(error.detail));
           });
         } else {
@@ -182,10 +195,10 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
    * @param modelName
    */
   getOrCreate(event, relationship, modelName) {
-    return new RSVP.Promise(resolve => {
+    return new RSVP.Promise((resolve) => {
       event
         .get(relationship)
-        .then(relationshipRecord => {
+        .then((relationshipRecord) => {
           resolve(relationshipRecord);
         })
         .catch(() => {
@@ -217,9 +230,11 @@ export default Mixin.create(MutableArray, CustomFormMixin, {
     },
     addItem(type, model) {
       if (type === 'socialLinks') {
-        this.get(`data.event.${type}`).pushObject(this.store.createRecord(model, {
-          identifier: v1()
-        }));
+        this.get(`data.event.${type}`).pushObject(
+          this.store.createRecord(model, {
+            identifier: v1()
+          })
+        );
       } else {
         this.get(`data.event.${type}`).pushObject(this.store.createRecord(model));
       }

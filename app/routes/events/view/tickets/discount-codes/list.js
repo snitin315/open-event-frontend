@@ -23,14 +23,14 @@ export default class extends Route.extend(EmberTableRouteMixin) {
         {
           and: [
             {
-              name : 'valid_till',
-              op   : 'ge',
-              val  : moment().toISOString()
+              name: 'valid_till',
+              op: 'ge',
+              val: moment().toISOString()
             },
             {
-              name : 'is-active',
-              op   : 'eq',
-              val  : true
+              name: 'is-active',
+              op: 'eq',
+              val: true
             }
           ]
         }
@@ -40,14 +40,14 @@ export default class extends Route.extend(EmberTableRouteMixin) {
         {
           and: [
             {
-              name : 'valid_till',
-              op   : 'ge',
-              val  : moment().toISOString()
+              name: 'valid_till',
+              op: 'ge',
+              val: moment().toISOString()
             },
             {
-              name : 'is-active',
-              op   : 'eq',
-              val  : false
+              name: 'is-active',
+              op: 'eq',
+              val: false
             }
           ]
         }
@@ -55,9 +55,9 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     } else if (params.discount_status === 'expired') {
       filterOptions = [
         {
-          name : 'valid_till',
-          op   : 'lt',
-          val  : moment().toISOString()
+          name: 'valid_till',
+          op: 'lt',
+          val: moment().toISOString()
         }
       ];
     } else {
@@ -66,13 +66,13 @@ export default class extends Route.extend(EmberTableRouteMixin) {
 
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
     let queryString = {
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 1
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 1
     };
 
     queryString = this.applySortFilters(queryString, params);
 
-    return  this.asArray(this.modelFor('events.view').query('discountCodes', queryString));
+    return this.asArray(this.modelFor('events.view').query('discountCodes', queryString));
   }
 }

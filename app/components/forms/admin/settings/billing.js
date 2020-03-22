@@ -6,95 +6,95 @@ import { action } from '@ember/object';
 export default class extends Component.extend(FormMixin) {
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         adminBillingContactName: {
-          identifier : 'adminBillingContactName',
-          rules      : [
+          identifier: 'adminBillingContactName',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the Contact name')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the Contact name')
             }
           ]
         },
         adminBillingPhone: {
-          identifier : 'adminBillingPhone',
-          rules      : [
+          identifier: 'adminBillingPhone',
+          rules: [
             {
-              type   : 'regExp',
-              value  : validPhoneNumber,
-              prompt : this.l10n.t('Please enter a valid mobile number.')
+              type: 'regExp',
+              value: validPhoneNumber,
+              prompt: this.l10n.t('Please enter a valid mobile number.')
             }
           ]
         },
         adminBillingEmail: {
-          identifier : 'adminBillingEmail',
-          rules      : [
+          identifier: 'adminBillingEmail',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the email')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the email')
             },
             {
-              type   : 'email',
-              prompt : this.l10n.t('Please enter a valid email address')
+              type: 'email',
+              prompt: this.l10n.t('Please enter a valid email address')
             }
           ]
         },
         adminBillingCountry: {
-          identifier : 'adminBillingCountry',
-          rules      : [
+          identifier: 'adminBillingCountry',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please select the country')
+              type: 'empty',
+              prompt: this.l10n.t('Please select the country')
             }
           ]
         },
 
         adminBillingTaxInfo: {
-          identifier : 'adminBillingTaxInfo',
-          rules      : [
+          identifier: 'adminBillingTaxInfo',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the tax id')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the tax id')
             }
           ]
         },
         adminCompany: {
-          identifier : 'adminCompany',
-          rules      : [
+          identifier: 'adminCompany',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the company')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the company')
             }
           ]
         },
         adminBillingAddress: {
-          identifier : 'adminBillingAddress',
-          rules      : [
+          identifier: 'adminBillingAddress',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the Address')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the Address')
             }
           ]
         },
         adminBillingCity: {
-          identifier : 'adminBillingCity',
-          rules      : [
+          identifier: 'adminBillingCity',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the city')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the city')
             }
           ]
         },
 
         adminBillingZip: {
-          identifier : 'adminBillingZip',
-          rules      : [
+          identifier: 'adminBillingZip',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the zip code')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the zip code')
             }
           ]
         }

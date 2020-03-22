@@ -7,7 +7,7 @@ export default Component.extend({
 
   socialLinks: A(),
 
-  twitterLink: computed('socialLinks.[]', function() {
+  twitterLink: computed('socialLinks.[]', function () {
     return this.socialLinks.findBy('isTwitter', true);
   })
 });

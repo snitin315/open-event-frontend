@@ -10,6 +10,5 @@ module('Integration | Component | forms/user-profile-form', function(hooks) {
     await render(hbs`{{forms/user-profile-form isLoading=isLoading}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('Update Changes'));
-
   });
 });

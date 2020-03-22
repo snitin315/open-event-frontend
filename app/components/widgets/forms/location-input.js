@@ -3,44 +3,38 @@ import { observer, computed } from '@ember/object';
 import { keys, values } from 'lodash-es';
 
 export default Component.extend({
-
   address: {
-    venue   : '',
-    line    : '',
-    city    : '',
-    state   : '',
-    zipCode : '',
-    country : ''
+    venue: '',
+    line: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: ''
   },
 
-  combinedAddress: computed('address.{venue,line,city,state,zipCode,country}', function() {
+  combinedAddress: computed('address.{venue,line,city,state,zipCode,country}', function () {
     return values(this.address).join(' ').trim();
   }),
 
-  searchableAddress: computed('address.{city}', function() {
+  searchableAddress: computed('address.{city}', function () {
     return this.address.city;
   }),
 
-  placeNameChanger: observer('combinedAddress', 'searchableAddress', function() {
-    this.setProperties(
-      { 'placeName'      : this.combinedAddress,
-        'searchableName' : this.searchableAddress
-      }
-    );
-
+  placeNameChanger: observer('combinedAddress', 'searchableAddress', function () {
+    this.setProperties({ placeName: this.combinedAddress, searchableName: this.searchableAddress });
   }),
 
   actions: {
     showAddressView(show = true) {
       this.set('addressViewIsShown', show);
       if (!show) {
-        keys(this.address).forEach(key => {
+        keys(this.address).forEach((key) => {
           this.set(`address.${key}`, '');
         });
         this.setProperties({
-          zoom : 1,
-          lat  : 0,
-          lng  : 0
+          zoom: 1,
+          lat: 0,
+          lng: 0
         });
       }
     },
@@ -53,7 +47,7 @@ export default Component.extend({
     },
     placeChanged(place) {
       const addressComponents = place.address_components;
-      addressComponents.forEach(component => {
+      addressComponents.forEach((component) => {
         const [type] = component.types;
         const value = component.long_name;
         switch (type) {

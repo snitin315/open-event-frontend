@@ -3,7 +3,6 @@ import { camelCase, startCase } from 'lodash-es';
 import { action } from '@ember/object';
 
 export default class extends Controller {
-
   disableEventSubtopic = true;
   currentTopicSelected = null;
 
@@ -16,10 +15,9 @@ export default class extends Controller {
       this.set('currentTopicSelected', topic);
     } catch (e) {
       console.error('Error while updating subtopics', e);
-      this.notify.error(this.l10n.t('An unexpected error has occurred. SubTopics not loaded.'),
-        {
-          id: 'subtop_error'
-        });
+      this.notify.error(this.l10n.t('An unexpected error has occurred. SubTopics not loaded.'), {
+        id: 'subtop_error'
+      });
     } finally {
       this.set('isLoading', false);
     }
@@ -27,8 +25,14 @@ export default class extends Controller {
 
   @action
   openModalFor(modelInstanceOrName) {
-    const modelName = typeof modelInstanceOrName === 'string' ? modelInstanceOrName : modelInstanceOrName.constructor.modelName;
-    const modelInstance = typeof modelInstanceOrName === 'string' ? this.store.createRecord(modelInstanceOrName) : modelInstanceOrName;
+    const modelName =
+      typeof modelInstanceOrName === 'string'
+        ? modelInstanceOrName
+        : modelInstanceOrName.constructor.modelName;
+    const modelInstance =
+      typeof modelInstanceOrName === 'string'
+        ? this.store.createRecord(modelInstanceOrName)
+        : modelInstanceOrName;
     const camelCasedValue = camelCase(modelName);
     this.set(camelCasedValue, modelInstance);
     modelInstance.openModal = true;
@@ -38,20 +42,22 @@ export default class extends Controller {
   deleteEventProperty(eventProp) {
     this.set('isLoading', true);
     const modelName = camelCase(eventProp.constructor.modelName);
-    eventProp.destroyRecord()
+    eventProp
+      .destroyRecord()
       .then(() => {
         this.get(`model.${modelName}s`).removeObject(eventProp);
-        this.notify.success(this.l10n.t('This Event Property has been deleted successfully.'),
-          {
-            id: 'event_prop_del'
-          });
+        this.notify.success(this.l10n.t('This Event Property has been deleted successfully.'), {
+          id: 'event_prop_del'
+        });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while deleting ' + modelName, e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. Event Type was not deleted.'),
+        this.notify.error(
+          this.l10n.t('An unexpected error has occurred. Event Type was not deleted.'),
           {
             id: 'event_type_error'
-          });
+          }
+        );
       })
       .finally(() => {
         this.set('isLoading', false);
@@ -62,20 +68,25 @@ export default class extends Controller {
   addEventProperty(modelInstance) {
     const camelCasedValue = camelCase(modelInstance.constructor.modelName);
     this.set('isLoading', true);
-    modelInstance.save()
+    modelInstance
+      .save()
       .then(() => {
         this.get(`model.${camelCasedValue}s`).addObject(modelInstance);
-        this.notify.success(this.l10n.t(`${startCase(camelCasedValue)} has been added successfully.`),
+        this.notify.success(
+          this.l10n.t(`${startCase(camelCasedValue)} has been added successfully.`),
           {
             id: 'mode_add_succ'
-          });
+          }
+        );
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while adding ' + camelCasedValue, e);
-        this.notify.error(this.l10n.t(`An unexpected error has occurred. ${startCase(camelCasedValue)} not saved.`),
+        this.notify.error(
+          this.l10n.t(`An unexpected error has occurred. ${startCase(camelCasedValue)} not saved.`),
           {
             id: 'mode_err_succ'
-          });
+          }
+        );
       })
       .finally(() => {
         this.set('isLoading', false);

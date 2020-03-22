@@ -13,36 +13,36 @@ export default class extends Controller {
   }
 
   isLoading = false;
-  header    = {
-    left   : 'today prev,next',
-    center : 'title',
-    right  : 'timelineDay,timelineThreeDays,agendaWeek,month'
-  }
+  header = {
+    left: 'today prev,next',
+    center: 'title',
+    right: 'timelineDay,timelineThreeDays,agendaWeek,month'
+  };
 
   view = {
     timelineThreeDays: {
-      type     : 'timeline',
-      duration : { days: 3 }
+      type: 'timeline',
+      duration: { days: 3 }
     }
-  }
+  };
 
   updateSession(start, end, microlocationId, sessionId) {
     let payload = {
       data: {
         attributes: {
-          'starts-at' : start ? start.toISOString() : null,
-          'ends-at'   : end ? end.toISOString() : null
+          'starts-at': start ? start.toISOString() : null,
+          'ends-at': end ? end.toISOString() : null
         },
         relationships: {
           microlocation: {
             data: {
-              type : 'microlocation',
-              id   : microlocationId
+              type: 'microlocation',
+              id: microlocationId
             }
           }
         },
-        type : 'session',
-        id   : sessionId
+        type: 'session',
+        id: sessionId
       }
     };
     let config = {
@@ -51,12 +51,11 @@ export default class extends Controller {
     return this.loader
       .patch(`sessions/${sessionId}`, JSON.stringify(payload), config)
       .then(() => {
-        this.notify.success('Changes have been made successfully',
-          {
-            id: 'schedu_change'
-          });
+        this.notify.success('Changes have been made successfully', {
+          id: 'schedu_change'
+        });
       })
-      .catch(reason => {
+      .catch((reason) => {
         this.set('error', reason);
         this.notify.error(`Error: ${reason}`);
       });
@@ -91,7 +90,7 @@ export default class extends Controller {
   eventRender(session, element) {
     element.append('<span class="scheduled-close-btn"><i class="x icon"></i></span>');
     let controller = this;
-    element.find('.scheduled-close-btn').on('click', function() {
+    element.find('.scheduled-close-btn').on('click', function () {
       controller.unscheduleSession(session);
     });
   }
@@ -103,19 +102,18 @@ export default class extends Controller {
     let publishedAt = this.isSchedulePublished ? moment(0) : moment();
     let event = this.model.eventDetails;
     event.set('schedulePublishedOn', publishedAt);
-    event.save()
+    event
+      .save()
       .then(() => {
-        this.notify.success(`The schedule has been ${stat} successfully`,
-          {
-            id: 'schedule_change_succ'
-          });
+        this.notify.success(`The schedule has been ${stat} successfully`, {
+          id: 'schedule_change_succ'
+        });
       })
-      .catch(reason => {
+      .catch((reason) => {
         this.set('error', reason);
-        this.notify.error(`Error: ${reason}`,
-          {
-            id: 'error_reason_scheduler'
-          });
+        this.notify.error(`Error: ${reason}`, {
+          id: 'error_reason_scheduler'
+        });
       })
       .finally(() => {
         this.set('isLoading', false);

@@ -13,7 +13,7 @@ import { merge, mapValues, isArray } from 'lodash-es';
 export const buildUrlViaUrlParse = (baseUrl, queryParams, stringifyArray = false) => {
   let parsedUrl = new UrlParser(baseUrl, true);
   if (stringifyArray) {
-    queryParams = mapValues(queryParams, value => {
+    queryParams = mapValues(queryParams, (value) => {
       if (isArray(value)) {
         return value.join(',');
       }
@@ -35,7 +35,7 @@ export const buildUrlViaUrlParse = (baseUrl, queryParams, stringifyArray = false
 export const buildUrlViaQueryString = (baseUrl, queryParams, stringifyArray = false) => {
   let parsedUrl = queryString.parseUrl(baseUrl, { arrayFormat: 'bracket' });
   if (stringifyArray) {
-    queryParams = mapValues(queryParams, value => {
+    queryParams = mapValues(queryParams, (value) => {
       if (isArray(value)) {
         return value.join(',');
       }
@@ -43,7 +43,11 @@ export const buildUrlViaQueryString = (baseUrl, queryParams, stringifyArray = fa
     });
   }
   // eslint-disable-next-line prefer-template
-  return parsedUrl.url + '?' + queryString.stringify(merge(parsedUrl.query, queryParams), { arrayFormat: 'bracket' });
+  return (
+    parsedUrl.url +
+    '?' +
+    queryString.stringify(merge(parsedUrl.query, queryParams), { arrayFormat: 'bracket' })
+  );
 };
 
 export const buildUrl = buildUrlViaQueryString;

@@ -15,8 +15,9 @@ module('Integration | Component | events/view/overview/event tickets', function(
     this.set('tickets', 10);
     this.set('orders', 10);
     this.set('sales', 100);
-    await render(hbs`{{events/view/overview/event-tickets data=model tickets=tickets orders=orders sales=sales}}`);
+    await render(
+      hbs`{{events/view/overview/event-tickets data=model tickets=tickets orders=orders sales=sales}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('Tickets'));
   });
 });
-

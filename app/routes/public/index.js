@@ -9,22 +9,22 @@ export default Route.extend({
   async model() {
     const eventDetails = this.modelFor('public');
     return {
-      event   : eventDetails,
-      tickets : await eventDetails.query('tickets', {
+      event: eventDetails,
+      tickets: await eventDetails.query('tickets', {
         reload: true,
 
         filter: [
           {
             and: [
               {
-                name : 'sales-starts-at',
-                op   : 'le',
-                val  : moment().toISOString()
+                name: 'sales-starts-at',
+                op: 'le',
+                val: moment().toISOString()
               },
               {
-                name : 'sales-ends-at',
-                op   : 'ge',
-                val  : moment().toISOString()
+                name: 'sales-ends-at',
+                op: 'ge',
+                val: moment().toISOString()
               }
             ]
           }
@@ -33,20 +33,20 @@ export default Route.extend({
       featuredSpeakers: await eventDetails.query('speakers', {
         filter: [
           {
-            name : 'is-featured',
-            op   : 'eq',
-            val  : 'true'
+            name: 'is-featured',
+            op: 'eq',
+            val: 'true'
           }
         ],
         'page[size]': 0
       }),
 
-      sponsors : await eventDetails.get('sponsors'),
-      tax      : await eventDetails.get('tax'),
-      order    : this.store.createRecord('order', {
-        event   : eventDetails,
-        user    : this.get('authManager.currentUser'),
-        tickets : []
+      sponsors: await eventDetails.get('sponsors'),
+      tax: await eventDetails.get('tax'),
+      order: this.store.createRecord('order', {
+        event: eventDetails,
+        user: this.get('authManager.currentUser'),
+        tickets: []
       }),
 
       attendees: [],

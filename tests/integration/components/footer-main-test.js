@@ -28,11 +28,12 @@ module('Integration | Component | footer main', function(hooks) {
     }
   ];
 
-
   test('it renders', async function(assert) {
     this.set('eventTypes', eventTypes);
     this.set('eventLocations', eventLocations);
-    await render(hbs`{{footer-main l10n=l10n eventLocations=eventLocations eventTypes=eventTypes}}`);
+    await render(
+      hbs`{{footer-main l10n=l10n eventLocations=eventLocations eventTypes=eventTypes}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('footer'));
   });
 });

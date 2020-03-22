@@ -9,10 +9,11 @@ module('Integration | Component | ui table/global filter', function(hooks) {
   const themeInstance = {
     messages: {
       searchPlaceholder: 'Search'
-    } };
+    }
+  };
   test('it renders', async function(assert) {
     this.set('themeInstance', themeInstance);
-    await render(hbs `{{ui-table/global-filter themeInstance=themeInstance}}`);
+    await render(hbs`{{ui-table/global-filter themeInstance=themeInstance}}`);
     assert.ok(this.element.innerHTML.trim().includes('Search'));
   });
 });

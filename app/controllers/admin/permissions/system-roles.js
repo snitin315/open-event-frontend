@@ -8,7 +8,7 @@ export default class extends Controller {
     this.set('panelPermissions', permissions);
     if (role) {
       let roles = role.panelPermissions;
-      permissions.forEach(permission => {
+      permissions.forEach((permission) => {
         if (roles.includes(permission)) {
           permission.set('isChecked', true);
         } else {
@@ -19,7 +19,7 @@ export default class extends Controller {
       this.set('isNew', false);
     } else {
       this.set('role', this.store.createRecord('custom-system-role'));
-      permissions.forEach(permission => {
+      permissions.forEach((permission) => {
         permission.set('isChecked', false);
       });
       this.set('isNew', true);
@@ -30,19 +30,21 @@ export default class extends Controller {
   @action
   deleteSystemRole(role) {
     this.set('isLoading', true);
-    role.destroyRecord()
+    role
+      .destroyRecord()
       .then(() => {
-        this.notify.success(this.l10n.t('System role has been deleted successfully.'),
-          {
-            id: 'system_role_update'
-          });
+        this.notify.success(this.l10n.t('System role has been deleted successfully.'), {
+          id: 'system_role_update'
+        });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while deleting system role', e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. System role was not deleted.'),
+        this.notify.error(
+          this.l10n.t('An unexpected error has occurred. System role was not deleted.'),
           {
             id: 'system_role_error'
-          });
+          }
+        );
       })
       .finally(() => {
         this.set('isLoading', false);
@@ -53,7 +55,7 @@ export default class extends Controller {
   addSystemRole() {
     this.set('isLoading', true);
     let panels = this.panelPermissions;
-    panels.forEach(panel => {
+    panels.forEach((panel) => {
       if (panel.isChecked) {
         this.role.panelPermissions.addObject(panel);
       } else {
@@ -61,26 +63,27 @@ export default class extends Controller {
       }
     });
     if (!this.role.panelPermissions.length) {
-      this.notify.error(this.l10n.t('Please select atleast one panel.'),
-        {
-          id: 'select_panel'
-        });
+      this.notify.error(this.l10n.t('Please select atleast one panel.'), {
+        id: 'select_panel'
+      });
       this.set('isLoading', false);
     } else {
-      this.role.save()
+      this.role
+        .save()
         .then(() => {
           this.set('isAddSystemRoleModalOpen', false);
-          this.notify.success(this.l10n.t('System role have been saved successfully.'),
-            {
-              id: 'system_role_save'
-            });
+          this.notify.success(this.l10n.t('System role have been saved successfully.'), {
+            id: 'system_role_save'
+          });
         })
-        .catch(e => {
+        .catch((e) => {
           console.error('Error while saving system role', e);
-          this.notify.error(this.l10n.t('An unexpected error has occurred. System role not saved.'),
+          this.notify.error(
+            this.l10n.t('An unexpected error has occurred. System role not saved.'),
             {
               id: 'system_save_role_error'
-            });
+            }
+          );
         })
         .finally(() => {
           this.set('isLoading', false);
@@ -91,19 +94,21 @@ export default class extends Controller {
   @action
   updatePermissions() {
     this.set('isLoading', true);
-    this.model.userPermissions.save()
+    this.model.userPermissions
+      .save()
       .then(() => {
-        this.notify.success(this.l10n.t('User permissions have been saved successfully.'),
-          {
-            id: 'user_permission_save'
-          });
+        this.notify.success(this.l10n.t('User permissions have been saved successfully.'), {
+          id: 'user_permission_save'
+        });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while saving user permissions', e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. User permissions not saved.'),
+        this.notify.error(
+          this.l10n.t('An unexpected error has occurred. User permissions not saved.'),
           {
             id: 'user_error_permission'
-          });
+          }
+        );
       })
       .finally(() => {
         this.set('isLoading', false);

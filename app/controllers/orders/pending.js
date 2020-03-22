@@ -3,40 +3,39 @@ import { computed } from '@ember/object';
 import ENV from 'open-event-frontend/config/environment';
 
 export default Controller.extend({
-
   isLoading: false,
 
   paymentDescription: 'Please fill your card details to proceed',
 
-  isStripe: computed('model.order.paymentMode', function() {
+  isStripe: computed('model.order.paymentMode', function () {
     return this.get('model.order.paymentMode') === 'stripe';
   }),
 
-  isPaypal: computed('model.order.paymentMode', function() {
+  isPaypal: computed('model.order.paymentMode', function () {
     return this.get('model.order.paymentMode') === 'paypal';
   }),
 
-  isPaytm: computed('model.order.paymentMode', function() {
+  isPaytm: computed('model.order.paymentMode', function () {
     return this.get('model.order.paymentMode') === 'paytm';
   }),
 
-  isOmise: computed('model.order.paymentMode', function() {
+  isOmise: computed('model.order.paymentMode', function () {
     return this.get('model.order.paymentMode') === 'omise';
   }),
 
-  isAliPay: computed('model.order', function() {
+  isAliPay: computed('model.order', function () {
     return this.get('model.order.paymentMode') === 'alipay';
   }),
 
-  paymentAmount: computed('model.order', function() {
+  paymentAmount: computed('model.order', function () {
     return this.get('model.order.amount') * 100;
   }),
 
-  publicKeyOmise: computed('settings.omiseLivePublic', 'settings.omiseLivePublic', function() {
+  publicKeyOmise: computed('settings.omiseLivePublic', 'settings.omiseLivePublic', function () {
     return this.get('settings.omiseLivePublic') || this.get('settings.omiseTestPublic');
   }),
 
-  omiseFormAction: computed('model.order.identifier', function() {
+  omiseFormAction: computed('model.order.identifier', function () {
     let identifier = this.get('model.order.identifier');
     return `${ENV.APP.apiHost}/v1/orders/${identifier}/omise-checkout`;
   }),
@@ -45,10 +44,9 @@ export default Controller.extend({
     async alipayCheckout(order_identifier) {
       try {
         const res = await this.loader.load(`alipay/create_source/${order_identifier}`);
-        this.notify.success(this.l10n.t('Payment has succeeded'),
-          {
-            id: 'payment_succ'
-          });
+        this.notify.success(this.l10n.t('Payment has succeeded'), {
+          id: 'payment_succ'
+        });
         window.location.replace(res.link);
       } catch (error) {
         this.notify.error(this.l10n.t(error.error));
@@ -57,10 +55,12 @@ export default Controller.extend({
     async openPaytmModal() {
       // Model controller for PaytmModal
       try {
-        const res = await this.loader.post(`orders/${this.model.order.identifier}/paytm/initiate-transaction`);
+        const res = await this.loader.post(
+          `orders/${this.model.order.identifier}/paytm/initiate-transaction`
+        );
         this.setProperties({
-          'isPaytmModalOpen' : true,
-          'txnToken'         : res.body.txnToken
+          isPaytmModalOpen: true,
+          txnToken: res.body.txnToken
         });
       } catch (error) {
         this.notify.error(this.l10n.t(error.error));
@@ -71,14 +71,17 @@ export default Controller.extend({
       // Modal controller for OTP step
       try {
         const payload = {
-          'data': {
-            'phone': mobileNumber
+          data: {
+            phone: mobileNumber
           }
         };
-        await this.loader.post(`orders/${this.model.order.identifier}/paytm/send_otp/${this.txnToken}`, payload);
+        await this.loader.post(
+          `orders/${this.model.order.identifier}/paytm/send_otp/${this.txnToken}`,
+          payload
+        );
         this.setProperties({
-          'isPaytmModalOpen' : false,
-          'isOTPModalOpen'   : true
+          isPaytmModalOpen: false,
+          isOTPModalOpen: true
         });
       } catch (error) {
         this.notify.error(this.l10n.t(error.error));
@@ -88,13 +91,16 @@ export default Controller.extend({
     async verifyOtp(OTP) {
       try {
         const payload = {
-          'data': {
-            'otp': OTP
+          data: {
+            otp: OTP
           }
         };
-        await this.loader.post(`orders/${this.model.order.identifier}/paytm/validate_otp/${this.txnToken}`, payload);
+        await this.loader.post(
+          `orders/${this.model.order.identifier}/paytm/validate_otp/${this.txnToken}`,
+          payload
+        );
         this.setProperties({
-          'isOTPModalOpen': false
+          isOTPModalOpen: false
         });
       } catch (error) {
         this.notify.error(this.l10n.t(error.error));
@@ -106,21 +112,22 @@ export default Controller.extend({
       this.set('isLoading', true);
       let order = this.get('model.order');
       let chargePayload = {
-        'data': {
-          'attributes': {
-            'stripe'            : token.id,
-            'paypal_payer_id'   : null,
-            'paypal_payment_id' : null
+        data: {
+          attributes: {
+            stripe: token.id,
+            paypal_payer_id: null,
+            paypal_payment_id: null
           },
-          'type': 'charge'
+          type: 'charge'
         }
       };
       let config = {
         skipDataTransform: true
       };
       chargePayload = JSON.stringify(chargePayload);
-      return this.loader.post(`orders/${order.identifier}/charge`, chargePayload, config)
-        .then(charge => {
+      return this.loader
+        .post(`orders/${order.identifier}/charge`, chargePayload, config)
+        .then((charge) => {
           if (charge.data.attributes.status) {
             this.notify.success(charge.data.attributes.message);
             this.transitionToRoute('orders.view', order.identifier);
@@ -128,18 +135,16 @@ export default Controller.extend({
             this.notify.error(charge.data.attributes.message);
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.warn(e);
           if ('errors' in e) {
-            this.notify.error(this.l10n.tVar(e.errors[0].detail),
-              {
-                id: 'unexpected_error_occur'
-              });
+            this.notify.error(this.l10n.tVar(e.errors[0].detail), {
+              id: 'unexpected_error_occur'
+            });
           } else {
-            this.notify.error(this.l10n.tVar(e),
-              {
-                id: 'unexpected_error_occur'
-              });
+            this.notify.error(this.l10n.tVar(e), {
+              id: 'unexpected_error_occur'
+            });
           }
         })
         .finally(() => {

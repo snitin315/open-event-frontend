@@ -12,4 +12,3 @@ module('Integration | Helper | ui-grid-number', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'two');
   });
 });
-

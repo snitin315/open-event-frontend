@@ -20,25 +20,25 @@ export default Route.extend(AuthenticatedRouteMixin, {
         {
           and: [
             {
-              name : 'event',
-              op   : 'has',
-              val  : {
-                name : 'starts-at',
-                op   : 'ge',
-                val  : moment().toISOString()
+              name: 'event',
+              op: 'has',
+              val: {
+                name: 'starts-at',
+                op: 'ge',
+                val: moment().toISOString()
               }
             },
             {
               or: [
                 {
-                  name : 'status',
-                  op   : 'eq',
-                  val  : 'completed'
+                  name: 'status',
+                  op: 'eq',
+                  val: 'completed'
                 },
                 {
-                  name : 'status',
-                  op   : 'eq',
-                  val  : 'placed'
+                  name: 'status',
+                  op: 'eq',
+                  val: 'placed'
                 }
               ]
             }
@@ -50,25 +50,25 @@ export default Route.extend(AuthenticatedRouteMixin, {
         {
           and: [
             {
-              name : 'event',
-              op   : 'has',
-              val  : {
-                name : 'starts-at',
-                op   : 'lt',
-                val  : moment().toISOString()
+              name: 'event',
+              op: 'has',
+              val: {
+                name: 'starts-at',
+                op: 'lt',
+                val: moment().toISOString()
               }
             },
             {
               or: [
                 {
-                  name : 'status',
-                  op   : 'eq',
-                  val  : 'completed'
+                  name: 'status',
+                  op: 'eq',
+                  val: 'completed'
                 },
                 {
-                  name : 'status',
-                  op   : 'eq',
-                  val  : 'placed'
+                  name: 'status',
+                  op: 'eq',
+                  val: 'placed'
                 }
               ]
             }

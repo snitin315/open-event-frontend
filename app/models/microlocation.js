@@ -3,11 +3,11 @@ import ModelBase from 'open-event-frontend/models/base';
 import { hasMany, belongsTo } from 'ember-data/relationships';
 
 export default ModelBase.extend({
-  name      : attr('string'),
-  floor     : attr('number'),
-  latitude  : attr('number'),
-  longitude : attr('number'),
+  name: attr('string'),
+  floor: attr('number'),
+  latitude: attr('number'),
+  longitude: attr('number'),
 
-  sessions : hasMany('session'),
-  event    : belongsTo('event')
+  sessions: hasMany('session'),
+  event: belongsTo('event')
 });

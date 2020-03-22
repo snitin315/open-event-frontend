@@ -3,7 +3,7 @@ import ModalBase from 'open-event-frontend/components/modals/modal-base';
 export default ModalBase.extend({
   actions: {
     saveRole(id) {
-      this.store.findRecord('user', id).then(function(user) {
+      this.store.findRecord('user', id).then(function (user) {
         user.save();
       });
       this.set('isOpen', false);
@@ -19,4 +19,3 @@ export default ModalBase.extend({
     }
   }
 });
-

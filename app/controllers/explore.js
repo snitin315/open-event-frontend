@@ -1,15 +1,24 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  queryParams  : ['category', 'sub_category', 'event_type', 'start_date', 'end_date', 'location', 'ticket_type', 'cfs'],
-  category     : null,
-  sub_category : null,
-  event_type   : null,
-  start_date   : null,
-  end_date     : null,
-  location     : null,
-  ticket_type  : null,
-  cfs          : null,
+  queryParams: [
+    'category',
+    'sub_category',
+    'event_type',
+    'start_date',
+    'end_date',
+    'location',
+    'ticket_type',
+    'cfs'
+  ],
+  category: null,
+  sub_category: null,
+  event_type: null,
+  start_date: null,
+  end_date: null,
+  location: null,
+  ticket_type: null,
+  cfs: null,
 
   actions: {
     shareEvent(event) {

@@ -6,14 +6,14 @@ export default Route.extend({
   },
   async model() {
     return {
-      userPermissions  : await this.store.findAll('user-permission'),
-      systemRoles      : await this.store.findAll('custom-system-role'),
-      panelPermissions : await this.store.findAll('panel-permission')
+      userPermissions: await this.store.findAll('user-permission'),
+      systemRoles: await this.store.findAll('custom-system-role'),
+      panelPermissions: await this.store.findAll('panel-permission')
     };
   },
   actions: {
     willTransition() {
-      this.get('controller.model.userPermissions').forEach(userPermission => {
+      this.get('controller.model.userPermissions').forEach((userPermission) => {
         userPermission.rollbackAttributes();
       });
     }

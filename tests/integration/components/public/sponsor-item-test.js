@@ -6,13 +6,11 @@ import { render } from '@ember/test-helpers';
 module('Integration | Component | sponsor item', function(hooks) {
   setupIntegrationTest(hooks);
 
-  const sponsor = [
-    { name: 'Sponsor 1', url: '#', logoUrl: 'https://placehold.it/150x60' }
-  ];
+  const sponsor = [{ name: 'Sponsor 1', url: '#', logoUrl: 'https://placehold.it/150x60' }];
 
   test('it renders', async function(assert) {
     this.set('sponsor', sponsor);
-    await render(hbs `{{public/sponsor-item sponsor=sponsor}}`);
+    await render(hbs`{{public/sponsor-item sponsor=sponsor}}`);
     assert.ok(this.element.innerHTML.trim().includes('img'));
   });
 });

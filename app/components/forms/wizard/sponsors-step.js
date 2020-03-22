@@ -3,26 +3,25 @@ import { computed } from '@ember/object';
 import FormMixin from 'open-event-frontend/mixins/form';
 
 export default Component.extend(FormMixin, {
-
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         name: {
           rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please give your sponsor a name')
+              type: 'empty',
+              prompt: this.l10n.t('Please give your sponsor a name')
             }
           ]
         },
         image_upload: {
           rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please upload sponsor\'s logo.')
+              type: 'empty',
+              prompt: this.l10n.t("Please upload sponsor's logo.")
             }
           ]
         }
@@ -30,20 +29,23 @@ export default Component.extend(FormMixin, {
     };
   },
 
-  sponsors: computed('data.sponsors.@each.isDeleted', function() {
+  sponsors: computed('data.sponsors.@each.isDeleted', function () {
     return this.get('data.sponsors').filterBy('isDeleted', false);
   }),
 
   actions: {
     addSponsor() {
       let sponsors = this.get('data.sponsors');
-      let incorrect_sponsors = sponsors.filter(function(sponsor) {
-        return (!sponsor.get('name'));
+      let incorrect_sponsors = sponsors.filter(function (sponsor) {
+        return !sponsor.get('name');
       });
       if (incorrect_sponsors.length > 0) {
-        this.notify.error(this.l10n.t('Please fill the required fields for existing sponsor items'), {
-          id: 'req_field_sponsor'
-        });
+        this.notify.error(
+          this.l10n.t('Please fill the required fields for existing sponsor items'),
+          {
+            id: 'req_field_sponsor'
+          }
+        );
         this.set('isLoading', false);
       } else {
         this.get('data.sponsors').addObject(this.store.createRecord('sponsor'));
@@ -55,8 +57,8 @@ export default Component.extend(FormMixin, {
     saveDraft() {
       this.onValid(() => {
         let sponsors = this.get('data.sponsors');
-        let incorrect_sponsors = sponsors.filter(function(sponsor) {
-          return (!sponsor.get('name'));
+        let incorrect_sponsors = sponsors.filter(function (sponsor) {
+          return !sponsor.get('name');
         });
         if (incorrect_sponsors.length > 0) {
           this.notify.error(this.l10n.t('Please fill the required fields.'), {

@@ -22,33 +22,33 @@ export default Route.extend(AuthenticatedRouteMixin, {
             {
               or: [
                 {
-                  name : 'starts-at',
-                  op   : 'ge',
-                  val  : moment().toISOString()
+                  name: 'starts-at',
+                  op: 'ge',
+                  val: moment().toISOString()
                 },
                 {
                   and: [
                     {
-                      name : 'starts-at',
-                      op   : 'eq',
-                      val  : null
+                      name: 'starts-at',
+                      op: 'eq',
+                      val: null
                     },
                     {
-                      name : 'ends-at',
-                      op   : 'eq',
-                      val  : null
+                      name: 'ends-at',
+                      op: 'eq',
+                      val: null
                     }
                   ]
                 }
               ]
             },
             {
-              name : 'creator',
-              op   : 'has',
-              val  : {
-                name : 'email',
-                op   : 'eq',
-                val  : userDetails.email
+              name: 'creator',
+              op: 'has',
+              val: {
+                name: 'email',
+                op: 'eq',
+                val: userDetails.email
               }
             }
           ]
@@ -59,17 +59,17 @@ export default Route.extend(AuthenticatedRouteMixin, {
         {
           and: [
             {
-              name : 'ends-at',
-              op   : 'lt',
-              val  : moment().toISOString()
+              name: 'ends-at',
+              op: 'lt',
+              val: moment().toISOString()
             },
             {
-              name : 'creator',
-              op   : 'has',
-              val  : {
-                name : 'email',
-                op   : 'eq',
-                val  : userDetails.email
+              name: 'creator',
+              op: 'has',
+              val: {
+                name: 'email',
+                op: 'eq',
+                val: userDetails.email
               }
             }
           ]
@@ -77,8 +77,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       ];
     }
     return this.store.query('session', {
-      filter : filterOptions,
-      sort   : 'starts-at'
+      filter: filterOptions,
+      sort: 'starts-at'
     });
   }
 });

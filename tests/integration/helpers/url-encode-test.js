@@ -12,4 +12,3 @@ module('Integration | Helper | url-encode', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'hello%20world');
   });
 });
-

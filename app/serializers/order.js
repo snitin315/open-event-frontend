@@ -2,7 +2,6 @@ import ApplicationSerializer from 'open-event-frontend/serializers/application';
 import CustomPrimaryKeyMixin from 'open-event-frontend/mixins/custom-primary-key';
 
 export default ApplicationSerializer.extend(CustomPrimaryKeyMixin, {
-
   primaryKey: 'attributes.identifier',
 
   normalize() {
@@ -14,20 +13,20 @@ export default ApplicationSerializer.extend(CustomPrimaryKeyMixin, {
   addLinks(order) {
     order.relationships.attendees = {
       links: {
-        related : `/v1/orders/${order.id}/attendees`,
-        self    : `/v1/orders/${order.id}/attendees`
+        related: `/v1/orders/${order.id}/attendees`,
+        self: `/v1/orders/${order.id}/attendees`
       }
     };
     order.relationships.tickets = {
       links: {
-        related : `/v1/orders/${order.id}/tickets`,
-        self    : `/v1/orders/${order.id}/tickets`
+        related: `/v1/orders/${order.id}/tickets`,
+        self: `/v1/orders/${order.id}/tickets`
       }
     };
     order.relationships.event = {
       links: {
-        related : `/v1/orders/${order.id}/event`,
-        self    : `/v1/orders/${order.id}/event`
+        related: `/v1/orders/${order.id}/event`,
+        self: `/v1/orders/${order.id}/event`
       }
     };
     return order;
@@ -38,10 +37,10 @@ export default ApplicationSerializer.extend(CustomPrimaryKeyMixin, {
     let attendeeSnapshots = snapshot._hasManyRelationships.attendees;
     let attendees = { data: [] };
     if (attendeeSnapshots) {
-      attendeeSnapshots.forEach(function(snapshot) {
+      attendeeSnapshots.forEach(function (snapshot) {
         attendees.data.push({
-          type : 'attendee',
-          id   : snapshot.id
+          type: 'attendee',
+          id: snapshot.id
         });
       });
     }

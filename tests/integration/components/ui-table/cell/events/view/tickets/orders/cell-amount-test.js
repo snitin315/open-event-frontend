@@ -3,7 +3,9 @@ import { setupIntegrationTest } from 'open-event-frontend/tests/helpers/setup-in
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@ember/test-helpers';
 
-module('Integration | Component | ui table/cell/events/view/tickets/orders/cell amount', function(hooks) {
+module('Integration | Component | ui table/cell/events/view/tickets/orders/cell amount', function(
+  hooks
+) {
   setupIntegrationTest(hooks);
   const extraRecords = {
     event: {
@@ -12,7 +14,9 @@ module('Integration | Component | ui table/cell/events/view/tickets/orders/cell 
   };
   test('it renders', async function(assert) {
     this.set('extraRecords', extraRecords);
-    await render(hbs`{{ui-table/cell/events/view/tickets/orders/cell-amount extraRecords=extraRecords}}`);
+    await render(
+      hbs`{{ui-table/cell/events/view/tickets/orders/cell-amount extraRecords=extraRecords}}`
+    );
     assert.ok(this.element.textContent.trim().includes(''));
   });
 });

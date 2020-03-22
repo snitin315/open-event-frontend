@@ -10,7 +10,8 @@ export default Route.extend({
 
   model(params) {
     return this.store.findRecord('event', params.event_id, {
-      include: 'event-topic,event-sub-topic,event-type,event-copyright,tax,owner,organizers,coorganizers,track-organizers,registrars,moderators,stripe-authorization'
+      include:
+        'event-topic,event-sub-topic,event-type,event-copyright,tax,owner,organizers,coorganizers,track-organizers,registrars,moderators,stripe-authorization'
     });
   },
 

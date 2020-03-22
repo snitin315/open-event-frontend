@@ -3,37 +3,35 @@ import FormMixin from 'open-event-frontend/mixins/form';
 import { action } from '@ember/object';
 
 export default class extends Component.extend(FormMixin) {
-
   identification = '';
-  password       = '';
-  isLoading      = false;
-
+  password = '';
+  isLoading = false;
 
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         identification: {
-          identifier : 'email',
-          rules      : [
+          identifier: 'email',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your email ID')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your email ID')
             },
             {
-              type   : 'email',
-              prompt : this.l10n.t('Please enter a valid email ID')
+              type: 'email',
+              prompt: this.l10n.t('Please enter a valid email ID')
             }
           ]
         },
         password: {
-          identifier : 'password',
-          rules      : [
+          identifier: 'password',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your password')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your password')
             }
           ]
         }
@@ -43,12 +41,12 @@ export default class extends Component.extend(FormMixin) {
 
   @action
   async submit() {
-    this.onValid(async() => {
+    this.onValid(async () => {
       let credentials = { username: this.identification, password: this.password },
-          authenticator = 'authenticator:jwt';
+        authenticator = 'authenticator:jwt';
       this.setProperties({
-        errorMessage : null,
-        isLoading    : true
+        errorMessage: null,
+        isLoading: true
       });
       try {
         await this.session.authenticate(authenticator, credentials);
@@ -57,7 +55,6 @@ export default class extends Component.extend(FormMixin) {
           this.authManager.persistCurrentUser(
             await this.store.findRecord('user', tokenPayload.identity)
           );
-
         }
       } catch (e) {
         if (e.json && e.json.error) {
@@ -70,11 +67,10 @@ export default class extends Component.extend(FormMixin) {
       }
 
       if (!(this.isDestroyed || this.isDestroying)) {
-        this.setProperties(
-          {
-            password  : '',
-            isLoading : false
-          });
+        this.setProperties({
+          password: '',
+          isLoading: false
+        });
       }
     });
   }
@@ -105,12 +101,11 @@ export default class extends Component.extend(FormMixin) {
     this.toggleProperty('showPass');
   }
 
-
   didInsertElement() {
     if (this.session.newUser) {
       this.setProperties({
-        newUser        : this.session.newUser,
-        identification : this.session.newUser
+        newUser: this.session.newUser,
+        identification: this.session.newUser
       });
       this.session.set('newUser', null);
     }

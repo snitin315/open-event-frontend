@@ -7,7 +7,7 @@ module('Integration | Component | ui table/simple pagination', function(hooks) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/simple-pagination}}`);
+    await render(hbs`{{ui-table/simple-pagination}}`);
     assert.ok(this.element.innerHTML.trim().includes('toolbar'));
   });
 });

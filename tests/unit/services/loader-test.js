@@ -4,14 +4,19 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Service | loader', function(hooks) {
   setupTest(hooks);
 
-
   test('it exists and works', async function(assert) {
     let service = this.owner.lookup('service:loader');
     assert.ok(service);
 
     let response;
-    response = await service.load('https://httpbin.org/get?test=string&foo=bar', { isExternal: true });
-    assert.deepEqual(response.args, { test: 'string', foo: 'bar' }, `Received response: ${JSON.stringify(response)}`);
+    response = await service.load('https://httpbin.org/get?test=string&foo=bar', {
+      isExternal: true
+    });
+    assert.deepEqual(
+      response.args,
+      { test: 'string', foo: 'bar' },
+      `Received response: ${JSON.stringify(response)}`
+    );
 
     const testPayload = {
       foo  : 'bar',
@@ -27,4 +32,3 @@ module('Unit | Service | loader', function(hooks) {
     await service.delete('https://httpbin.org/delete', { isExternal: true });
   });
 });
-

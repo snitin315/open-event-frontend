@@ -20,7 +20,7 @@ module('Integration | Helper | session-color', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'yellow');
 
     this.set('inputState', 'rejected');
-    await render(hbs `{{session-color inputState}}`);
+    await render(hbs`{{session-color inputState}}`);
     assert.equal(this.element.textContent.trim(), 'red');
   });
 });

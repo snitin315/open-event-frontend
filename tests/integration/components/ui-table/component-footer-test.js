@@ -8,7 +8,7 @@ module('Integration | Component | ui table/component footer', function(hooks) {
 
   test('it renders', async function(assert) {
     this.set('footer', 'footer');
-    await render(hbs `{{ui-table/component-footer summary=footer}}`);
+    await render(hbs`{{ui-table/component-footer summary=footer}}`);
     assert.ok(this.element.innerHTML.trim().includes('footer'));
   });
 });

@@ -8,10 +8,11 @@ module('Integration | Component | ui table/no data', function(hooks) {
   const themeInstance = {
     messages: {
       noDataToShow: 'No'
-    } };
+    }
+  };
   test('it renders', async function(assert) {
     this.set('themeInstance', themeInstance);
-    await render(hbs `{{ui-table/no-data themeInstance=themeInstance}}`);
+    await render(hbs`{{ui-table/no-data themeInstance=themeInstance}}`);
     assert.ok(this.element.innerHTML.trim().includes('No'));
   });
 });

@@ -7,66 +7,66 @@ export default class extends Controller.extend(EmberTableControllerMixin) {
   get columns() {
     return [
       {
-        name      : 'Event Name',
-        valuePath : 'event.name'
+        name: 'Event Name',
+        valuePath: 'event.name'
       },
       {
-        name            : 'Title',
-        valuePath       : 'title',
-        isSortable      : true,
-        headerComponent : 'tables/headers/sort'
+        name: 'Title',
+        valuePath: 'title',
+        isSortable: true,
+        headerComponent: 'tables/headers/sort'
       },
       {
-        name            : 'State',
-        valuePath       : 'state',
-        cellComponent   : 'ui-table/cell/events/view/sessions/cell-session-state',
-        isSortable      : true,
-        headerComponent : 'tables/headers/sort'
+        name: 'State',
+        valuePath: 'state',
+        cellComponent: 'ui-table/cell/events/view/sessions/cell-session-state',
+        isSortable: true,
+        headerComponent: 'tables/headers/sort'
       },
       {
-        name          : 'Speakers',
-        valuePath     : 'speakers',
-        cellComponent : 'ui-table/cell/cell-speakers'
+        name: 'Speakers',
+        valuePath: 'speakers',
+        cellComponent: 'ui-table/cell/cell-speakers'
       },
       {
-        name            : 'Submitted At',
-        valuePath       : 'submittedAt',
-        cellComponent   : 'ui-table/cell/cell-simple-date',
-        isSortable      : true,
-        headerComponent : 'tables/headers/sort',
-        options         : {
+        name: 'Submitted At',
+        valuePath: 'submittedAt',
+        cellComponent: 'ui-table/cell/cell-simple-date',
+        isSortable: true,
+        headerComponent: 'tables/headers/sort',
+        options: {
           dateFormat: 'MMMM DD, YYYY - hh:mm A'
         }
       },
       {
-        name            : 'Starts At',
-        valuePath       : 'startsAt',
-        cellComponent   : 'ui-table/cell/cell-simple-date',
-        isSortable      : true,
-        headerComponent : 'tables/headers/sort',
-        options         : {
+        name: 'Starts At',
+        valuePath: 'startsAt',
+        cellComponent: 'ui-table/cell/cell-simple-date',
+        isSortable: true,
+        headerComponent: 'tables/headers/sort',
+        options: {
           dateFormat: 'MMMM DD, YYYY - hh:mm A'
         }
       },
       {
-        name            : 'Ends At',
-        valuePath       : 'endsAt',
-        cellComponent   : 'ui-table/cell/cell-simple-date',
-        isSortable      : true,
-        headerComponent : 'tables/headers/sort',
-        options         : {
+        name: 'Ends At',
+        valuePath: 'endsAt',
+        cellComponent: 'ui-table/cell/cell-simple-date',
+        isSortable: true,
+        headerComponent: 'tables/headers/sort',
+        options: {
           dateFormat: 'MMMM DD, YYYY - hh:mm A'
         }
       },
       {
-        name            : 'Actions',
-        cellComponent   : 'ui-table/cell/cell-simple-buttons',
-        valuePath       : 'id',
-        extraValuePaths : ['event'],
-        actions         : {
-          deleteSession : this.deleteSession.bind(this),
-          editSession   : this.editSession.bind(this),
-          viewSession   : this.viewSession.bind(this)
+        name: 'Actions',
+        cellComponent: 'ui-table/cell/cell-simple-buttons',
+        valuePath: 'id',
+        extraValuePaths: ['event'],
+        actions: {
+          deleteSession: this.deleteSession.bind(this),
+          editSession: this.editSession.bind(this),
+          viewSession: this.viewSession.bind(this)
         }
       }
     ];
@@ -76,18 +76,16 @@ export default class extends Controller.extend(EmberTableControllerMixin) {
   async deleteSession(session_id) {
     this.set('isLoading', true);
     try {
-      let session =  this.store.peekRecord('session', session_id, { backgroundReload: false });
+      let session = this.store.peekRecord('session', session_id, { backgroundReload: false });
       await session.destroyRecord();
-      this.notify.success(this.l10n.t('Session has been deleted successfully.'),
-        {
-          id: 'session_deleted_succ'
-        });
+      this.notify.success(this.l10n.t('Session has been deleted successfully.'), {
+        id: 'session_deleted_succ'
+      });
     } catch (e) {
       console.error('Error while deleting session', e);
-      this.notify.error(this.l10n.t('An unexpected error has occurred.'),
-        {
-          id: 'unexpected_session_error'
-        });
+      this.notify.error(this.l10n.t('An unexpected error has occurred.'), {
+        id: 'unexpected_session_error'
+      });
     }
     this.set('isLoading', false);
   }

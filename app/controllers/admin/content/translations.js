@@ -14,16 +14,14 @@ export default class extends Controller {
       anchor.href = URL.createObjectURL(new Blob([result], { type: 'octet/stream' }));
       anchor.download = 'Translations.zip';
       anchor.click();
-      this.notify.success(this.l10n.t('Translations Zip generated successfully.'),
-        {
-          id: 'zip_generated_succ'
-        });
+      this.notify.success(this.l10n.t('Translations Zip generated successfully.'), {
+        id: 'zip_generated_succ'
+      });
     } catch (e) {
       console.error('Error downloading translation zip', e);
-      this.notify.error(this.l10n.t('Unexpected error occurred.'),
-        {
-          id: 'zip_error'
-        });
+      this.notify.error(this.l10n.t('Unexpected error occurred.'), {
+        id: 'zip_error'
+      });
     }
     this.set('isLoading', false);
   }

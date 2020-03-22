@@ -12,12 +12,11 @@ module('Integration | Component | widgets/forms/ticket input', function(hooks) {
   });
 
   test('it renders', async function(assert) {
-
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    this.actions.moveTicket = function() { };
-    this.actions.removeTicket = function() { };
+    this.actions.moveTicket = function() {};
+    this.actions.removeTicket = function() {};
     this.set('ticket', {});
 
     await render(hbs`{{widgets/forms/ticket-input ticket=ticket moveTicketUp=(action 'moveTicket' 'up')
@@ -25,6 +24,5 @@ module('Integration | Component | widgets/forms/ticket input', function(hooks) {
                                          removeTicket=(action 'removeTicket')}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('ticket_name'));
-
   });
 });

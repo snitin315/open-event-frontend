@@ -11,12 +11,11 @@ export default UiSelect.extend({
 
   cssPropertyName: '',
 
-  aligned: computed('device.isMobile', function() {
+  aligned: computed('device.isMobile', function () {
     return this.get('device.isMobile') ? 'center aligned' : 'left aligned';
   }),
 
   change() {
     this.set('value', $('#table_select', this.element).val());
   }
-
 });

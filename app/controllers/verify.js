@@ -1,11 +1,11 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  queryParams : ['token'],
-  token       : null,
-  success     : false,
-  error       : null,
-  isLoading   : false,
+  queryParams: ['token'],
+  token: null,
+  success: false,
+  error: null,
+  isLoading: false,
 
   verify(tokenVal) {
     this.set('isLoading', true);
@@ -19,7 +19,7 @@ export default Controller.extend({
       .then(() => {
         this.set('success', true);
       })
-      .catch(reason => {
+      .catch((reason) => {
         this.set('error', reason);
         this.set('success', false);
       })

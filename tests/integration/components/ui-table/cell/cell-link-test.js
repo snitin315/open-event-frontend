@@ -8,8 +8,7 @@ module('Integration | Component | ui table/cell/cell link', function(hooks) {
 
   test('it renders', async function(assert) {
     this.set('record', 'https://url.test');
-    await render(hbs `{{ui-table/cell/cell-link record=record}}`);
+    await render(hbs`{{ui-table/cell/cell-link record=record}}`);
     assert.ok(this.element.innerHTML.trim().includes('https://url.test'));
   });
 });
-

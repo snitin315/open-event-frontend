@@ -7,9 +7,7 @@ module('Integration | Component | ui table/cell/admin/users/cell status', functi
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{ui-table/cell/admin/users/cell-status}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
-
   });
 });

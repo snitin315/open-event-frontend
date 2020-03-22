@@ -7,7 +7,7 @@ module('Integration | Component | ui table/all columns hidden', function(hooks) 
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/all-columns-hidden}}`);
+    await render(hbs`{{ui-table/all-columns-hidden}}`);
     assert.ok(this.element.innerHTML.trim().includes('tr'));
   });
 });

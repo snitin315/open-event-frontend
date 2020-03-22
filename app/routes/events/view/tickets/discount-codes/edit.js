@@ -9,8 +9,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
   async model(params) {
     let event = this.modelFor('events.view');
     return {
-      discountCode : await this.store.findRecord('discount-code', params.discount_code_id, {}),
-      tickets      : await this.modelFor('events.view').query('tickets', {}),
+      discountCode: await this.store.findRecord('discount-code', params.discount_code_id, {}),
+      tickets: await this.modelFor('events.view').query('tickets', {}),
       event
     };
   },
@@ -18,7 +18,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   async afterModel(model) {
     let tickets = await model.discountCode.tickets;
     let allTickets = model.tickets;
-    allTickets.forEach(ticket => {
+    allTickets.forEach((ticket) => {
       if (tickets.includes(ticket)) {
         ticket.set('isChecked', true);
       } else {

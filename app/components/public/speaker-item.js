@@ -2,12 +2,20 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-  classNames  : ['four wide  speaker column'],
-  socialLinks : computed(function() {
+  classNames: ['four wide  speaker column'],
+  socialLinks: computed(function () {
     return this.speaker.getProperties('twitter', 'facebook', 'github', 'linkedin');
   }),
-  hasSocialLinks: computed(function() {
+  hasSocialLinks: computed(function () {
     let currentSpeaker = this.speaker;
-    return (currentSpeaker.twitter || currentSpeaker.facebook || currentSpeaker.github || currentSpeaker.linkedin || currentSpeaker.shortBiography || currentSpeaker.longBiography || currentSpeaker.speakingExperience);
+    return (
+      currentSpeaker.twitter ||
+      currentSpeaker.facebook ||
+      currentSpeaker.github ||
+      currentSpeaker.linkedin ||
+      currentSpeaker.shortBiography ||
+      currentSpeaker.longBiography ||
+      currentSpeaker.speakingExperience
+    );
   })
 });

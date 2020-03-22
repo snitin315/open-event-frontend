@@ -4,7 +4,6 @@ import EmberTableRouteMixin from 'open-event-frontend/mixins/ember-table-route';
 import moment from 'moment';
 
 export default class extends Route.extend(EmberTableRouteMixin) {
-
   titleToken() {
     switch (this.get('params.users_status')) {
       case 'active':
@@ -33,14 +32,14 @@ export default class extends Route.extend(EmberTableRouteMixin) {
         {
           and: [
             {
-              name : 'deleted-at',
-              op   : 'eq',
-              val  : null
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
             },
             {
-              name : 'last-accessed-at',
-              op   : 'ge',
-              val  : moment().subtract(1, 'Y').toISOString()
+              name: 'last-accessed-at',
+              op: 'ge',
+              val: moment().subtract(1, 'Y').toISOString()
             }
           ]
         }
@@ -48,9 +47,9 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     } else if (params.users_status === 'deleted') {
       filterOptions = [
         {
-          name : 'deleted-at',
-          op   : 'ne',
-          val  : null
+          name: 'deleted-at',
+          op: 'ne',
+          val: null
         }
       ];
     } else if (params.users_status === 'inactive') {
@@ -60,21 +59,21 @@ export default class extends Route.extend(EmberTableRouteMixin) {
             {
               or: [
                 {
-                  name : 'last-accessed-at',
-                  op   : 'eq',
-                  val  : null
+                  name: 'last-accessed-at',
+                  op: 'eq',
+                  val: null
                 },
                 {
-                  name : 'last-accessed-at',
-                  op   : 'lt',
-                  val  : moment().subtract(1, 'Y').toISOString()
+                  name: 'last-accessed-at',
+                  op: 'lt',
+                  val: moment().subtract(1, 'Y').toISOString()
                 }
               ]
             },
             {
-              name : 'deleted-at',
-              op   : 'eq',
-              val  : null
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
             }
           ]
         }
@@ -83,15 +82,15 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
 
     let queryString = {
-      include        : 'events',
-      get_trashed    : true,
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 1
+      include: 'events',
+      get_trashed: true,
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 1
     };
 
     queryString = this.applySortFilters(queryString, params);
-    return  this.asArray(this.store.query('user', queryString));
+    return this.asArray(this.store.query('user', queryString));
   }
 
   @action

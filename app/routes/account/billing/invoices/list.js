@@ -24,9 +24,9 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     if (params.invoice_status === 'paid' || params.invoice_status === 'due') {
       filterOptions = [
         {
-          name : 'status',
-          op   : 'eq',
-          val  : params.invoice_status
+          name: 'status',
+          op: 'eq',
+          val: params.invoice_status
         }
       ];
     } else if (params.invoice_status === 'upcoming') {
@@ -34,37 +34,34 @@ export default class extends Route.extend(EmberTableRouteMixin) {
         {
           and: [
             {
-              name : 'deleted-at',
-              op   : 'eq',
-              val  : null
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
             },
             {
-              name : 'created-at',
-              op   : 'ge',
-              val  : moment().subtract(30, 'days').toISOString()
+              name: 'created-at',
+              op: 'ge',
+              val: moment().subtract(30, 'days').toISOString()
             }
           ]
         }
       ];
     }
 
-
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
 
     let queryString = {
-      include        : 'event',
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 1
+      include: 'event',
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 1
     };
 
     queryString = this.applySortFilters(queryString, params);
     return {
       eventInvoices: await this.asArray(this.store.query('event-invoice', queryString)),
       params
-
     };
-
   }
 
   @action

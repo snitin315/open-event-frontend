@@ -7,7 +7,6 @@ module('Integration | Component | n times', function(hooks) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`
       {{#n-times times=1}}
         test

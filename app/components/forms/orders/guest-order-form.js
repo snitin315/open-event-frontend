@@ -6,29 +6,29 @@ export default Component.extend(FormMixin, {
 
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         identification: {
-          identifier : 'email',
-          rules      : [
+          identifier: 'email',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your email ID')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your email ID')
             },
             {
-              type   : 'email',
-              prompt : this.l10n.t('Please enter a valid email ID')
+              type: 'email',
+              prompt: this.l10n.t('Please enter a valid email ID')
             }
           ]
         },
         password: {
-          identifier : 'password',
-          rules      : [
+          identifier: 'password',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your password')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your password')
             }
           ]
         }

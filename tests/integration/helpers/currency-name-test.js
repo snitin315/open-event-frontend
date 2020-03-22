@@ -13,4 +13,3 @@ module('Integration | Helper | currency-name', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'United States dollar');
   });
 });
-

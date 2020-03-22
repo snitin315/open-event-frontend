@@ -13,29 +13,29 @@ import { isPresent, isEmpty } from '@ember/utils';
 import { run } from '@ember/runloop';
 
 export default TextField.extend({
-  classNames           : ['place-autocomplete--input'],
-  types                : 'geocode',
-  restrictions         : {},
-  tabindex             : 0,
-  withGeoLocate        : false,
-  setValueWithProperty : 'formatted_address',
+  classNames: ['place-autocomplete--input'],
+  types: 'geocode',
+  restrictions: {},
+  tabindex: 0,
+  withGeoLocate: false,
+  setValueWithProperty: 'formatted_address',
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocate() {
     if (this.get('fastboot.isFastboot')) {
       return;
     }
-    let navigator = this.navigator || ((window) ? window.navigator : null);
+    let navigator = this.navigator || (window ? window.navigator : null);
     if (navigator && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+      navigator.geolocation.getCurrentPosition((position) => {
         let google = this.google || window.google;
         let geolocation = {
-          lat : position.coords.latitude,
-          lng : position.coords.longitude
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         };
         let circle = new google.maps.Circle({
-          center : geolocation,
-          radius : position.coords.accuracy
+          center: geolocation,
+          radius: position.coords.accuracy
         });
         this.autocomplete.setBounds(circle.getBounds());
       });
@@ -50,17 +50,18 @@ export default TextField.extend({
   setupComponent() {
     this.getAutocomplete();
     this.autocomplete.addListener('place_changed', () => {
-      run(() => { this.placeChanged() });
+      run(() => {
+        this.placeChanged();
+      });
     });
     if (this.withGeoLocate) {
       this.geolocate();
     }
   },
 
-
   willDestroy() {
     if (isPresent(this.autocomplete)) {
-      let google = this.google || ((window) ? window.google : null);
+      let google = this.google || (window ? window.google : null);
       if (google) {
         google.maps.event.clearInstanceListeners(this.autocomplete);
       }
@@ -71,8 +72,8 @@ export default TextField.extend({
     if (isEmpty(this.autocomplete)) {
       if (document && window) {
         let [inputElement] = $(this.element),
-            google = this.google || window.google,
-            options = { types: this._typesToArray() };
+          google = this.google || window.google,
+          options = { types: this._typesToArray() };
         if (Object.keys(this.restrictions).length > 0) {
           options.componentRestrictions = this.restrictions;
         }

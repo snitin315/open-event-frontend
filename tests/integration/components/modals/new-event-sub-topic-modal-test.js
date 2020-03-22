@@ -3,7 +3,9 @@ import { setupIntegrationTest } from 'open-event-frontend/tests/helpers/setup-in
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@ember/test-helpers';
 
-module('Integration | Component | modals/admin/content/new event sub topic modal', function(hooks) {
+module('Integration | Component | modals/admin/content/new event sub topic modal', function(
+  hooks
+) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {

@@ -8,10 +8,10 @@ export default Route.extend({
   async model(params) {
     const eventDetails = this.modelFor('public');
     return {
-      event : eventDetails,
-      forms : await eventDetails.query('customForms', {
-        sort         : 'id',
-        'page[size]' : 0
+      event: eventDetails,
+      forms: await eventDetails.query('customForms', {
+        sort: 'id',
+        'page[size]': 0
       }),
       speaker: await this.store.findRecord('speaker', params.speaker_id)
     };

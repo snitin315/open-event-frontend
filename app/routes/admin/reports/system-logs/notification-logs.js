@@ -6,16 +6,15 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     return this.l10n.t('Notification Logs');
   }
 
-
-  async  model(params) {
+  async model(params) {
     const searchField = 'title';
     let filterOptions = this.applySearchFilters([], params, searchField);
 
     let queryString = {
-      include        : 'user',
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 100,
-      'page[number]' : params.page || 1
+      include: 'user',
+      filter: filterOptions,
+      'page[size]': params.per_page || 100,
+      'page[number]': params.page || 1
     };
     queryString = this.applySortFilters(queryString, params);
     return this.asArray(this.store.query('notification', queryString));

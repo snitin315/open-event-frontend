@@ -6,29 +6,27 @@ export default class extends Controller {
   updateSettings() {
     this.set('isLoading', true);
     let settings = this.model;
-    let incorrect_settings = settings.filter(function(setting) {
-      return (!setting.currency || !setting.country);
+    let incorrect_settings = settings.filter(function (setting) {
+      return !setting.currency || !setting.country;
     });
     if (incorrect_settings.length > 0) {
-      this.notify.error(this.l10n.t('Please fill the required fields.'),
-        {
-          id: 'fill_req_field'
-        });
+      this.notify.error(this.l10n.t('Please fill the required fields.'), {
+        id: 'fill_req_field'
+      });
       this.set('isLoading', false);
     } else {
-      settings.save()
+      settings
+        .save()
         .then(() => {
-          this.notify.success(this.l10n.t('Ticket Fee settings have been saved successfully.'),
-            {
-              id: 'ticket_fee_save'
-            });
+          this.notify.success(this.l10n.t('Ticket Fee settings have been saved successfully.'), {
+            id: 'ticket_fee_save'
+          });
         })
-        .catch(e => {
+        .catch((e) => {
           console.error('Error while saving ticket fee settings', e);
-          this.notify.error(this.l10n.t('An unexpected error has occurred. Settings not saved.'),
-            {
-              id: 'ticket_fee_error'
-            });
+          this.notify.error(this.l10n.t('An unexpected error has occurred. Settings not saved.'), {
+            id: 'ticket_fee_error'
+          });
         })
         .finally(() => {
           this.set('isLoading', false);

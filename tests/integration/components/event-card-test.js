@@ -13,11 +13,14 @@ module('Integration | Component | event card', function(hooks) {
   });
 
   test('it renders', async function(assert) {
-    this.set('event', Object.create({
-      id         : 123,
-      identifier : 'abc123'
-    }));
-    this.actions.shareEvent = function() { };
+    this.set(
+      'event',
+      Object.create({
+        id         : 123,
+        identifier : 'abc123'
+      })
+    );
+    this.actions.shareEvent = function() {};
     await render(hbs`{{event-card event=event isWide=false shareEvent=(action 'shareEvent')}}`);
     assert.ok(this.element.innerHTML.trim().includes('event'));
   });

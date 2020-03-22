@@ -10,12 +10,11 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     const searchField = 'identifier';
     let filterOptions = this.applySearchFilters([], params, searchField);
     let queryString = {
-      filter        : filterOptions,
-      'page[size]'  : params.per_page || 100,
-      'page[number' : params.page || 1
+      filter: filterOptions,
+      'page[size]': params.per_page || 100,
+      'page[number': params.page || 1
     };
     queryString = this.applySortFilters(queryString, params);
     return this.asArray(this.store.query('event-invoice', { include: 'event,user' }, queryString));
   }
-
 }

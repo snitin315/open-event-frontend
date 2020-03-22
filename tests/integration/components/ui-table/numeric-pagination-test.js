@@ -7,7 +7,7 @@ module('Integration | Component | ui table/numeric pagination', function(hooks) 
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/numeric-pagination}}`);
+    await render(hbs`{{ui-table/numeric-pagination}}`);
     assert.ok(this.element.innerHTML.trim().includes('pagination'));
   });
 });

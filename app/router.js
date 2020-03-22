@@ -5,7 +5,7 @@ import RouterScroll from 'ember-router-scroll';
 
 class Router extends RouterScroll {
   location = config.locationType;
-  rootURL  = config.rootURL;
+  rootURL = config.rootURL;
   @service metrics;
   @service session;
   @service headData;
@@ -31,7 +31,7 @@ class Router extends RouterScroll {
   }
 }
 
-Router.map(function() {
+Router.map(function () {
   this.route('login');
   this.route('register');
   this.route('reset-password');
@@ -39,15 +39,15 @@ Router.map(function() {
   this.route('organizer-app');
   this.route('logout');
   this.route('oauth', { path: '/oauth/callback' });
-  this.route('public', { path: '/e/:event_id' }, function() {
-    this.route('sessions', function() {
+  this.route('public', { path: '/e/:event_id' }, function () {
+    this.route('sessions', function () {
       this.route('list', { path: '/s/:session_status' });
     });
-    this.route('cfs', { path: '/cfs/:speaker_call_hash' }, function() {
+    this.route('cfs', { path: '/cfs/:speaker_call_hash' }, function () {
       this.route('new-speaker');
       this.route('new-session');
     });
-    this.route('cfs', function() {
+    this.route('cfs', function () {
       this.route('new-speaker');
       this.route('new-session');
       this.route('edit-speaker', { path: '/edit/:speaker_id' });
@@ -61,9 +61,9 @@ Router.map(function() {
   this.route('create');
   this.route('not-found');
   this.route('pages', { path: '/*path' });
-  this.route('events', function() {
-    this.route('view', { path: '/:event_id' }, function() {
-      this.route('edit', function() {
+  this.route('events', function () {
+    this.route('view', { path: '/:event_id' }, function () {
+      this.route('edit', function () {
         this.route('basic-details');
         this.route('sponsors');
         this.route('sessions-speakers');
@@ -71,32 +71,32 @@ Router.map(function() {
       });
       this.route('export');
       this.route('settings');
-      this.route('sessions', function() {
+      this.route('sessions', function () {
         this.route('list', { path: '/:session_status' });
         this.route('create');
         this.route('edit', { path: '/edit/:session_id' });
       });
-      this.route('tickets', function() {
-        this.route('orders', function() {
+      this.route('tickets', function () {
+        this.route('orders', function () {
           this.route('list', { path: '/:orders_status' });
         });
-        this.route('attendees', function() {
+        this.route('attendees', function () {
           this.route('list', { path: '/:attendees_status' });
         });
         this.route('add-order');
-        this.route('discount-codes', function() {
+        this.route('discount-codes', function () {
           this.route('list', { path: '/:discount_status' });
           this.route('create');
           this.route('edit', { path: '/edit/:discount_code_id' });
         });
-        this.route('access-codes', function() {
+        this.route('access-codes', function () {
           this.route('list', { path: '/:access_status' });
           this.route('create');
           this.route('edit', { path: '/edit/:access_code_id' });
         });
         this.route('order-form');
       });
-      this.route('speakers', function() {
+      this.route('speakers', function () {
         this.route('list', { path: '/:speakers_status' });
         this.route('edit', { path: '/edit/:speaker_id' });
         this.route('create');
@@ -106,42 +106,42 @@ Router.map(function() {
     this.route('list', { path: '/:event_state' });
     this.route('import');
   });
-  this.route('account', function() {
+  this.route('account', function () {
     this.route('profile');
     this.route('password');
     this.route('email-preferences');
     this.route('applications');
     this.route('danger-zone');
-    this.route('billing', function() {
+    this.route('billing', function () {
       this.route('payment-info');
-      this.route('invoices', function() {
+      this.route('invoices', function () {
         this.route('list', { path: '/:invoice_status' });
       });
     });
   });
   this.route('explore');
-  this.route('my-tickets', function() {
-    this.route('upcoming', function() {
+  this.route('my-tickets', function () {
+    this.route('upcoming', function () {
       this.route('list', { path: '/:ticket_status' });
     });
     this.route('past');
   });
-  this.route('my-sessions', function() {
+  this.route('my-sessions', function () {
     this.route('list', { path: '/:session_status' });
     this.route('view', { path: '/s/:session_id' });
   });
-  this.route('notifications', function() {
+  this.route('notifications', function () {
     this.route('all', { path: '/:notification_state' });
   });
-  this.route('admin', function() {
-    this.route('messages', function() {
+  this.route('admin', function () {
+    this.route('messages', function () {
       this.route('list');
     });
-    this.route('events', function() {
+    this.route('events', function () {
       this.route('list', { path: '/:events_status' });
       this.route('import');
     });
-    this.route('sales', function() {
+    this.route('sales', function () {
       this.route('organizers');
       this.route('marketer');
       this.route('locations');
@@ -149,42 +149,42 @@ Router.map(function() {
       this.route('revenue');
       this.route('discounted-events');
     });
-    this.route('sessions',  function() {
+    this.route('sessions', function () {
       this.route('list', { path: '/:sessions_state' });
     });
-    this.route('users', function() {
-      this.route('view', { path: '/:user_id' }, function() {
-        this.route('sessions', function() {
+    this.route('users', function () {
+      this.route('view', { path: '/:user_id' }, function () {
+        this.route('sessions', function () {
           this.route('list', { path: '/:session_status' });
         });
-        this.route('events', function() {
+        this.route('events', function () {
           this.route('list', { path: '/:event_status' });
         });
-        this.route('account', function() {
+        this.route('account', function () {
           this.route('applications');
           this.route('profile');
           this.route('email-preferences');
         });
-        this.route('tickets', function() {
+        this.route('tickets', function () {
           this.route('list', { path: '/:tickets_status' });
         });
       });
       this.route('list', { path: '/:users_status' });
     });
-    this.route('permissions', function() {
+    this.route('permissions', function () {
       this.route('event-roles');
       this.route('system-roles');
     });
-    this.route('reports', function() {
+    this.route('reports', function () {
       this.route('kubernetes-server-logs');
-      this.route('system-logs', function() {
+      this.route('system-logs', function () {
         this.route('activity-logs');
         this.route('mail-logs');
         this.route('notification-logs');
       });
     });
     this.route('messages');
-    this.route('settings', function() {
+    this.route('settings', function () {
       this.route('microlocations');
       this.route('microservices');
       this.route('images');
@@ -194,17 +194,17 @@ Router.map(function() {
       this.route('billing');
     });
     this.route('modules');
-    this.route('content', function() {
+    this.route('content', function () {
       this.route('social-links');
       this.route('pages');
-      this.route('system-images', function() {
+      this.route('system-images', function () {
         this.route('list', { path: '/:topic_id' });
       });
       this.route('translations');
       this.route('events');
     });
   });
-  this.route('orders', function() {
+  this.route('orders', function () {
     this.route('new', { path: '/:order_id/new' });
     this.route('expired', { path: '/:order_id/expired' });
     this.route('view', { path: '/:order_id/view' });
@@ -212,7 +212,7 @@ Router.map(function() {
   });
   this.route('verify');
 
-  this.route('event-invoice', function() {
+  this.route('event-invoice', function () {
     this.route('review', { path: '/:invoice_identifier/review' });
     this.route('paid', { path: '/:invoice_identifier/paid' });
   });

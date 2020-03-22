@@ -2,21 +2,27 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
+  isMessageVisible: true,
+  isMailSent: false,
 
-  isMessageVisible : true,
-  isMailSent       : false,
-
-  shouldShowMessage: computed('session.isAuthenticated', 'authManager.currentUser.isVerified', 'isMessageVisible', function() {
-    return this.get('session.isAuthenticated')
-          && this.isMessageVisible
-          && !this.get('authManager.currentUser.isVerified');
-  }),
+  shouldShowMessage: computed(
+    'session.isAuthenticated',
+    'authManager.currentUser.isVerified',
+    'isMessageVisible',
+    function () {
+      return (
+        this.get('session.isAuthenticated') &&
+        this.isMessageVisible &&
+        !this.get('authManager.currentUser.isVerified')
+      );
+    }
+  ),
 
   actions: {
     sendConfirmationMail() {
       let payload = {
-        'data': {
-          'email': this.get('authManager.currentUser.email')
+        data: {
+          email: this.get('authManager.currentUser.email')
         }
       };
       this.loader
@@ -27,7 +33,7 @@ export default Component.extend({
           });
           this.set('isMailSent', true);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Error while sending verification email', error, error.error);
           if (error.error) {
             this.notify.error(this.l10n.t(error.error), {
@@ -41,5 +47,4 @@ export default Component.extend({
         });
     }
   }
-
 });

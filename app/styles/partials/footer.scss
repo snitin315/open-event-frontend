@@ -23,11 +23,12 @@ footer {
   padding-top: 30px !important;
 
   .language.menu > div {
-    color: rgba(0, 0, 0, .87) !important;
+    color: rgba(0, 0, 0, 0.87) !important;
   }
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { // sass-lint:disable-line no-vendor-prefixes
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  // sass-lint:disable-line no-vendor-prefixes
   .main-container {
     margin: $page-top-margin 0;
     min-height: 50vh;

@@ -7,7 +7,6 @@ module('Integration | Component | tables/utilities/page-size-input', function(ho
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{tables/utilities/page-size-input}}`);
     assert.ok(this.element.innerHTML.trim().includes('Show'));
   });

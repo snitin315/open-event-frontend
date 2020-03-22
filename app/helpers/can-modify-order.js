@@ -2,7 +2,7 @@ import Helper from '@ember/component/helper';
 
 export function canModifyOrder(params) {
   let [order] = params;
-  if ((order.amount !== null && order.amount > 0) || (order.discountCodeId !== null)) {
+  if ((order.amount !== null && order.amount > 0) || order.discountCodeId !== null) {
     // returns false if order is paid or discounted and completed
     return order.status !== 'completed';
   }

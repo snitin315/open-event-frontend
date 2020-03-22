@@ -17,9 +17,17 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     this._super(...arguments);
     let event = this.modelFor('events.view');
     let { currentUser } = this.authManager;
-    if (!(currentUser.isAnAdmin || currentUser.email === event.owner.get('email') || event.organizers.includes(currentUser)
-      || event.coorganizers.includes(currentUser) || event.trackOrganizers.includes(currentUser)
-      || event.registrars.includes(currentUser) || event.moderators.includes(currentUser))) {
+    if (
+      !(
+        currentUser.isAnAdmin ||
+        currentUser.email === event.owner.get('email') ||
+        event.organizers.includes(currentUser) ||
+        event.coorganizers.includes(currentUser) ||
+        event.trackOrganizers.includes(currentUser) ||
+        event.registrars.includes(currentUser) ||
+        event.moderators.includes(currentUser)
+      )
+    ) {
       this.transitionTo('public', event.id);
     }
   }
@@ -31,48 +39,48 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     if (params.speakers_status === 'pending') {
       filterOptions = [
         {
-          name : 'sessions',
-          op   : 'any',
-          val  : {
-            name : 'state',
-            op   : 'eq',
-            val  : 'pending'
+          name: 'sessions',
+          op: 'any',
+          val: {
+            name: 'state',
+            op: 'eq',
+            val: 'pending'
           }
         }
       ];
     } else if (params.speakers_status === 'accepted') {
       filterOptions = [
         {
-          name : 'sessions',
-          op   : 'any',
-          val  : {
-            name : 'state',
-            op   : 'eq',
-            val  : 'accepted'
+          name: 'sessions',
+          op: 'any',
+          val: {
+            name: 'state',
+            op: 'eq',
+            val: 'accepted'
           }
         }
       ];
     } else if (params.speakers_status === 'rejected') {
       filterOptions = [
         {
-          name : 'sessions',
-          op   : 'any',
-          val  : {
-            name : 'state',
-            op   : 'eq',
-            val  : 'rejected'
+          name: 'sessions',
+          op: 'any',
+          val: {
+            name: 'state',
+            op: 'eq',
+            val: 'rejected'
           }
         }
       ];
     } else if (params.speakers_status === 'confirmed') {
       filterOptions = [
         {
-          name : 'sessions',
-          op   : 'any',
-          val  : {
-            name : 'state',
-            op   : 'eq',
-            val  : 'confirmed'
+          name: 'sessions',
+          op: 'any',
+          val: {
+            name: 'state',
+            op: 'eq',
+            val: 'confirmed'
           }
         }
       ];
@@ -83,12 +91,11 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
 
     let queryString = {
-      include        : 'sessions',
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 1
+      include: 'sessions',
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 1
     };
-
 
     queryString = this.applySortFilters(queryString, params);
 

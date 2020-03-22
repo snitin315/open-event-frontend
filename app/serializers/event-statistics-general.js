@@ -10,10 +10,10 @@ export default ApplicationSerializer.extend({
     return this._super(...arguments);
   },
   attrs: {
-    speakersAccepted  : 'speakersAccepted',
-    speakersConfirmed : 'speakersConfirmed',
-    speakersPending   : 'speakersPending',
-    speakersRejected  : 'speakersRejected',
-    speakers          : 'speakersTotal'
+    speakersAccepted: 'speakersAccepted',
+    speakersConfirmed: 'speakersConfirmed',
+    speakersPending: 'speakersPending',
+    speakersRejected: 'speakersRejected',
+    speakers: 'speakersTotal'
   }
 });

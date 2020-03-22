@@ -11,7 +11,7 @@ import FastbootAdapter from 'ember-data-storefront/mixins/fastboot-adapter';
  * @param query
  * @return {*}
  */
-export const fixFilterQuery = query  => {
+export const fixFilterQuery = (query) => {
   if (Object.prototype.hasOwnProperty.call(query, 'filter')) {
     query.filter = JSON.stringify(query.filter);
   }
@@ -20,19 +20,20 @@ export const fixFilterQuery = query  => {
 };
 
 export default JSONAPIAdapter.extend(HasManyQueryAdapterMixin, FastbootAdapter, {
-  host      : ENV.APP.apiHost,
-  namespace : ENV.APP.apiNamespace,
+  host: ENV.APP.apiHost,
+  namespace: ENV.APP.apiNamespace,
 
-  notify  : service(),
-  session : service(),
+  notify: service(),
+  session: service(),
 
-  headers: computed('session.data.authenticated', function() {
+  headers: computed('session.data.authenticated', function () {
     const headers = {
       'Content-Type': 'application/vnd.api+json'
     };
     const { access_token } = this.get('session.data.authenticated');
     if (access_token) {
-      headers[ENV['ember-simple-auth-token'].authorizationHeaderName] = ENV['ember-simple-auth-token'].authorizationPrefix + access_token;
+      headers[ENV['ember-simple-auth-token'].authorizationHeaderName] =
+        ENV['ember-simple-auth-token'].authorizationPrefix + access_token;
     }
 
     return headers;
@@ -41,8 +42,8 @@ export default JSONAPIAdapter.extend(HasManyQueryAdapterMixin, FastbootAdapter, 
   isInvalid(statusCode) {
     if (statusCode !== 404 && statusCode !== 422 && statusCode !== 403 && statusCode !== 409) {
       this.notify.error('An unexpected error occurred.', {
-        closeAfter : 5000,
-        id         : 'serve_error'
+        closeAfter: 5000,
+        id: 'serve_error'
       });
     }
   },

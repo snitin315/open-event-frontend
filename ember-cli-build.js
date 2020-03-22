@@ -48,13 +48,16 @@ module.exports = function(defaults) {
         node: {
           path: true // TODO: Remove after https://github.com/fossasia/open-event-frontend/issues/3956
         },
-        plugins: env === 'production' ? [
-          new BundleAnalyzerPlugin({
-            analyzerMode      : 'static',
-            openAnalyzer      : false,
-            generateStatsFile : true
-          })
-        ] : []
+        plugins:
+          env === 'production'
+            ? [
+              new BundleAnalyzerPlugin({
+                analyzerMode      : 'static',
+                openAnalyzer      : false,
+                generateStatsFile : true
+              })
+            ]
+            : []
       }
     }
   });
@@ -82,11 +85,14 @@ module.exports = function(defaults) {
   });
 
   const appTree = app.toTree([]);
-  return new MergeTrees([appTree, new Funnel(appTree, {
-    files: ['index.html'],
+  return new MergeTrees([
+    appTree,
+    new Funnel(appTree, {
+      files: ['index.html'],
 
-    getDestinationPath() {
-      return '404.html';
-    }
-  })]);
+      getDestinationPath() {
+        return '404.html';
+      }
+    })
+  ]);
 };

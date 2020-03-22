@@ -7,7 +7,9 @@ import FormMixin from 'open-event-frontend/mixins/form';
 import moment from 'moment';
 import { groupBy, orderBy } from 'lodash-es';
 import {
-  compulsoryProtocolValidUrlPattern, validTwitterProfileUrlPattern, validFacebookProfileUrlPattern,
+  compulsoryProtocolValidUrlPattern,
+  validTwitterProfileUrlPattern,
+  validFacebookProfileUrlPattern,
   validGithubProfileUrlPattern
 } from 'open-event-frontend/utils/validators';
 import { genders } from 'open-event-frontend/utils/dictionary/genders';
@@ -17,20 +19,20 @@ import { countries } from 'open-event-frontend/utils/dictionary/demography';
 export default Component.extend(FormMixin, {
   router: service(),
 
-  buyerFirstName    : oneWay('buyerHasFirstName'),
-  buyerLastName     : oneWay('buyerHasLastName'),
-  buyer             : readOnly('data.user'),
-  buyerHasFirstName : readOnly('data.user.firstName'),
-  buyerHasLastName  : readOnly('data.user.lastName'),
-  holders           : computed('data.attendees', function() {
-    this.get('data.attendees').forEach(attendee => {
+  buyerFirstName: oneWay('buyerHasFirstName'),
+  buyerLastName: oneWay('buyerHasLastName'),
+  buyer: readOnly('data.user'),
+  buyerHasFirstName: readOnly('data.user.firstName'),
+  buyerHasLastName: readOnly('data.user.lastName'),
+  holders: computed('data.attendees', function () {
+    this.get('data.attendees').forEach((attendee) => {
       attendee.set('firstname', '');
       attendee.set('lastname', '');
       attendee.set('email', '');
     });
     return this.get('data.attendees');
   }),
-  isPaidOrder: computed('data', function() {
+  isPaidOrder: computed('data', function () {
     if (!this.get('data.amount')) {
       this.data.set('paymentMode', 'free');
       return false;
@@ -39,11 +41,11 @@ export default Component.extend(FormMixin, {
   }),
   sameAsBuyer: false,
 
-  isBillingInfoNeeded: computed('event', 'data.isBillingEnabled', function() {
+  isBillingInfoNeeded: computed('event', 'data.isBillingEnabled', function () {
     return this.event.isBillingInfoMandatory || this.data.isBillingEnabled;
   }),
 
-  getRemainingTime: computed('settings', function() {
+  getRemainingTime: computed('settings', function () {
     let orderExpiryTime = this.get('settings.orderExpiryTime');
     let willExpireAt = this.get('data.createdAt').add(orderExpiryTime, 'minutes');
     this.timer(willExpireAt, this.get('data.identifier'));
@@ -67,28 +69,28 @@ export default Component.extend(FormMixin, {
     let firstNameValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your first name')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your first name')
         }
       ]
     };
     let lastNameValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your last name')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your last name')
         }
       ]
     };
     let emailValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your email')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your email')
         },
         {
-          type   : 'email',
-          prompt : this.l10n.t('Please enter a valid email')
+          type: 'email',
+          prompt: this.l10n.t('Please enter a valid email')
         }
       ]
     };
@@ -96,8 +98,8 @@ export default Component.extend(FormMixin, {
     let genderValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please select a gender')
+          type: 'empty',
+          prompt: this.l10n.t('Please select a gender')
         }
       ]
     };
@@ -105,8 +107,8 @@ export default Component.extend(FormMixin, {
     let ageGroupValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please select your age group')
+          type: 'empty',
+          prompt: this.l10n.t('Please select your age group')
         }
       ]
     };
@@ -114,8 +116,8 @@ export default Component.extend(FormMixin, {
     let addressValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your address')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your address')
         }
       ]
     };
@@ -123,8 +125,8 @@ export default Component.extend(FormMixin, {
     let cityValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your city')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your city')
         }
       ]
     };
@@ -132,8 +134,8 @@ export default Component.extend(FormMixin, {
     let stateValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your state')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your state')
         }
       ]
     };
@@ -141,8 +143,8 @@ export default Component.extend(FormMixin, {
     let countryValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please select your country')
+          type: 'empty',
+          prompt: this.l10n.t('Please select your country')
         }
       ]
     };
@@ -150,8 +152,8 @@ export default Component.extend(FormMixin, {
     let jobTitleValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your job title')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your job title')
         }
       ]
     };
@@ -159,8 +161,8 @@ export default Component.extend(FormMixin, {
     let phoneValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter a mobile number')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter a mobile number')
         }
       ]
     };
@@ -168,8 +170,8 @@ export default Component.extend(FormMixin, {
     let taxBusinessInfoValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your tax business info')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your tax business info')
         }
       ]
     };
@@ -177,8 +179,8 @@ export default Component.extend(FormMixin, {
     let billingAddressValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your billing address')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your billing address')
         }
       ]
     };
@@ -186,8 +188,8 @@ export default Component.extend(FormMixin, {
     let homeAddressValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your home address')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your home address')
         }
       ]
     };
@@ -195,8 +197,8 @@ export default Component.extend(FormMixin, {
     let shippingAddressValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your shipping address')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your shipping address')
         }
       ]
     };
@@ -204,8 +206,8 @@ export default Component.extend(FormMixin, {
     let companyValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your company')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your company')
         }
       ]
     };
@@ -213,8 +215,8 @@ export default Component.extend(FormMixin, {
     let workAddressValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your work address')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your work address')
         }
       ]
     };
@@ -222,19 +224,19 @@ export default Component.extend(FormMixin, {
     let workPhoneValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter your work phone')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter your work phone')
         }
       ]
     };
 
     let websiteValidation = {
-      optional : true,
-      rules    : [
+      optional: true,
+      rules: [
         {
-          type   : 'regExp',
-          value  : compulsoryProtocolValidUrlPattern,
-          prompt : this.l10n.t('Please enter a valid url')
+          type: 'regExp',
+          value: compulsoryProtocolValidUrlPattern,
+          prompt: this.l10n.t('Please enter a valid url')
         }
       ]
     };
@@ -242,24 +244,24 @@ export default Component.extend(FormMixin, {
     let websiteRequiredValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter url of website')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter url of website')
         },
         {
-          type   : 'regExp',
-          value  : compulsoryProtocolValidUrlPattern,
-          prompt : this.l10n.t('Please enter a valid url')
+          type: 'regExp',
+          value: compulsoryProtocolValidUrlPattern,
+          prompt: this.l10n.t('Please enter a valid url')
         }
       ]
     };
 
     let blogValidation = {
-      optional : true,
-      rules    : [
+      optional: true,
+      rules: [
         {
-          type   : 'regExp',
-          value  : compulsoryProtocolValidUrlPattern,
-          prompt : this.l10n.t('Please enter a valid url')
+          type: 'regExp',
+          value: compulsoryProtocolValidUrlPattern,
+          prompt: this.l10n.t('Please enter a valid url')
         }
       ]
     };
@@ -267,24 +269,24 @@ export default Component.extend(FormMixin, {
     let blogRequiredValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter url of website')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter url of website')
         },
         {
-          type   : 'regExp',
-          value  : compulsoryProtocolValidUrlPattern,
-          prompt : this.l10n.t('Please enter a valid url')
+          type: 'regExp',
+          value: compulsoryProtocolValidUrlPattern,
+          prompt: this.l10n.t('Please enter a valid url')
         }
       ]
     };
 
     let twitterValidation = {
-      optional : true,
-      rules    : [
+      optional: true,
+      rules: [
         {
-          type   : 'regExp',
-          value  : validTwitterProfileUrlPattern,
-          prompt : this.l10n.t('Please enter a valid twitter profile url')
+          type: 'regExp',
+          value: validTwitterProfileUrlPattern,
+          prompt: this.l10n.t('Please enter a valid twitter profile url')
         }
       ]
     };
@@ -292,24 +294,24 @@ export default Component.extend(FormMixin, {
     let twitterRequiredValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter twitter link')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter twitter link')
         },
         {
-          type   : 'regExp',
-          value  : validTwitterProfileUrlPattern,
-          prompt : this.l10n.t('Please enter a valid twitter profile url')
+          type: 'regExp',
+          value: validTwitterProfileUrlPattern,
+          prompt: this.l10n.t('Please enter a valid twitter profile url')
         }
       ]
     };
 
     let facebookValidation = {
-      optional : true,
-      rules    : [
+      optional: true,
+      rules: [
         {
-          type   : 'regExp',
-          value  : validFacebookProfileUrlPattern,
-          prompt : this.l10n.t('Please enter a valid facebook account url')
+          type: 'regExp',
+          value: validFacebookProfileUrlPattern,
+          prompt: this.l10n.t('Please enter a valid facebook account url')
         }
       ]
     };
@@ -317,24 +319,24 @@ export default Component.extend(FormMixin, {
     let facebookRequiredValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter facebook link')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter facebook link')
         },
         {
-          type   : 'regExp',
-          value  : validFacebookProfileUrlPattern,
-          prompt : this.l10n.t('Please enter a valid facebook account url')
+          type: 'regExp',
+          value: validFacebookProfileUrlPattern,
+          prompt: this.l10n.t('Please enter a valid facebook account url')
         }
       ]
     };
 
     let githubValidation = {
-      optional : true,
-      rules    : [
+      optional: true,
+      rules: [
         {
-          type   : 'regExp',
-          value  : validGithubProfileUrlPattern,
-          prompt : this.l10n.t('Please enter a valid GitHub profile url')
+          type: 'regExp',
+          value: validGithubProfileUrlPattern,
+          prompt: this.l10n.t('Please enter a valid GitHub profile url')
         }
       ]
     };
@@ -342,100 +344,100 @@ export default Component.extend(FormMixin, {
     let githubRequiredValidation = {
       rules: [
         {
-          type   : 'empty',
-          prompt : this.l10n.t('Please enter GitHub link')
+          type: 'empty',
+          prompt: this.l10n.t('Please enter GitHub link')
         },
         {
-          type   : 'regExp',
-          value  : validGithubProfileUrlPattern,
-          prompt : this.l10n.t('Please enter a valid GitHub profile url')
+          type: 'regExp',
+          value: validGithubProfileUrlPattern,
+          prompt: this.l10n.t('Please enter a valid GitHub profile url')
         }
       ]
     };
 
     let validationRules = {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         firstName: {
-          identifier : 'first_name',
-          rules      : [
+          identifier: 'first_name',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your first name')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your first name')
             }
           ]
         },
         lastName: {
-          identifier : 'last_name',
-          rules      : [
+          identifier: 'last_name',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your last name')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your last name')
             }
           ]
         },
         email: {
-          identifier : 'email',
-          rules      : [
+          identifier: 'email',
+          rules: [
             {
-              type   : 'email',
-              prompt : this.l10n.t('Please enter a valid email address')
+              type: 'email',
+              prompt: this.l10n.t('Please enter a valid email address')
             }
           ]
         },
         country: {
-          identifier : 'country',
-          rules      : [
+          identifier: 'country',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please select your country')
+              type: 'empty',
+              prompt: this.l10n.t('Please select your country')
             }
           ]
         },
         taxBusinessInfo: {
-          identifier : 'taxBusinessInfo',
-          rules      : [
+          identifier: 'taxBusinessInfo',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your Tax ID or Business ID')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your Tax ID or Business ID')
             }
           ]
         },
         address: {
-          identifier : 'address',
-          rules      : [
+          identifier: 'address',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your address')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your address')
             }
           ]
         },
         city: {
-          identifier : 'city',
-          rules      : [
+          identifier: 'city',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your city ')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your city ')
             }
           ]
         },
         zipCode: {
-          identifier : 'zip_code',
-          rules      : [
+          identifier: 'zip_code',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter your zip code')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter your zip code')
             }
           ]
         },
         payVia: {
-          identifier : 'payment_mode',
-          rules      : [
+          identifier: 'payment_mode',
+          rules: [
             {
-              type   : 'checked',
-              prompt : this.l10n.t('Please specify your choice of payment method ')
+              type: 'checked',
+              prompt: this.l10n.t('Please specify your choice of payment method ')
             }
           ]
         }
@@ -445,42 +447,42 @@ export default Component.extend(FormMixin, {
       validationRules.fields[`firstname_required_${index}`] = firstNameValidation;
       validationRules.fields[`lastname_required_${index}`] = lastNameValidation;
       validationRules.fields[`email_required_${index}`] = emailValidation;
-      validationRules.fields[`gender_required_${  index}`] = genderValidation;
-      validationRules.fields[`ageGroup_required_${  index}`] = ageGroupValidation;
-      validationRules.fields[`address_required_${  index}`] = addressValidation;
-      validationRules.fields[`city_required_${  index}`] = cityValidation;
-      validationRules.fields[`state_required_${  index}`] = stateValidation;
-      validationRules.fields[`country_required_${  index}`] = countryValidation;
-      validationRules.fields[`jobTitle_required_${  index}`] = jobTitleValidation;
-      validationRules.fields[`phone_required_${  index}`] = phoneValidation;
-      validationRules.fields[`taxBusinessInfo_required_${  index}`] = taxBusinessInfoValidation;
-      validationRules.fields[`billingAddress_required_${  index}`] = billingAddressValidation;
-      validationRules.fields[`homeAddress_required_${  index}`] = homeAddressValidation;
-      validationRules.fields[`shippingAddress_required_${  index}`] = shippingAddressValidation;
-      validationRules.fields[`company_required_${  index}`] = companyValidation;
-      validationRules.fields[`workAddress_required_${  index}`] = workAddressValidation;
-      validationRules.fields[`workPhone_required_${  index}`] = workPhoneValidation;
-      validationRules.fields[`website_${  index}`] = websiteValidation;
-      validationRules.fields[`website_required_${  index}`] = websiteRequiredValidation;
-      validationRules.fields[`blog_${  index}`] = blogValidation;
-      validationRules.fields[`blog_required_${  index}`] = blogRequiredValidation;
-      validationRules.fields[`twitter_${  index}`] = twitterValidation;
-      validationRules.fields[`twitter_required_${  index}`] = twitterRequiredValidation;
-      validationRules.fields[`facebook_${  index}`] = facebookValidation;
-      validationRules.fields[`facebook_required_${  index}`] = facebookRequiredValidation;
-      validationRules.fields[`github_${  index}`] = githubValidation;
-      validationRules.fields[`github_required_${  index}`] = githubRequiredValidation;
+      validationRules.fields[`gender_required_${index}`] = genderValidation;
+      validationRules.fields[`ageGroup_required_${index}`] = ageGroupValidation;
+      validationRules.fields[`address_required_${index}`] = addressValidation;
+      validationRules.fields[`city_required_${index}`] = cityValidation;
+      validationRules.fields[`state_required_${index}`] = stateValidation;
+      validationRules.fields[`country_required_${index}`] = countryValidation;
+      validationRules.fields[`jobTitle_required_${index}`] = jobTitleValidation;
+      validationRules.fields[`phone_required_${index}`] = phoneValidation;
+      validationRules.fields[`taxBusinessInfo_required_${index}`] = taxBusinessInfoValidation;
+      validationRules.fields[`billingAddress_required_${index}`] = billingAddressValidation;
+      validationRules.fields[`homeAddress_required_${index}`] = homeAddressValidation;
+      validationRules.fields[`shippingAddress_required_${index}`] = shippingAddressValidation;
+      validationRules.fields[`company_required_${index}`] = companyValidation;
+      validationRules.fields[`workAddress_required_${index}`] = workAddressValidation;
+      validationRules.fields[`workPhone_required_${index}`] = workPhoneValidation;
+      validationRules.fields[`website_${index}`] = websiteValidation;
+      validationRules.fields[`website_required_${index}`] = websiteRequiredValidation;
+      validationRules.fields[`blog_${index}`] = blogValidation;
+      validationRules.fields[`blog_required_${index}`] = blogRequiredValidation;
+      validationRules.fields[`twitter_${index}`] = twitterValidation;
+      validationRules.fields[`twitter_required_${index}`] = twitterRequiredValidation;
+      validationRules.fields[`facebook_${index}`] = facebookValidation;
+      validationRules.fields[`facebook_required_${index}`] = facebookRequiredValidation;
+      validationRules.fields[`github_${index}`] = githubValidation;
+      validationRules.fields[`github_required_${index}`] = githubRequiredValidation;
     });
     return validationRules;
   },
 
-  allFields: computed('fields', function() {
-    return groupBy(this.fields.toArray(), field => field.get('form'));
+  allFields: computed('fields', function () {
+    return groupBy(this.fields.toArray(), (field) => field.get('form'));
   }),
 
-  genders   : orderBy(genders, 'name'),
-  ageGroups : orderBy(ageGroups, 'age'),
-  countries : orderBy(countries, 'name'),
+  genders: orderBy(genders, 'name'),
+  ageGroups: orderBy(ageGroups, 'age'),
+  countries: orderBy(countries, 'name'),
 
   actions: {
     submit(data) {

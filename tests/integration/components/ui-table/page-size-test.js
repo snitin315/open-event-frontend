@@ -7,7 +7,7 @@ module('Integration | Component | ui table/page size', function(hooks) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/page-size}}`);
+    await render(hbs`{{ui-table/page-size}}`);
     assert.ok(this.element.innerHTML.trim().includes('10'));
   });
 });

@@ -9,7 +9,7 @@ export default Route.extend({
   },
   actions: {
     willTransition() {
-      this.get('controller.model').forEach(ticketFee => {
+      this.get('controller.model').forEach((ticketFee) => {
         ticketFee.rollbackAttributes();
       });
     }

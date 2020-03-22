@@ -11,9 +11,9 @@ export default class extends ModalBase {
     viewport.type = 'square';
     $('.content', this.element).css('height', '300px');
     $('img', this.element).croppie({
-      customClass : 'croppie',
+      customClass: 'croppie',
       viewport,
-      boundary    : {
+      boundary: {
         height: 250
       }
     });
@@ -25,7 +25,6 @@ export default class extends ModalBase {
     if ($img.parent().is('div.croppie')) {
       $img.unwrap();
     }
-
   }
 
   @action
@@ -36,10 +35,12 @@ export default class extends ModalBase {
 
   @action
   cropImage() {
-    $('img', this.element).croppie('result', { type: 'base64', size: 'original', quality: 1, format: 'jpeg' }).then(result => {
-      if (this.onImageCrop) {
-        this.onImageCrop(result);
-      }
-    });
+    $('img', this.element)
+      .croppie('result', { type: 'base64', size: 'original', quality: 1, format: 'jpeg' })
+      .then((result) => {
+        if (this.onImageCrop) {
+          this.onImageCrop(result);
+        }
+      });
   }
 }

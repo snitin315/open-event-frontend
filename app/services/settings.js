@@ -2,17 +2,16 @@ import Service, { inject as service } from '@ember/service';
 import { observer } from '@ember/object';
 
 export default Service.extend({
-
-  store       : service(),
-  session     : service(),
-  authManager : service(),
+  store: service(),
+  session: service(),
+  authManager: service(),
 
   _lastPromise: Promise.resolve(),
 
   /**
    * Reload settings when the authentication state changes.
    */
-  _authenticationObserver: observer('session.isAuthenticated', function() {
+  _authenticationObserver: observer('session.isAuthenticated', function () {
     this._lastPromise
       .then(() => this.set('_lastPromise', this._loadSettings()))
       .catch(() => this.set('_lastPromise', this._loadSettings()));
@@ -26,7 +25,7 @@ export default Service.extend({
    */
   async _loadSettings() {
     const settingsModel = await this.store.queryRecord('setting', {});
-    this.store.modelFor('setting').eachAttribute(attributeName => {
+    this.store.modelFor('setting').eachAttribute((attributeName) => {
       this.set(attributeName, settingsModel.get(attributeName));
     });
   },

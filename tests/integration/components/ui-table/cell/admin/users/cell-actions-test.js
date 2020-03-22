@@ -10,7 +10,9 @@ module('Integration | Component | ui table/cell/admin/users/cell actions', funct
     this.set('deleteUser', () => {});
     this.set('moveToUserDetails', () => {});
     this.set('openEditModal', () => {});
-    await render(hbs`{{ui-table/cell/admin/users/cell-actions deleteUser=(action deleteUser) moveToUserDetails=(action moveToUserDetails) openEditModal=(action openEditModal)}}`);
+    await render(
+      hbs`{{ui-table/cell/admin/users/cell-actions deleteUser=(action deleteUser) moveToUserDetails=(action moveToUserDetails) openEditModal=(action openEditModal)}}`
+    );
     assert.ok(this.element.textContent.trim().includes(''));
   });
 });

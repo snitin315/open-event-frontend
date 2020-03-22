@@ -7,10 +7,8 @@ module('Integration | Component | forms/admin/settings/system/storage-option', f
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{forms/admin/settings/system/storage-option}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('Storage'));
-
   });
 });

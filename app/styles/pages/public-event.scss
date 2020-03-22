@@ -1,5 +1,4 @@
 .public-event {
-
   margin-top: -$page-top-margin;
 
   @mixin aspect-ratio($width, $height) {
@@ -47,12 +46,12 @@
       }
 
       .content {
-        background-color: rgba(0, 0, 0, .7);
+        background-color: rgba(0, 0, 0, 0.7);
         color: #fff;
         left: 0;
         position: absolute;
         right: 0;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
         width: 100%;
 
         .info {
@@ -78,7 +77,6 @@
             margin: 0;
           }
 
-
           .event.location {
             font-size: 1.5rem;
             margin: 0;
@@ -86,9 +84,7 @@
         }
 
         @media (max-width: 959px) {
-
           .info {
-
             .event.name {
               font-size: 2.15rem;
             }
@@ -99,7 +95,7 @@
 
             .event.time.ends {
               font-size: 1.15rem;
-             }
+            }
 
             .event.location {
               font-size: 1.25rem;
@@ -115,7 +111,6 @@
       max-height: $event-lead-image-height-minimum;
 
       .content {
-
         .info {
           bottom: 20%;
           position: absolute;
@@ -125,7 +120,6 @@
   }
 
   > .content {
-
     .ui.rail {
       width: 15rem;
 

@@ -5,18 +5,23 @@ import { action } from '@ember/object';
 export default class extends Controller.extend(EventWizardMixin) {
   @action
   save() {
-    this.saveEventDataAndRedirectTo(
-      'events.view.index',
-      ['tickets', 'socialLinks', 'copyright', 'tax', 'stripeAuthorization']
-    );
+    this.saveEventDataAndRedirectTo('events.view.index', [
+      'tickets',
+      'socialLinks',
+      'copyright',
+      'tax',
+      'stripeAuthorization'
+    ]);
   }
 
   @action
   move() {
-    this.saveEventDataAndRedirectTo(
-      'events.view.edit.attendee',
-      ['tickets', 'socialLinks', 'copyright', 'tax', 'stripeAuthorization']
-    );
+    this.saveEventDataAndRedirectTo('events.view.edit.attendee', [
+      'tickets',
+      'socialLinks',
+      'copyright',
+      'tax',
+      'stripeAuthorization'
+    ]);
   }
 }
-

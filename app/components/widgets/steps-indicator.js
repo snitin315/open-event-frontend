@@ -3,22 +3,24 @@ import Object, { observer, computed } from '@ember/object';
 import { map, findIndex } from 'lodash-es';
 
 export default Component.extend({
+  enableAll: true,
+  autoSteps: false,
+  currentStep: 1,
 
-  enableAll   : true,
-  autoSteps   : false,
-  currentStep : 1,
-
-  currentIndex: computed('currentStep', function() {
+  currentIndex: computed('currentStep', function () {
     return this.currentStep - 1;
   }),
 
-  currentStepComputed: observer('session.currentRouteName', 'autoSteps', function() {
+  currentStepComputed: observer('session.currentRouteName', 'autoSteps', function () {
     if (this.autoSteps) {
-      this.set('currentStep', findIndex(this.steps, ['route', this.get('session.currentRouteName')]) + 1);
+      this.set(
+        'currentStep',
+        findIndex(this.steps, ['route', this.get('session.currentRouteName')]) + 1
+      );
     }
   }),
 
-  processedSteps: computed('steps', 'currentIndex', 'enableAll', function() {
+  processedSteps: computed('steps', 'currentIndex', 'enableAll', function () {
     return map(this.steps, (step, index) => {
       step = Object.create(step);
       if (!this.enableAll && index > this.currentIndex) {

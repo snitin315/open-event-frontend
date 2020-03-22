@@ -35,5 +35,4 @@ module('Acceptance | admin sales', function(hooks) {
     await visit('/admin/sales/discounted-events');
     assert.equal(currentURL(), '/login');
   });
-
 });

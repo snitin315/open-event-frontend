@@ -14,6 +14,5 @@ module('Integration | Component | forms/login-form', function(hooks) {
     await render(hbs`{{forms/login-form errorMessage=errorMessage newUser=newUser}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('Forgot your password ?'));
-
   });
 });

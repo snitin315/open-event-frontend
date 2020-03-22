@@ -3,7 +3,6 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 
 export default class extends Controller {
-
   footerPages = filterBy('model', 'place', 'footer');
 
   eventPages = filterBy('model', 'place', 'event');
@@ -22,22 +21,24 @@ export default class extends Controller {
 
   @action
   savePage(page) {
-    page.save()
+    page
+      .save()
       .then(() => {
         if (this.isCreate) {
           this.set('isFormOpen', false);
         }
-        this.notify.success(this.l10n.t('Page details have been saved successfully.'),
-          {
-            id: 'page_detail_succ'
-          });
+        this.notify.success(this.l10n.t('Page details have been saved successfully.'), {
+          id: 'page_detail_succ'
+        });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error saving page details', e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. Page Details not saved.'),
+        this.notify.error(
+          this.l10n.t('An unexpected error has occurred. Page Details not saved.'),
           {
             id: 'page_detail_del'
-          });
+          }
+        );
       });
   }
 }

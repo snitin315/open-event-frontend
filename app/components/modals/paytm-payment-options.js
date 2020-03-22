@@ -8,26 +8,25 @@ export default class extends ModalBase.extend(FormMixin) {
 
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         mobileNumber: {
-          identifier : 'mobile_number',
-          rules      : [
+          identifier: 'mobile_number',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the Mobile Number')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the Mobile Number')
             },
             {
-              type   : 'regExp',
-              value  : validPhoneNumber,
-              prompt : this.l10n.t('Please enter a valid mobile number')
+              type: 'regExp',
+              value: validPhoneNumber,
+              prompt: this.l10n.t('Please enter a valid mobile number')
             }
           ]
         }
       }
     };
   }
-
 }

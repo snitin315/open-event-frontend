@@ -8,12 +8,14 @@ module('Integration | Component | modals/paytm payment options modal', function(
 
   test('it renders', async function(assert) {
     this.setProperties({
-      'isOpen'            : false,
-      'currency'          : 'USD',
-      'amount'            : 100,
-      'openOTPController' : () => {}
+      isOpen            : false,
+      currency          : 'USD',
+      amount            : 100,
+      openOTPController : () => {}
     });
-    await render(hbs`{{modals/paytm-payment-options isOpen=isOpen currency=currency amount=amount openOTPController=(action openOTPController)}}`);
+    await render(
+      hbs`{{modals/paytm-payment-options isOpen=isOpen currency=currency amount=amount openOTPController=(action openOTPController)}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('Select an option to pay'));
   });
 });

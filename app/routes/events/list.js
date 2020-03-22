@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import moment from 'moment';
 import EmberTableRouteMixin from 'open-event-frontend/mixins/ember-table-route';
 export default class extends Route.extend(EmberTableRouteMixin) {
-
   titleToken() {
     switch (this.get('params.event_state')) {
       case 'live':
@@ -21,7 +20,6 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     if (!['live', 'draft', 'past'].includes(eventState)) {
       this.replaceWith('events.view', eventState);
     }
-
   }
 
   async model(params) {
@@ -31,28 +29,28 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     if (params.event_state === 'live') {
       filterOptions = [
         {
-          name : 'state',
-          op   : 'eq',
-          val  : 'published'
+          name: 'state',
+          op: 'eq',
+          val: 'published'
         },
         {
           or: [
             {
-              name : 'starts-at',
-              op   : 'ge',
-              val  : moment().toISOString()
+              name: 'starts-at',
+              op: 'ge',
+              val: moment().toISOString()
             },
             {
               and: [
                 {
-                  name : 'starts-at',
-                  op   : 'le',
-                  val  : moment().toISOString()
+                  name: 'starts-at',
+                  op: 'le',
+                  val: moment().toISOString()
                 },
                 {
-                  name : 'ends-at',
-                  op   : 'gt',
-                  val  : moment().toISOString()
+                  name: 'ends-at',
+                  op: 'gt',
+                  val: moment().toISOString()
                 }
               ]
             }
@@ -62,31 +60,31 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     } else if (params.event_state === 'past') {
       filterOptions = [
         {
-          name : 'ends-at',
-          op   : 'lt',
-          val  : moment().toISOString()
+          name: 'ends-at',
+          op: 'lt',
+          val: moment().toISOString()
         },
         {
-          name : 'state',
-          op   : 'eq',
-          val  : 'published'
+          name: 'state',
+          op: 'eq',
+          val: 'published'
         }
       ];
     } else {
       filterOptions = [
         {
-          name : 'state',
-          op   : 'eq',
-          val  : 'draft'
+          name: 'state',
+          op: 'eq',
+          val: 'draft'
         }
       ];
     }
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
     let queryString = {
-      include        : 'owner,organizers,coorganizers,track-organizers,registrars,moderators',
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 4
+      include: 'owner,organizers,coorganizers,track-organizers,registrars,moderators',
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 4
     };
     queryString = this.applySortFilters(queryString, params);
     return this.asArray(this.authManager.currentUser.query('events', queryString));

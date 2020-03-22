@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import EventWizardMixin from 'open-event-frontend/mixins/event-wizard';
 
 export default Controller.extend(EventWizardMixin, {
-
   async saveEventData() {
     const event = await this._super(...arguments);
 
@@ -13,13 +12,15 @@ export default Controller.extend(EventWizardMixin, {
     return event;
   },
 
-
   actions: {
     save() {
-      this.saveEventDataAndRedirectTo(
-        'events.view.index',
-        ['tracks', 'sessionTypes', 'microlocations', 'customForms', 'tickets']
-      );
+      this.saveEventDataAndRedirectTo('events.view.index', [
+        'tracks',
+        'sessionTypes',
+        'microlocations',
+        'customForms',
+        'tickets'
+      ]);
     },
     move(direction) {
       this.saveEventDataAndRedirectTo(

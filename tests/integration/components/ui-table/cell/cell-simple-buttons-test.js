@@ -13,7 +13,6 @@ module('Integration | Component | ui table/cell/cell simple buttons', function(h
     }
   };
   test('it renders', async function(assert) {
-
     this.set('props', props);
     await render(hbs`{{ui-table/cell/cell-simple-buttons props=props}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));

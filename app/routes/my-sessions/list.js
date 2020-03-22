@@ -19,29 +19,29 @@ export default Route.extend(AuthenticatedRouteMixin, {
         {
           or: [
             {
-              name : 'starts-at',
-              op   : 'ge',
-              val  : moment().toISOString()
+              name: 'starts-at',
+              op: 'ge',
+              val: moment().toISOString()
             },
             {
               and: [
                 {
-                  name : 'starts-at',
-                  op   : 'eq',
-                  val  : null
+                  name: 'starts-at',
+                  op: 'eq',
+                  val: null
                 },
                 {
-                  name : 'ends-at',
-                  op   : 'eq',
-                  val  : null
+                  name: 'ends-at',
+                  op: 'eq',
+                  val: null
                 },
                 {
-                  name : 'event',
-                  op   : 'has',
-                  val  : {
-                    name : 'starts-at',
-                    op   : 'ge',
-                    val  : moment().toISOString()
+                  name: 'event',
+                  op: 'has',
+                  val: {
+                    name: 'starts-at',
+                    op: 'ge',
+                    val: moment().toISOString()
                   }
                 }
               ]
@@ -52,22 +52,22 @@ export default Route.extend(AuthenticatedRouteMixin, {
     } else if (params.session_status === 'past') {
       filterOptions = [
         {
-          name : 'ends-at',
-          op   : 'lt',
-          val  : moment().toISOString()
+          name: 'ends-at',
+          op: 'lt',
+          val: moment().toISOString()
         }
       ];
     }
 
     return this.infinity.model('sessions', {
-      include      : 'event',
-      filter       : filterOptions,
-      sort         : 'starts-at',
-      perPage      : 10,
-      startingPage : 1,
-      perPageParam : 'page[size]',
-      pageParam    : 'page[number]',
-      store        : this.authManager.currentUser
+      include: 'event',
+      filter: filterOptions,
+      sort: 'starts-at',
+      perPage: 10,
+      startingPage: 1,
+      perPageParam: 'page[size]',
+      pageParam: 'page[number]',
+      store: this.authManager.currentUser
     });
   }
 });

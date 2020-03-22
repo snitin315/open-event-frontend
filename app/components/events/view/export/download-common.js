@@ -3,10 +3,10 @@ import { computed } from '@ember/object';
 import { run } from '@ember/runloop';
 
 export default Component.extend({
-  isDownloadDisabled : true,
-  eventDownloadUrl   : '',
-  isLoading          : false,
-  fileFormat         : computed(function() {
+  isDownloadDisabled: true,
+  eventDownloadUrl: '',
+  isLoading: false,
+  fileFormat: computed(function () {
     switch (this.downloadType) {
       case 'iCalendar':
         return 'ical';
@@ -18,14 +18,16 @@ export default Component.extend({
         return ' ';
     }
   }),
-  displayUrl: computed(function() {
-    return this.get(`model.${  this.fileFormat  }Url`) !== null ? this.get(`model.${  this.fileFormat  }Url`) : 'Please publish to generate the link';
+  displayUrl: computed(function () {
+    return this.get(`model.${this.fileFormat}Url`) !== null
+      ? this.get(`model.${this.fileFormat}Url`)
+      : 'Please publish to generate the link';
   }),
   requestLoop(exportJobInfo) {
     run.later(() => {
       this.loader
         .load(exportJobInfo.task_url, { withoutPrefix: true })
-        .then(exportJobStatus => {
+        .then((exportJobStatus) => {
           if (exportJobStatus.state === 'SUCCESS') {
             this.set('isDownloadDisabled', false);
             this.set('eventDownloadUrl', exportJobStatus.result.download_url);
@@ -46,7 +48,7 @@ export default Component.extend({
             });
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.error('Error while exporting event', e);
           this.set('eventExportStatus', 'FAILURE');
           this.notify.error(this.l10n.t('Task failed.'), {
@@ -63,10 +65,10 @@ export default Component.extend({
       this.set('isLoading', true);
       this.loader
         .load(`/events/${this.get('model.id')}/export/${this.fileFormat}`)
-        .then(exportJobInfo => {
+        .then((exportJobInfo) => {
           this.requestLoop(exportJobInfo);
         })
-        .catch(e => {
+        .catch((e) => {
           console.error('Error while starting exporting job', e);
           this.set('isLoading', false);
           this.notify.error(this.l10n.t('Unexpected error occurred.'), {

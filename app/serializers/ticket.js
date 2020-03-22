@@ -10,14 +10,14 @@ export default ApplicationSerializer.extend({
   addLinks(ticket) {
     ticket.relationships.orderStatistics = {
       links: {
-        related : `/v1/tickets/${ticket.id}/order-statistics`,
-        self    : `/v1/tickets/${ticket.id}/order-statistics`
+        related: `/v1/tickets/${ticket.id}/order-statistics`,
+        self: `/v1/tickets/${ticket.id}/order-statistics`
       }
     };
     ticket.relationships.attendees = {
       links: {
-        related : `/v1/tickets/${ticket.id}/attendees`,
-        self    : `/v1/tickets/${ticket.id}/attendees`
+        related: `/v1/tickets/${ticket.id}/attendees`,
+        self: `/v1/tickets/${ticket.id}/attendees`
       }
     };
     return ticket;

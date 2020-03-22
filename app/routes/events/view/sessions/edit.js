@@ -9,24 +9,23 @@ export default Route.extend(AuthenticatedRouteMixin, {
   async model(params) {
     const eventDetails = this.modelFor('events.view');
     return {
-      event : eventDetails,
-      form  : await eventDetails.query('customForms', {
-        'page[size]' : 0,
-        sort         : 'id'
+      event: eventDetails,
+      form: await eventDetails.query('customForms', {
+        'page[size]': 0,
+        sort: 'id'
       }),
       session: await this.store.findRecord('session', params.session_id, {
         include: 'track,session-type,speakers'
       }),
-      tracks       : await eventDetails.query('tracks', {}),
-      sessionTypes : await eventDetails.query('sessionTypes', {}),
-      speakers     : await eventDetails.query('speakers', {
+      tracks: await eventDetails.query('tracks', {}),
+      sessionTypes: await eventDetails.query('sessionTypes', {}),
+      speakers: await eventDetails.query('speakers', {
         'page[size]': 0
       }),
       speaker: await this.store.createRecord('speaker', {
-        event : eventDetails,
-        user  : this.get('authManager.currentUser')
+        event: eventDetails,
+        user: this.get('authManager.currentUser')
       })
-
     };
   }
 });

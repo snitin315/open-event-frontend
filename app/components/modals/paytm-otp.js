@@ -6,16 +6,16 @@ export default class extends ModalBase.extend(FormMixin) {
 
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         otp: {
-          identifier : 'otp',
-          rules      : [
+          identifier: 'otp',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the OTP')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the OTP')
             }
           ]
         }

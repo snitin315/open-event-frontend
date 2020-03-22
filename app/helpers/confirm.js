@@ -10,15 +10,13 @@ export default Helper.extend({
   compute(params) {
     return () => {
       if (params.length >= 2) {
-        this.confirm.prompt(params[0])
-          .then(() => {
-            params[1]();
-          });
+        this.confirm.prompt(params[0]).then(() => {
+          params[1]();
+        });
       } else {
-        this.confirm.prompt()
-          .then(() => {
-            params[0]();
-          });
+        this.confirm.prompt().then(() => {
+          params[0]();
+        });
       }
     };
   }

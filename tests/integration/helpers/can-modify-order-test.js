@@ -72,4 +72,3 @@ module('Integration | Helper | can-modify-order', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'true');
   });
 });
-

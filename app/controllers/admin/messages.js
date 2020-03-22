@@ -6,19 +6,17 @@ export default class extends Controller {
   save() {
     try {
       let systemMessages = this.model;
-      systemMessages.forEach(systemMessage => {
+      systemMessages.forEach((systemMessage) => {
         systemMessage.save();
       });
-      this.notify.success(this.l10n.t('Changes have been saved successfully'),
-        {
-          id: 'message_success'
-        });
+      this.notify.success(this.l10n.t('Changes have been saved successfully'), {
+        id: 'message_success'
+      });
     } catch (e) {
       console.error('Error while saving system messages', e);
-      this.notify.error(this.l10n.t(e.errors[0].detail),
-        {
-          id: 'change_error_message'
-        });
+      this.notify.error(this.l10n.t(e.errors[0].detail), {
+        id: 'change_error_message'
+      });
     }
   }
 }

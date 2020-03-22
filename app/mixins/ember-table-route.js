@@ -24,15 +24,15 @@ export default Mixin.create({
     searchField = kebabCase(searchField);
     if (params.search) {
       options.pushObject({
-        name : searchField,
-        op   : 'ilike',
-        val  : `%${params.search}%`
+        name: searchField,
+        op: 'ilike',
+        val: `%${params.search}%`
       });
     } else {
       options.removeObject({
-        name : searchField,
-        op   : 'ilike',
-        val  : `%${params.search}%`
+        name: searchField,
+        op: 'ilike',
+        val: `%${params.search}%`
       });
     }
     return options;
@@ -57,12 +57,10 @@ export default Mixin.create({
     const resolved = await promise;
     if (resolved.toArray) {
       return {
-        data : resolved.toArray(),
-        meta : resolved.meta
+        data: resolved.toArray(),
+        meta: resolved.meta
       };
     }
     return resolved;
   }
-
-
 });

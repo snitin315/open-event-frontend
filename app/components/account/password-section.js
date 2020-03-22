@@ -4,38 +4,38 @@ import FormMixin from 'open-event-frontend/mixins/form';
 export default Component.extend(FormMixin, {
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         currentPassword: {
-          identifier : 'password_current',
-          rules      : [
+          identifier: 'password_current',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the current password')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the current password')
             }
           ]
         },
         newPassword: {
-          identifier : 'password_new',
-          rules      : [
+          identifier: 'password_new',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter a new password')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter a new password')
             },
             {
-              type   : 'minLength[8]',
-              prompt : this.l10n.t('Your password must have at least {ruleValue} characters')
+              type: 'minLength[8]',
+              prompt: this.l10n.t('Your password must have at least {ruleValue} characters')
             }
           ]
         },
         repeatPassword: {
-          identifier : 'password_repeat',
-          rules      : [
+          identifier: 'password_repeat',
+          rules: [
             {
-              type   : 'match[password_new]',
-              prompt : this.l10n.t('Passwords do not match')
+              type: 'match[password_new]',
+              prompt: this.l10n.t('Passwords do not match')
             }
           ]
         }
@@ -49,7 +49,10 @@ export default Component.extend(FormMixin, {
     },
     submit() {
       this.onValid(() => {
-        this.sendAction('changePassword', { passwordCurrent: this.passwordCurrent, passwordNew: this.passwordNew });
+        this.sendAction('changePassword', {
+          passwordCurrent: this.passwordCurrent,
+          passwordNew: this.passwordNew
+        });
       });
     }
   }

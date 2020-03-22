@@ -11,7 +11,7 @@ export default Controller.extend({
       this.set(`isLoading${mode}`, true);
       this.loader
         .load(`/events/${this.get('model.id')}/export/attendees/${mode}`)
-        .then(exportJobInfo => {
+        .then((exportJobInfo) => {
           this.requestLoop(exportJobInfo, mode);
         })
         .catch(() => {
@@ -24,7 +24,7 @@ export default Controller.extend({
     run.later(() => {
       this.loader
         .load(exportJobInfo.task_url, { withoutPrefix: true })
-        .then(exportJobStatus => {
+        .then((exportJobStatus) => {
           if (exportJobStatus.state === 'SUCCESS') {
             window.location = exportJobStatus.result.download_url;
             this.notify.success(this.l10n.t('Download Ready'));

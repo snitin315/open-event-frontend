@@ -2,14 +2,15 @@ import Component from '@ember/component';
 import { computed, action, get } from '@ember/object';
 
 export default class extends Component {
-
-
   metaItemsCountProperty = 'count';
 
   @computed('currentPage', 'pageSize', 'totalContentLength')
   get currentRange() {
     let firstIndex = this.totalContentLength === 0 ? 0 : (this.currentPage - 1) * this.pageSize + 1;
-    let lastIndex = (this.currentPage === this.pageCount || this.pageSize === 0) ? this.totalContentLength : this.currentPage * this.pageSize;
+    let lastIndex =
+      this.currentPage === this.pageCount || this.pageSize === 0
+        ? this.totalContentLength
+        : this.currentPage * this.pageSize;
     return `${firstIndex} - ${lastIndex}`;
   }
 
@@ -33,7 +34,6 @@ export default class extends Component {
   @computed('currentPage')
   get moveToPreviousPageDisabled() {
     return this.currentPage <= 1;
-
   }
 
   @computed('currentPage', 'pageCount')

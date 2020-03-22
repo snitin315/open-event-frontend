@@ -4,18 +4,18 @@ import ModelBase from 'open-event-frontend/models/base';
 import { belongsTo } from 'ember-data/relationships';
 
 export default ModelBase.extend({
-  subject        : attr('string'),
-  actionType     : attr('string'),
-  subjectId      : attr('string'),
-  link           : attr('string'),
-  notificationId : attr('string'),
+  subject: attr('string'),
+  actionType: attr('string'),
+  subjectId: attr('string'),
+  link: attr('string'),
+  notificationId: attr('string'),
 
   notification: belongsTo('notification'),
 
   /**
    * Computed properties
    */
-  buttonTitle: computed('subject', 'actionType', function() {
+  buttonTitle: computed('subject', 'actionType', function () {
     let action;
     switch (this.actionType) {
       case 'download':
@@ -69,7 +69,7 @@ export default ModelBase.extend({
         break;
 
       default:
-        // Nothing here.
+      // Nothing here.
     }
 
     return action + buttonSubject;
@@ -77,7 +77,7 @@ export default ModelBase.extend({
   /**
    * The route name to which the action button will direct the user to.
    */
-  buttonRoute: computed('subject', function() {
+  buttonRoute: computed('subject', function () {
     let routeName;
     switch (this.subject) {
       case 'event-export':

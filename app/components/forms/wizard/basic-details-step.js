@@ -15,74 +15,107 @@ import ENV from 'open-event-frontend/config/environment';
 import $ from 'jquery';
 
 export default Component.extend(FormMixin, EventWizardMixin, {
-
   currentTimezone: moment.tz.guess(),
   timezones,
 
   torii: service(),
 
-  licenses: computed(function() {
+  licenses: computed(function () {
     return orderBy(licenses, 'name');
   }),
 
-  countries: computed(function() {
+  countries: computed(function () {
     return orderBy(countries, 'name');
   }),
 
-  paymentCountries: computed(function() {
-    return orderBy(filter(countries, country => paymentCountries.includes(country.code)), 'name');
+  paymentCountries: computed(function () {
+    return orderBy(
+      filter(countries, (country) => paymentCountries.includes(country.code)),
+      'name'
+    );
   }),
 
-  paymentCurrencies: computed(function() {
+  paymentCurrencies: computed(function () {
     return orderBy(paymentCurrencies, 'name');
   }),
 
-  canAcceptPayPal: computed('data.event.paymentCurrency', 'settings.isPaypalActivated', function() {
-    return this.get('settings.isPaypalActivated') && find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).paypal;
+  canAcceptPayPal: computed(
+    'data.event.paymentCurrency',
+    'settings.isPaypalActivated',
+    function () {
+      return (
+        this.get('settings.isPaypalActivated') &&
+        find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).paypal
+      );
+    }
+  ),
+
+  canAcceptPaytm: computed('data.event.paymentCurrency', 'settings.isPaytmActivated', function () {
+    return (
+      this.get('settings.isPaytmActivated') &&
+      find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).paytm
+    );
   }),
 
-  canAcceptPaytm: computed('data.event.paymentCurrency', 'settings.isPaytmActivated', function() {
-    return this.get('settings.isPaytmActivated') && find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).paytm;
+  canAcceptStripe: computed(
+    'data.event.paymentCurrency',
+    'settings.isStripeActivated',
+    function () {
+      return (
+        this.get('settings.isStripeActivated') &&
+        find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).stripe
+      );
+    }
+  ),
+
+  canAcceptOmise: computed('data.event.paymentCurrency', 'settings.isOmiseActivated', function () {
+    return (
+      this.get('settings.isOmiseActivated') &&
+      find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).omise
+    );
   }),
 
-  canAcceptStripe: computed('data.event.paymentCurrency', 'settings.isStripeActivated', function() {
-    return this.get('settings.isStripeActivated') && find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).stripe;
-  }),
+  canAcceptAliPay: computed(
+    'data.event.paymentCurrency',
+    'settings.isAlipayActivated',
+    function () {
+      return (
+        this.get('settings.isAlipayActivated') &&
+        find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).alipay
+      );
+    }
+  ),
 
-  canAcceptOmise: computed('data.event.paymentCurrency', 'settings.isOmiseActivated', function() {
-    return this.get('settings.isOmiseActivated') && find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).omise;
-  }),
+  tickets: computed(
+    'data.event.tickets.@each.isDeleted',
+    'data.event.tickets.@each.position',
+    function () {
+      return this.get('data.event.tickets').sortBy('position').filterBy('isDeleted', false);
+    }
+  ),
 
-  canAcceptAliPay: computed('data.event.paymentCurrency', 'settings.isAlipayActivated', function() {
-    return this.get('settings.isAlipayActivated') && find(paymentCurrencies, ['code', this.get('data.event.paymentCurrency')]).alipay;
-  }),
-
-  tickets: computed('data.event.tickets.@each.isDeleted', 'data.event.tickets.@each.position', function() {
-    return this.get('data.event.tickets').sortBy('position').filterBy('isDeleted', false);
-  }),
-
-  socialLinks: computed('data.event.socialLinks.@each.isDeleted', function() {
+  socialLinks: computed('data.event.socialLinks.@each.isDeleted', function () {
     return this.get('data.event.socialLinks').filterBy('isDeleted', false);
   }),
 
-  isUserUnverified: computed('authManager.currentUser.isVerified', function() {
+  isUserUnverified: computed('authManager.currentUser.isVerified', function () {
     return !this.authManager.currentUser.isVerified;
   }),
   /**
    * returns the validation rules for the social links.
    */
-  socialLinksValidationRules: computed('socialLinks', function() {
+  socialLinksValidationRules: computed('socialLinks', function () {
     let validationRules = {};
     for (let i = 0; i < this.socialLinks.length; i++) {
       validationRules = merge(validationRules, {
         [this.socialLinks.get(i).identifier]: {
-          identifier : this.socialLinks.get(i).identifier,
-          optional   : true,
-          rules      : [
+          identifier: this.socialLinks.get(i).identifier,
+          optional: true,
+          rules: [
             {
-              type   : 'regExp',
-              value  : protocolLessValidUrlPattern,
-              prompt : this.l10n.t('Please enter a valid url')
+              type: 'regExp',
+              value: protocolLessValidUrlPattern,
+              prompt: this.l10n.t('Please enter a valid url')
             }
           ]
         }
@@ -92,15 +125,19 @@ export default Component.extend(FormMixin, EventWizardMixin, {
     return validationRules;
   }),
 
-  subTopics: computed('data.event.topic', function() {
-    later(this, () => {
-      try {
-        this.set('subTopic', null);
-      } catch (ignored) {
-        /* To suppress error thrown in-case this gets executed after component gets destroy */
-        console.warn('Error setting subTopic to null', ignored);
-      }
-    }, 50);
+  subTopics: computed('data.event.topic', function () {
+    later(
+      this,
+      () => {
+        try {
+          this.set('subTopic', null);
+        } catch (ignored) {
+          /* To suppress error thrown in-case this gets executed after component gets destroy */
+          console.warn('Error setting subTopic to null', ignored);
+        }
+      },
+      50
+    );
     if (!this.get('data.event.topic')) {
       return [];
     }
@@ -108,24 +145,32 @@ export default Component.extend(FormMixin, EventWizardMixin, {
     return this.get('data.event.topic.subTopics');
   }),
 
-  showDraftButton: computed('data.event.state', function() {
+  showDraftButton: computed('data.event.state', function () {
     return this.data.event.state !== 'published';
   }),
 
-  hasPaidTickets: computed('data.event.tickets.@each.type', function() {
-    return this.data.event.tickets.toArray().filter(ticket => ticket.type === 'paid' || ticket.type === 'donation').length > 0;
+  hasPaidTickets: computed('data.event.tickets.@each.type', function () {
+    return (
+      this.data.event.tickets
+        .toArray()
+        .filter((ticket) => ticket.type === 'paid' || ticket.type === 'donation').length > 0
+    );
   }),
 
-  hasCodeOfConduct: computed('data.event.codeOfConduct', function() {
+  hasCodeOfConduct: computed('data.event.codeOfConduct', function () {
     return !!this.get('data.event.codeOfConduct');
   }),
 
-  discountCodeObserver: observer('data.event.discountCode', function() {
+  discountCodeObserver: observer('data.event.discountCode', function () {
     this.getForm().form('remove prompt', 'discount_code');
   }),
 
   didInsertElement() {
-    if (!this.isCreate && this.get('data.event.copyright') && !this.get('data.event.copyright.content')) {
+    if (
+      !this.isCreate &&
+      this.get('data.event.copyright') &&
+      !this.get('data.event.copyright.content')
+    ) {
       this.set('data.event.copyright', this.store.createRecord('event-copyright'));
     }
   },
@@ -133,259 +178,266 @@ export default Component.extend(FormMixin, EventWizardMixin, {
   // TODO: Removing the Event Time Validations due to the weird and buggy behaviour. Will be restored once a perfect solution is found. Please check issue: https://github.com/fossasia/open-event-frontend/issues/3667
   getValidationRules() {
     $.fn.form.settings.rules.checkMaxMinPrice = () => {
-      return $('.ui.form').form('get value', 'min_price') <= $('.ui.form').form('get value', 'max_price');
+      return (
+        $('.ui.form').form('get value', 'min_price') <= $('.ui.form').form('get value', 'max_price')
+      );
     };
     $.fn.form.settings.rules.checkMaxMinOrder = () => {
-      return $('.ui.form').form('get value', 'ticket_min_order') <= $('.ui.form').form('get value', 'ticket_max_order');
+      return (
+        $('.ui.form').form('get value', 'ticket_min_order') <=
+        $('.ui.form').form('get value', 'ticket_max_order')
+      );
     };
 
     let validationRules = {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         name: {
-          identifier : 'name',
-          rules      : [
+          identifier: 'name',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please give your event a name')
+              type: 'empty',
+              prompt: this.l10n.t('Please give your event a name')
             }
           ]
         },
         timezone: {
-          identifier : 'timezone',
-          rules      : [
+          identifier: 'timezone',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Choose a timezone for your event')
+              type: 'empty',
+              prompt: this.l10n.t('Choose a timezone for your event')
             }
           ]
         },
         startDate: {
-          identifier : 'start_date',
-          rules      : [
+          identifier: 'start_date',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please tell us when your event starts')
+              type: 'empty',
+              prompt: this.l10n.t('Please tell us when your event starts')
             },
             {
-              type   : 'date',
-              prompt : this.l10n.t('Please give a valid start date')
+              type: 'date',
+              prompt: this.l10n.t('Please give a valid start date')
             }
           ]
         },
         endDate: {
-          identifier : 'end_date',
-          rules      : [
+          identifier: 'end_date',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please tell us when your event ends')
+              type: 'empty',
+              prompt: this.l10n.t('Please tell us when your event ends')
             },
             {
-              type   : 'date',
-              prompt : this.l10n.t('Please give a valid end date')
+              type: 'date',
+              prompt: this.l10n.t('Please give a valid end date')
             }
           ]
         },
         startTime: {
-          identifier : 'start_time',
-          depends    : 'start_date',
-          rules      : [
+          identifier: 'start_time',
+          depends: 'start_date',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please give a start time')
+              type: 'empty',
+              prompt: this.l10n.t('Please give a start time')
             }
           ]
         },
         endTime: {
-          identifier : 'end_time',
-          depends    : 'end_date',
-          rules      : [
+          identifier: 'end_time',
+          depends: 'end_date',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please give an end time')
+              type: 'empty',
+              prompt: this.l10n.t('Please give an end time')
             }
           ]
         },
         ticketName: {
-          identifier : 'ticket_name',
-          rules      : [
+          identifier: 'ticket_name',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please give your ticket a name')
+              type: 'empty',
+              prompt: this.l10n.t('Please give your ticket a name')
             }
           ]
         },
         ticketDescription: {
-          identifier : 'ticket_description',
-          optional   : true,
-          rules      : [
+          identifier: 'ticket_description',
+          optional: true,
+          rules: [
             {
-              type   : 'maxLength[160]',
-              prompt : this.l10n.t('Ticket description shouldn\'t contain more than {ruleValue} characters')
+              type: 'maxLength[160]',
+              prompt: this.l10n.t(
+                "Ticket description shouldn't contain more than {ruleValue} characters"
+              )
             }
           ]
         },
         ticketPrice: {
-          identifier : 'ticket_price',
-          rules      : [
+          identifier: 'ticket_price',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please give your ticket a price')
+              type: 'empty',
+              prompt: this.l10n.t('Please give your ticket a price')
             },
             {
-              type   : 'number',
-              prompt : this.l10n.t('Please give a proper price for you ticket')
+              type: 'number',
+              prompt: this.l10n.t('Please give a proper price for you ticket')
             },
             {
-              type   : 'decimal[0..]',
-              prompt : this.l10n.t('Ticket price should be greater than 0')
+              type: 'decimal[0..]',
+              prompt: this.l10n.t('Ticket price should be greater than 0')
             }
           ]
         },
         ticketQuantity: {
-          identifier : 'ticket_quantity',
-          rules      : [
+          identifier: 'ticket_quantity',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please specify how many tickets of this type are available')
+              type: 'empty',
+              prompt: this.l10n.t('Please specify how many tickets of this type are available')
             },
             {
-              type   : 'number',
-              prompt : this.l10n.t('Please give a proper quantity for you ticket')
+              type: 'number',
+              prompt: this.l10n.t('Please give a proper quantity for you ticket')
             }
           ]
         },
         ticketMinOrder: {
-          identifier : 'ticket_min_order',
-          rules      : [
+          identifier: 'ticket_min_order',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Minimum tickets per order required')
+              type: 'empty',
+              prompt: this.l10n.t('Minimum tickets per order required')
             },
             {
-              type   : 'number',
-              prompt : this.l10n.t('Invalid number')
+              type: 'number',
+              prompt: this.l10n.t('Invalid number')
             },
             {
-              type   : 'checkMaxMinOrder',
-              prompt : this.l10n.t('Minimum order should not be greater than maximum')
+              type: 'checkMaxMinOrder',
+              prompt: this.l10n.t('Minimum order should not be greater than maximum')
             }
           ]
         },
         ticketMaxOrder: {
-          identifier : 'ticket_max_order',
-          rules      : [
+          identifier: 'ticket_max_order',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Maximum tickets per order required')
+              type: 'empty',
+              prompt: this.l10n.t('Maximum tickets per order required')
             },
             {
-              type   : 'number',
-              prompt : this.l10n.t('Invalid number')
+              type: 'number',
+              prompt: this.l10n.t('Invalid number')
             },
             {
-              type   : 'integer[1..]',
-              prompt : this.l10n.t('Maximum tickets per order should be greater than 0')
+              type: 'integer[1..]',
+              prompt: this.l10n.t('Maximum tickets per order should be greater than 0')
             },
             {
-              type   : 'checkMaxMinOrder',
-              prompt : this.l10n.t('Maximum order should not be less than minimum')
+              type: 'checkMaxMinOrder',
+              prompt: this.l10n.t('Maximum order should not be less than minimum')
             }
           ]
         },
         minPrice: {
-          identifier : 'min_price',
-          rules      : [
+          identifier: 'min_price',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Minimum price for donation tickets required')
+              type: 'empty',
+              prompt: this.l10n.t('Minimum price for donation tickets required')
             },
             {
-              type   : 'integer[1..]',
-              prompt : this.l10n.t('Minimum price needs to be greater than zero')
+              type: 'integer[1..]',
+              prompt: this.l10n.t('Minimum price needs to be greater than zero')
             },
             {
-              type   : 'checkMaxMinPrice',
-              prompt : this.l10n.t('Minimum price should not be greater than maximum')
+              type: 'checkMaxMinPrice',
+              prompt: this.l10n.t('Minimum price should not be greater than maximum')
             }
           ]
         },
         maxPrice: {
-          identifier : 'max_price',
-          rules      : [
+          identifier: 'max_price',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Maximum price for donation tickets required')
+              type: 'empty',
+              prompt: this.l10n.t('Maximum price for donation tickets required')
             },
             {
-              type   : 'integer[1..]',
-              prompt : this.l10n.t('Maximum price needs to be greater than zero')
+              type: 'integer[1..]',
+              prompt: this.l10n.t('Maximum price needs to be greater than zero')
             },
             {
-              type   : 'checkMaxMinPrice',
-              prompt : this.l10n.t('Maximum price should not be less than minimum')
+              type: 'checkMaxMinPrice',
+              prompt: this.l10n.t('Maximum price should not be less than minimum')
             }
           ]
         },
         paypalEmail: {
-          identifier : 'paypal_email',
-          rules      : [
+          identifier: 'paypal_email',
+          rules: [
             {
-              type   : 'email',
-              prompt : this.l10n.t('Please enter a valid email')
+              type: 'email',
+              prompt: this.l10n.t('Please enter a valid email')
             },
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please fill your paypal email for payment of tickets.')
+              type: 'empty',
+              prompt: this.l10n.t('Please fill your paypal email for payment of tickets.')
             }
           ]
         },
         onSiteDetails: {
-          identifier : 'on_site_details',
-          rules      : [
+          identifier: 'on_site_details',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please fill the details for payment of tickets.')
+              type: 'empty',
+              prompt: this.l10n.t('Please fill the details for payment of tickets.')
             }
           ]
         },
         bankDetails: {
-          identifier : 'bank_details',
-          rules      : [
+          identifier: 'bank_details',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please fill the bank details for payment of tickets.')
+              type: 'empty',
+              prompt: this.l10n.t('Please fill the bank details for payment of tickets.')
             }
           ]
         },
         chequeDetails: {
-          identifier : 'cheque_details',
-          rules      : [
+          identifier: 'cheque_details',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please fill the cheque details for payment of tickets.')
+              type: 'empty',
+              prompt: this.l10n.t('Please fill the cheque details for payment of tickets.')
             }
           ]
         },
         externalEventIdentifier: {
-          identifier : 'external_event_url',
-          optional   : true,
-          rules      : [
+          identifier: 'external_event_url',
+          optional: true,
+          rules: [
             {
-              type   : 'regExp',
-              value  : protocolLessValidUrlPattern,
-              prompt : this.l10n.t('Please enter a valid url')
+              type: 'regExp',
+              value: protocolLessValidUrlPattern,
+              prompt: this.l10n.t('Please enter a valid url')
             }
           ]
         },
         paymentCountry: {
-          identifier : 'payment_country',
-          rules      : [
+          identifier: 'payment_country',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please select your country')
+              type: 'empty',
+              prompt: this.l10n.t('Please select your country')
             }
           ]
         }
@@ -398,14 +450,21 @@ export default Component.extend(FormMixin, EventWizardMixin, {
 
   actions: {
     connectStripe() {
-      this.torii.open('stripe')
-        .then(authorization => {
-          this.set('data.event.stripeAuthorization', this.store.createRecord('stripe-authorization', {
-            stripeAuthCode       : authorization.authorizationCode,
-            stripePublishableKey : ENV.environment === 'development' || ENV.environment === 'test' ? this.settings.stripeTestPublishableKey : this.settings.stripePublishableKey
-          }));
+      this.torii
+        .open('stripe')
+        .then((authorization) => {
+          this.set(
+            'data.event.stripeAuthorization',
+            this.store.createRecord('stripe-authorization', {
+              stripeAuthCode: authorization.authorizationCode,
+              stripePublishableKey:
+                ENV.environment === 'development' || ENV.environment === 'test'
+                  ? this.settings.stripeTestPublishableKey
+                  : this.settings.stripePublishableKey
+            })
+          );
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Error while setting stripe authorization in event', error);
           this.notify.error(this.l10n.t(`${error.message}. Please try again`), {
             id: 'basic_detail_err'
@@ -414,30 +473,30 @@ export default Component.extend(FormMixin, EventWizardMixin, {
     },
     async disconnectStripe() {
       let stripeAuthorization = await this.get('data.event.stripeAuthorization');
-      stripeAuthorization.destroyRecord()
-        .then(() => {
-          this.notify.success(this.l10n.t('Stripe disconnected successfully'), {
-            id: 'stripe_disconn'
-          });
+      stripeAuthorization.destroyRecord().then(() => {
+        this.notify.success(this.l10n.t('Stripe disconnected successfully'), {
+          id: 'stripe_disconn'
         });
-
+      });
     },
     addTicket(type, position) {
       const event = this.get('data.event');
       const salesStartDateTime = moment();
       const salesEndDateTime = this.get('data.event.startsAt');
-      this.get('data.event.tickets').pushObject(this.store.createRecord('ticket', {
-        event,
-        type,
-        position,
-        salesStartsAt : salesStartDateTime,
-        salesEndsAt   : salesEndDateTime
-      }));
+      this.get('data.event.tickets').pushObject(
+        this.store.createRecord('ticket', {
+          event,
+          type,
+          position,
+          salesStartsAt: salesStartDateTime,
+          salesEndsAt: salesEndDateTime
+        })
+      );
     },
 
     updateSalesEndDate(eventStartDate) {
       eventStartDate = moment(new Date(eventStartDate));
-      this.get('data.event.tickets').forEach(ticket => {
+      this.get('data.event.tickets').forEach((ticket) => {
         if (moment(eventStartDate).isBefore(ticket.get('salesEndsAt'))) {
           ticket.set('salesEndsAt', moment(eventStartDate, 'MM/DD/YYYY').toDate());
         }
@@ -446,7 +505,7 @@ export default Component.extend(FormMixin, EventWizardMixin, {
 
     removeTicket(deleteTicket) {
       const index = deleteTicket.get('position');
-      this.get('data.event.tickets').forEach(ticket => {
+      this.get('data.event.tickets').forEach((ticket) => {
         if (ticket.get('position') > index) {
           ticket.set('position', ticket.get('position') - 1);
         }
@@ -456,9 +515,12 @@ export default Component.extend(FormMixin, EventWizardMixin, {
 
     moveTicket(ticket, direction) {
       const index = ticket.get('position');
-      const otherTicket = this.get('data.event.tickets').find(otherTicket => otherTicket.get('position') === (direction === 'up' ? (index - 1) : (index + 1)));
+      const otherTicket = this.get('data.event.tickets').find(
+        (otherTicket) =>
+          otherTicket.get('position') === (direction === 'up' ? index - 1 : index + 1)
+      );
       otherTicket.set('position', index);
-      ticket.set('position', direction === 'up' ? (index - 1) : (index + 1));
+      ticket.set('position', direction === 'up' ? index - 1 : index + 1);
     },
 
     openTaxModal(isNewTax) {
@@ -476,27 +538,35 @@ export default Component.extend(FormMixin, EventWizardMixin, {
     redeemDiscountCode() {
       this.set('validatingDiscountCode', true);
       // TODO do proper checks. Simulating now.
-      later(this, () => {
-        if (this.get('data.event.discountCode.code') !== 'AIYPWZQP') {
-          this.getForm().form('add prompt', 'discount_code', this.l10n.t('This discount code is invalid. Please try again.'));
-        } else {
-          this.set('data.event.discountCode.code', 42);
-          this.set('discountCodeDescription', 'Tester special discount');
-          this.set('discountCodeValue', '25%');
-          this.set('discountCodePeriod', '5');
-        }
+      later(
+        this,
+        () => {
+          if (this.get('data.event.discountCode.code') !== 'AIYPWZQP') {
+            this.getForm().form(
+              'add prompt',
+              'discount_code',
+              this.l10n.t('This discount code is invalid. Please try again.')
+            );
+          } else {
+            this.set('data.event.discountCode.code', 42);
+            this.set('discountCodeDescription', 'Tester special discount');
+            this.set('discountCodeValue', '25%');
+            this.set('discountCodePeriod', '5');
+          }
 
-        this.set('validatingDiscountCode', false);
-      }, 1000);
+          this.set('validatingDiscountCode', false);
+        },
+        1000
+      );
     },
 
     removeDiscountCode() {
       this.setProperties({
-        'data.event.discountCode'      : '',
-        'data.event.discountCode.code' : null,
-        'discountCodeDescription'      : null,
-        'discountCodeValue'            : null,
-        'discountCodePeriod'           : null
+        'data.event.discountCode': '',
+        'data.event.discountCode.code': null,
+        discountCodeDescription: null,
+        discountCodeValue: null,
+        discountCodePeriod: null
       });
     },
 
@@ -516,9 +586,9 @@ export default Component.extend(FormMixin, EventWizardMixin, {
       const copyright = await this.getOrCreate(event, 'copyright', 'event-copyright');
       let license = find(licenses, { name });
       copyright.setProperties({
-        licence    : name,
-        logoUrl    : license.logoUrl,
-        licenceUrl : license.link
+        licence: name,
+        logoUrl: license.logoUrl,
+        licenceUrl: license.link
       });
     },
     onChange() {

@@ -4,7 +4,6 @@ import EmberTableRouteMixin from 'open-event-frontend/mixins/ember-table-route';
 import moment from 'moment';
 
 export default class extends Route.extend(EmberTableRouteMixin) {
-
   titleToken() {
     switch (this.get('params.events_status')) {
       case 'live':
@@ -18,7 +17,6 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     }
   }
 
-
   async model(params) {
     this.set('params', params);
     let filterOptions = [];
@@ -28,33 +26,33 @@ export default class extends Route.extend(EmberTableRouteMixin) {
         {
           and: [
             {
-              name : 'deleted-at',
-              op   : 'eq',
-              val  : null
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
             },
             {
-              name : 'state',
-              op   : 'eq',
-              val  : 'published'
+              name: 'state',
+              op: 'eq',
+              val: 'published'
             },
             {
               or: [
                 {
-                  name : 'starts-at',
-                  op   : 'ge',
-                  val  : moment().toISOString()
+                  name: 'starts-at',
+                  op: 'ge',
+                  val: moment().toISOString()
                 },
                 {
                   and: [
                     {
-                      name : 'starts-at',
-                      op   : 'le',
-                      val  : moment().toISOString()
+                      name: 'starts-at',
+                      op: 'le',
+                      val: moment().toISOString()
                     },
                     {
-                      name : 'ends-at',
-                      op   : 'gt',
-                      val  : moment().toISOString()
+                      name: 'ends-at',
+                      op: 'gt',
+                      val: moment().toISOString()
                     }
                   ]
                 }
@@ -68,19 +66,19 @@ export default class extends Route.extend(EmberTableRouteMixin) {
         {
           and: [
             {
-              name : 'deleted-at',
-              op   : 'eq',
-              val  : null
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
             },
             {
-              name : 'ends-at',
-              op   : 'lt',
-              val  : moment().toISOString()
+              name: 'ends-at',
+              op: 'lt',
+              val: moment().toISOString()
             },
             {
-              name : 'state',
-              op   : 'eq',
-              val  : 'published'
+              name: 'state',
+              op: 'eq',
+              val: 'published'
             }
           ]
         }
@@ -88,28 +86,26 @@ export default class extends Route.extend(EmberTableRouteMixin) {
     } else if (params.events_status === 'draft') {
       filterOptions = [
         {
-          and:
-            [
-              {
-                name : 'deleted-at',
-                op   : 'eq',
-                val  : null
-              },
-              {
-                name : 'state',
-                op   : 'eq',
-                val  : 'draft'
-              }
-            ]
-
+          and: [
+            {
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
+            },
+            {
+              name: 'state',
+              op: 'eq',
+              val: 'draft'
+            }
+          ]
         }
       ];
     } else if (params.events_status === 'deleted') {
       filterOptions = [
         {
-          name : 'deleted-at',
-          op   : 'ne',
-          val  : null
+          name: 'deleted-at',
+          op: 'ne',
+          val: null
         }
       ];
     } else {
@@ -118,14 +114,14 @@ export default class extends Route.extend(EmberTableRouteMixin) {
 
     filterOptions = this.applySearchFilters(filterOptions, params, searchField);
     let queryString = {
-      get_trashed    : true,
-      include        : 'owner,organizers,coorganizers,track-organizers,registrars,moderators',
-      filter         : filterOptions,
-      'page[size]'   : params.per_page || 10,
-      'page[number]' : params.page || 1
+      get_trashed: true,
+      include: 'owner,organizers,coorganizers,track-organizers,registrars,moderators',
+      filter: filterOptions,
+      'page[size]': params.per_page || 10,
+      'page[number]': params.page || 1
     };
     queryString = this.applySortFilters(queryString, params);
-    return  this.asArray(this.store.query('event', queryString));
+    return this.asArray(this.store.query('event', queryString));
   }
 
   @action

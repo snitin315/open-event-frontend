@@ -6,11 +6,12 @@ export default class extends Controller {
   updateContactInfo() {
     this.set('isLoading', true);
     let currentUser = this.model.user;
-    currentUser.save()
+    currentUser
+      .save()
       .then(() => {
         this.notify.success(this.l10n.t('Your Contact Info has been updated'));
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while updating contact info', e);
         this.notify.error(this.l10n.t('An unexpected error occurred'));
       })
@@ -19,4 +20,3 @@ export default class extends Controller {
       });
   }
 }
-

@@ -3,7 +3,6 @@ import { run } from '@ember/runloop';
 import { action } from '@ember/object';
 
 export default class extends Controller {
-
   isLoading = false;
 
   @action
@@ -11,7 +10,7 @@ export default class extends Controller {
     this.set('isLoading', true);
     this.loader
       .load(`/events/${this.model.id}/export/speakers/csv`)
-      .then(exportJobInfo => {
+      .then((exportJobInfo) => {
         this.requestLoop(exportJobInfo);
       })
       .catch(() => {
@@ -24,7 +23,7 @@ export default class extends Controller {
     run.later(() => {
       this.loader
         .load(exportJobInfo.task_url, { withoutPrefix: true })
-        .then(exportJobStatus => {
+        .then((exportJobStatus) => {
           if (exportJobStatus.state === 'SUCCESS') {
             window.location = exportJobStatus.result.download_url;
             this.notify.success(this.l10n.t('Download Ready'));

@@ -7,7 +7,7 @@ module('Integration | Component | ui table/expand row cell', function(hooks) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{partial ui-table/expand-row-cell}}`);
+    await render(hbs`{{partial ui-table/expand-row-cell}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
   });
 });

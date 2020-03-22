@@ -5,20 +5,19 @@ import { humanReadableBytes, isFileValid } from 'open-event-frontend/utils/file'
 import { v4 } from 'ember-uuid';
 
 export default Component.extend({
+  selectedImage: null,
+  allowDragDrop: true,
+  requiresDivider: false,
 
-  selectedImage   : null,
-  allowDragDrop   : true,
-  requiresDivider : false,
-
-  inputIdGenerated: computed('inputId', function() {
+  inputIdGenerated: computed('inputId', function () {
     return this.inputId ? this.inputId : v4();
   }),
 
-  maxSize: computed('maxSizeInKb', function() {
+  maxSize: computed('maxSizeInKb', function () {
     return humanReadableBytes(this.maxSizeInKb);
   }),
 
-  allowReCrop: computed('selectedImage', 'needsCropper', function() {
+  allowReCrop: computed('selectedImage', 'needsCropper', function () {
     return this.needsCropper && !this.selectedImage.includes('http');
   }),
 
@@ -30,11 +29,11 @@ export default Component.extend({
       .post('/upload/image', {
         data: imageData
       })
-      .then(image => {
+      .then((image) => {
         this.set('uploadingImage', false);
         this.set('imageUrl', image.url);
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while uploading and setting image URL', e);
         this.set('uploadingImage', false);
         this.set('errorMessage', this.i18n.t('An unexpected error occurred.'));
@@ -43,35 +42,34 @@ export default Component.extend({
 
   processFiles(files) {
     if (files && files[0]) {
-      isFileValid(files[0], this.maxSizeInKb, ['image/jpeg', 'image/png']).then(() => {
-        const reader = new FileReader();
-        reader.onload = e => {
-          const untouchedImageData = e.target.result;
-          if (this.needsCropper) {
-            this.set('imgData', untouchedImageData);
-            this.set('cropperModalIsShown', true);
-          } else {
-            this.uploadImage(untouchedImageData);
-          }
-        };
-        reader.readAsDataURL(files[0]);
-
-      }).catch(error => {
-        console.error('Error while image reading and cropping', error);
-        this.notify.error(error, {
-          id: 'unexpected_image_upload_1'
+      isFileValid(files[0], this.maxSizeInKb, ['image/jpeg', 'image/png'])
+        .then(() => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const untouchedImageData = e.target.result;
+            if (this.needsCropper) {
+              this.set('imgData', untouchedImageData);
+              this.set('cropperModalIsShown', true);
+            } else {
+              this.uploadImage(untouchedImageData);
+            }
+          };
+          reader.readAsDataURL(files[0]);
+        })
+        .catch((error) => {
+          console.error('Error while image reading and cropping', error);
+          this.notify.error(error, {
+            id: 'unexpected_image_upload_1'
+          });
         });
-      });
     } else {
       this.notify.error(this.l10n.t('No FileReader support. Please use a more latest browser'), {
         id: 'unexpected_image_upload_2'
       });
     }
-
   },
 
   actions: {
-
     fileSelected(event) {
       this.processFiles(event.target.files);
     },
@@ -108,7 +106,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
     $(this.element)
-      .on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+      .on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
         e.preventDefault();
         e.stopPropagation();
       })
@@ -118,7 +116,7 @@ export default Component.extend({
       .on('dragleave dragend drop', () => {
         $('.upload.segment', this.element).removeClass('drag-hover');
       })
-      .on('drop', e => {
+      .on('drop', (e) => {
         this.processFiles(e.originalEvent.dataTransfer.files);
       });
   },
@@ -127,5 +125,4 @@ export default Component.extend({
     this._super(...arguments);
     $(this.element).off('drag dragstart dragend dragover dragenter dragleave drop');
   }
-
 });

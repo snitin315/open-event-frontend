@@ -3,13 +3,13 @@ import { setupIntegrationTest } from 'open-event-frontend/tests/helpers/setup-in
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@ember/test-helpers';
 
-module('Integration | Component | ui table/cell/events/views/sessions/cell is mail sent', function(hooks) {
+module('Integration | Component | ui table/cell/events/views/sessions/cell is mail sent', function(
+  hooks
+) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{ui-table/cell/events/views/sessions/cell-is-mail-sent}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
-
   });
 });

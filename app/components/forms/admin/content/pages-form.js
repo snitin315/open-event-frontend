@@ -2,73 +2,72 @@ import Component from '@ember/component';
 import FormMixin from 'open-event-frontend/mixins/form';
 
 export default Component.extend(FormMixin, {
-
   getValidationRules() {
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         name: {
-          identifier : 'name',
-          rules      : [
+          identifier: 'name',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter a name')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter a name')
             }
           ]
         },
         title: {
-          identifier : 'title',
-          rules      : [
+          identifier: 'title',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter a title')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter a title')
             }
           ]
         },
         url: {
-          identifier : 'url',
-          rules      : [
+          identifier: 'url',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter the path')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter the path')
             },
             {
-              type   : 'regExp',
-              value  : '/[^/](.*)/',
-              prompt : this.l10n.t('Path should not contain leading slash.')
+              type: 'regExp',
+              value: '/[^/](.*)/',
+              prompt: this.l10n.t('Path should not contain leading slash.')
             },
             {
-              type   : 'doesntContain[ ]',
-              prompt : this.l10n.t('Path should not contain whitespaces.')
+              type: 'doesntContain[ ]',
+              prompt: this.l10n.t('Path should not contain whitespaces.')
             }
           ]
         },
         place: {
-          identifier : 'place',
-          rules      : [
+          identifier: 'place',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please select a place')
+              type: 'empty',
+              prompt: this.l10n.t('Please select a place')
             }
           ]
         },
         position: {
-          identifier : 'position',
-          rules      : [
+          identifier: 'position',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter a position')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter a position')
             }
           ]
         },
         language: {
-          identifier : 'language',
-          rules      : [
+          identifier: 'language',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter a language')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter a language')
             }
           ]
         }

@@ -6,7 +6,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
     return this.l10n.t('Danger Zone');
   },
   async model() {
-
     let user = this.get('authManager.currentUser');
     const events = await user.query('events', {});
     const orders = await user.query('orders', {});

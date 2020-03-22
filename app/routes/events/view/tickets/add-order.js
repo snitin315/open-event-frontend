@@ -8,16 +8,16 @@ export default Route.extend({
     const eventDetails = this.modelFor('events.view');
     let queryObject = {};
     return {
-      tickets    : await eventDetails.query('tickets', queryObject),
-      query      : queryObject,
-      store      : eventDetails,
-      objectType : 'tickets',
+      tickets: await eventDetails.query('tickets', queryObject),
+      query: queryObject,
+      store: eventDetails,
+      objectType: 'tickets',
 
       order: await this.store.createRecord('order', {
-        event     : eventDetails,
-        user      : this.get('authManager.currentUser'),
-        tickets   : [],
-        attendees : []
+        event: eventDetails,
+        user: this.get('authManager.currentUser'),
+        tickets: [],
+        attendees: []
       }),
 
       attendees: []
@@ -25,7 +25,7 @@ export default Route.extend({
   },
   afterModel(model) {
     let { tickets } = model;
-    tickets.forEach(ticket => {
+    tickets.forEach((ticket) => {
       ticket.set('orderQuantity', 0);
     });
   },

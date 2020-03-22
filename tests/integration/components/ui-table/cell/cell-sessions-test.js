@@ -7,7 +7,7 @@ module('Integration | Component | ui table/cell/cell sessions', function(hooks) 
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/cell/cell-sessions}}`);
+    await render(hbs`{{ui-table/cell/cell-sessions}}`);
     assert.ok(this.element.innerHTML.trim().includes('Submitted'));
   });
 });

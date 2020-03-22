@@ -14,7 +14,7 @@
   opacity: 0;
   padding: 18px 24px;
   position: fixed;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   transition-property: opacity, bottom, left, right, width, margin, border-radius;
   transition-timing-function: ease;
   z-index: 99999999;
@@ -30,7 +30,6 @@
     padding: 0;
     text-transform: uppercase;
   }
-
 }
 
 @media (min-width: 640px) {

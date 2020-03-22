@@ -15,4 +15,3 @@ module('Integration | Helper | sanitize', function(hooks) {
     assert.equal(this.element.innerHTML.trim(), '<p>hello</p>');
   });
 });
-

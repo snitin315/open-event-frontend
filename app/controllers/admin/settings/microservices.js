@@ -6,19 +6,18 @@ export default class extends Controller {
   updateSettings() {
     this.set('isLoading', true);
     let settings = this.model;
-    settings.save()
+    settings
+      .save()
       .then(() => {
-        this.notify.success(this.l10n.t('Settings have been saved successfully.'),
-          {
-            id: 'setting_microservice_save'
-          });
+        this.notify.success(this.l10n.t('Settings have been saved successfully.'), {
+          id: 'setting_microservice_save'
+        });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while saving microservices settings', e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. Settings not saved.'),
-          {
-            id: 'setting_microservice_error'
-          });
+        this.notify.error(this.l10n.t('An unexpected error has occurred. Settings not saved.'), {
+          id: 'setting_microservice_error'
+        });
       })
       .finally(() => {
         this.set('isLoading', false);

@@ -7,7 +7,7 @@ module('Integration | Component | ui table/header row sorting', function(hooks) 
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/header-row-sorting}}`);
+    await render(hbs`{{ui-table/header-row-sorting}}`);
     assert.ok(this.element.innerHTML.trim().includes('tr'));
   });
 });

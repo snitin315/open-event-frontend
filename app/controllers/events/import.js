@@ -4,29 +4,28 @@ import { action, computed } from '@ember/object';
 
 export default class extends Controller {
   importStatus = '';
-  importError  = '';
-  isImporting  = false;
-  file         = false;
-  fileName     = '';
+  importError = '';
+  isImporting = false;
+  file = false;
+  fileName = '';
 
   @computed()
   get columns() {
     return [
       {
-        name      : 'State',
-        valuePath : 'resultStatus'
+        name: 'State',
+        valuePath: 'resultStatus'
       },
       {
-        name      : 'Message',
-        valuePath : 'result'
-
+        name: 'Message',
+        valuePath: 'result'
       },
       {
-        name            : 'Started',
-        valuePath       : 'startsAt',
-        cellComponent   : 'ui-table/cell/cell-simple-date',
-        headerComponent : 'tables/headers/sort',
-        isSortable      : true
+        name: 'Started',
+        valuePath: 'startsAt',
+        cellComponent: 'ui-table/cell/cell-simple-date',
+        headerComponent: 'tables/headers/sort',
+        isSortable: true
       }
     ];
   }
@@ -35,7 +34,7 @@ export default class extends Controller {
     run.later(() => {
       this.loader
         .load(taskUrl)
-        .then(data => {
+        .then((data) => {
           if (data.state !== 'SUCCESS') {
             this.set('importStatus', `Status: ${data.state}`);
             this.importTask(taskUrl);
@@ -44,12 +43,12 @@ export default class extends Controller {
             this.transitionToRoute('events.view', data.result.id);
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.error('Error while importing event', e);
           this.setProperties({
-            'importError' : e.message,
-            'isImporting' : false,
-            'file'        : false
+            importError: e.message,
+            isImporting: false,
+            file: false
           });
         });
     }, 3000);
@@ -72,21 +71,20 @@ export default class extends Controller {
     data.append('file', file);
 
     this.setProperties({
-      'importStatus' : 'Uploading file.. Please don\'t close this window',
-      'importError'  : '',
-      'isImporting'  : true,
-      'file'         : true
+      importStatus: "Uploading file.. Please don't close this window",
+      importError: '',
+      isImporting: true,
+      file: true
     });
 
-    this.loader.post(
-      `/events/${endpoint}`,
-      data,
-      { isFile: true }
-    ).then(data => {
-      this.importTask(`tasks/${data.task_url.split('/')[3]}`);
-    }).catch(e => {
-      console.error('Error while importing event', e);
-      this.set('importError', e.message);
-    });
+    this.loader
+      .post(`/events/${endpoint}`, data, { isFile: true })
+      .then((data) => {
+        this.importTask(`tasks/${data.task_url.split('/')[3]}`);
+      })
+      .catch((e) => {
+        console.error('Error while importing event', e);
+        this.set('importError', e.message);
+      });
   }
 }

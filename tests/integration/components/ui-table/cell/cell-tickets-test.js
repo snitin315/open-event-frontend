@@ -9,12 +9,12 @@ module('Integration | Component | ui table/cell/cell tickets', function(hooks) {
   const record = [{ type: 'Premium', order: 12, total: 100 }];
   test('it renders', async function(assert) {
     this.set('record', record);
-    await render(hbs `{{ui-table/cell/cell-tickets record=record}}`);
+    await render(hbs`{{ui-table/cell/cell-tickets record=record}}`);
     assert.ok(this.element.innerHTML.trim().includes('Premium'));
   });
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table/cell/cell-tickets record=record}}`);
+    await render(hbs`{{ui-table/cell/cell-tickets record=record}}`);
     assert.ok(this.element.innerHTML.trim().includes('No Ticket Information'));
   });
 });

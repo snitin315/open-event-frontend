@@ -8,11 +8,13 @@ module('Integration | Component | modals/tax info modal', function(hooks) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     const store = this.owner.lookup('service:store');
 
     this.set('isOpen', false);
-    this.set('taxInfo', run(() => store.createRecord('tax')));
+    this.set(
+      'taxInfo',
+      run(() => store.createRecord('tax'))
+    );
     this.set('hasTaxInfo', false);
 
     await render(hbs`{{modals/tax-info-modal isOpen=isOpen tax=taxInfo hasTaxInfo=hasTaxInfo}}`);

@@ -3,16 +3,19 @@ import { setupIntegrationTest } from 'open-event-frontend/tests/helpers/setup-in
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@ember/test-helpers';
 
-module('Integration | Component | ui table/cell/events/view/tickets/attendees/cell order', function(hooks) {
-  setupIntegrationTest(hooks);
-  const props = {
-    actions: {
-      toggleCheckIn: () => {}
-    }
-  };
-  test('it renders', async function(assert) {
-    this.set('props', props);
-    await render(hbs`{{ui-table/cell/events/view/tickets/attendees/cell-order props=props}}`);
-    assert.ok(this.element.textContent.trim().includes(''));
-  });
-});
+module(
+  'Integration | Component | ui table/cell/events/view/tickets/attendees/cell order',
+  function(hooks) {
+    setupIntegrationTest(hooks);
+    const props = {
+      actions: {
+        toggleCheckIn: () => {}
+      }
+    };
+    test('it renders', async function(assert) {
+      this.set('props', props);
+      await render(hbs`{{ui-table/cell/events/view/tickets/attendees/cell-order props=props}}`);
+      assert.ok(this.element.textContent.trim().includes(''));
+    });
+  }
+);

@@ -13,9 +13,10 @@ module('Integration | Component | tables/utilities/pagination', function(hooks) 
       metaData    : {
         count: 100
       }
-
     });
-    await render(hbs`{{tables/utilities/pagination currentPage=currentPage pageSize=pageSize metaData=metaData}}`);
+    await render(
+      hbs`{{tables/utilities/pagination currentPage=currentPage pageSize=pageSize metaData=metaData}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('Show'));
   });
 });

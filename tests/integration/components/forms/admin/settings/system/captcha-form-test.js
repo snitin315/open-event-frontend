@@ -7,10 +7,8 @@ module('Integration | Component | forms/admin/settings/system/captcha-form', fun
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{forms/admin/settings/system/captcha-form}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('Captcha Options'));
-
   });
 });

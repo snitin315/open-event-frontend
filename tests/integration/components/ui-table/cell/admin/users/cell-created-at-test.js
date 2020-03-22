@@ -7,7 +7,6 @@ module('Integration | Component | ui table/cell/admin/users/cell created at', fu
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{ui-table/cell/admin/users/cell-created-at}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
   });

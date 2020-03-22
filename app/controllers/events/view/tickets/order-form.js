@@ -6,7 +6,9 @@ export default Controller.extend({
    */
   async saveForms(data) {
     await data.event.save();
-    await Promise.all((data.customForms ? data.customForms.toArray() : []).map(customForm => customForm.save()));
+    await Promise.all(
+      (data.customForms ? data.customForms.toArray() : []).map((customForm) => customForm.save())
+    );
     return data;
   },
 
@@ -17,7 +19,7 @@ export default Controller.extend({
         .then(() => {
           this.notify.success(this.l10n.t('Your Attendee form has been saved'));
         })
-        .catch(e => {
+        .catch((e) => {
           console.error(e);
           this.notify.error(this.l10n.t(e.errors[0].detail));
         })

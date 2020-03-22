@@ -26,9 +26,8 @@ module('Integration | Component | public/speaker item', function(hooks) {
   });
 
   test('it renders', async function(assert) {
-
     this.set('speaker', speaker);
-    await render(hbs `{{public/speaker-item speaker=speaker}}`);
+    await render(hbs`{{public/speaker-item speaker=speaker}}`);
 
     assert.ok(this.element.innerHTML.trim().includes('FOSSASIA'));
   });

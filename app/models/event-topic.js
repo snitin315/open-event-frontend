@@ -3,9 +3,9 @@ import ModelBase from 'open-event-frontend/models/base';
 import { hasMany } from 'ember-data/relationships';
 
 export default ModelBase.extend({
-  name : attr('string'),
-  slug : attr('string'),
+  name: attr('string'),
+  slug: attr('string'),
 
-  subTopics : hasMany('event-sub-topic'),
-  events    : hasMany('event')
+  subTopics: hasMany('event-sub-topic'),
+  events: hasMany('event')
 });

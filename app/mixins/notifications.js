@@ -4,7 +4,8 @@ export default Mixin.create({
   actions: {
     markAsRead(notification) {
       notification.set('isRead', true);
-      notification.save()
+      notification
+        .save()
         .then(() => {
           this.notify.success(this.l10n.t('Marked as Read successfully'));
         })
@@ -20,8 +21,7 @@ export default Mixin.create({
         bulkPromises.push(notification.save());
       }
 
-      Promise
-        .all(bulkPromises)
+      Promise.all(bulkPromises)
         .then(() => {
           this.notify.success(this.l10n.t('Marked all as Read successfully'));
         })

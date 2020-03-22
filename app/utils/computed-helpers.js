@@ -10,19 +10,23 @@ import { FORM_DATE_FORMAT, FORM_TIME_FORMAT } from 'open-event-frontend/utils/di
  * @param property The string URL field
  * @returns {*}
  */
-export const computedSegmentedLink = function(property) {
+export const computedSegmentedLink = function (property) {
   return computed(property, {
     get() {
       const splitted = this.get(property) ? this.get(property).split('://') : [];
-      if (!splitted || splitted.length === 0 || (splitted.length === 1 && splitted[0].includes('http'))) {
+      if (
+        !splitted ||
+        splitted.length === 0 ||
+        (splitted.length === 1 && splitted[0].includes('http'))
+      ) {
         return {
-          protocol : 'https',
-          address  : ''
+          protocol: 'https',
+          address: ''
         };
       }
       return {
-        protocol : splitted[0],
-        address  : splitted[1]
+        protocol: splitted[0],
+        address: splitted[1]
       };
     },
     set(key, value) {
@@ -44,7 +48,7 @@ export const computedSegmentedLink = function(property) {
  * @param endProperty Optional end field name for date or time.
  * @returns {*}
  */
-export const computedDateTimeSplit = function(property, segmentFormat, endProperty) {
+export const computedDateTimeSplit = function (property, segmentFormat, endProperty) {
   return computed(property, {
     get() {
       let momentDate = moment(this.get(property));
@@ -60,7 +64,10 @@ export const computedDateTimeSplit = function(property, segmentFormat, endProper
       }
       let oldDate = newDate;
       if (this.get(property)) {
-        oldDate = moment(this.get(property), segmentFormat === 'date' ? FORM_DATE_FORMAT : FORM_TIME_FORMAT);
+        oldDate = moment(
+          this.get(property),
+          segmentFormat === 'date' ? FORM_DATE_FORMAT : FORM_TIME_FORMAT
+        );
         if (this.constructor.modelName === 'event') {
           oldDate = oldDate.tz(this.timezone, true);
         }
@@ -89,5 +96,9 @@ export const computedDateTimeSplit = function(property, segmentFormat, endProper
 };
 
 function getFormat(segmentFormat) {
-  return segmentFormat === 'time' ? FORM_TIME_FORMAT : (segmentFormat === 'date' ? FORM_DATE_FORMAT : segmentFormat);
+  return segmentFormat === 'time'
+    ? FORM_TIME_FORMAT
+    : segmentFormat === 'date'
+    ? FORM_DATE_FORMAT
+    : segmentFormat;
 }

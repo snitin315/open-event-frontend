@@ -18,7 +18,6 @@ module('Acceptance | create', function(hooks) {
     assert.equal(currentURL(), '/create');
   });
 
-
   test('visiting /create with login', async function(assert) {
     await login(assert);
     await visit('/create');

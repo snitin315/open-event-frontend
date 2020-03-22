@@ -5,15 +5,14 @@ import { humanReadableBytes, isFileValid } from 'open-event-frontend/utils/file'
 import { v4 } from 'ember-uuid';
 
 export default Component.extend({
+  selectedFile: null,
+  allowDragDrop: true,
 
-  selectedFile  : null,
-  allowDragDrop : true,
-
-  inputIdGenerated: computed('inputId', function() {
+  inputIdGenerated: computed('inputId', function () {
     return this.inputId ? this.inputId : v4();
   }),
 
-  maxSize: computed('maxSizeInKb', function() {
+  maxSize: computed('maxSizeInKb', function () {
     return humanReadableBytes(this.maxSizeInKb);
   }),
 
@@ -22,13 +21,13 @@ export default Component.extend({
     this.set('uploadingFile', true);
     this.loader
       .uploadFile('/upload/files', $(`#${this.inputIdGenerated}`, this.element))
-      .then(file => {
+      .then((file) => {
         this.set('fileUrl', JSON.parse(file).url);
         this.notify.success(this.l10n.t('File uploaded successfully'), {
           id: 'file_upload_succ'
         });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while upload file', e);
         this.notify.error(this.l10n.t('Oops something went wrong. Please try again'), {
           id: 'file_upload_err'
@@ -41,18 +40,25 @@ export default Component.extend({
 
   processFiles(files) {
     if (files && files[0]) {
-      isFileValid(files[0], this.maxSizeInKb, ['application/pdf', 'application/vnd.ms-powerpoint', 'video/mp4', 'application/vnd.oasis.opendocument.presentation']).then(() => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.uploadFile();
-        };
-        reader.readAsDataURL(files[0]);
-      }).catch(error => {
-        console.error('Error while reading file', error);
-        this.notify.error(error, {
-          id: 'file_upload_err_1'
+      isFileValid(files[0], this.maxSizeInKb, [
+        'application/pdf',
+        'application/vnd.ms-powerpoint',
+        'video/mp4',
+        'application/vnd.oasis.opendocument.presentation'
+      ])
+        .then(() => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.uploadFile();
+          };
+          reader.readAsDataURL(files[0]);
+        })
+        .catch((error) => {
+          console.error('Error while reading file', error);
+          this.notify.error(error, {
+            id: 'file_upload_err_1'
+          });
         });
-      });
     } else {
       this.notify.error(this.l10n.t('No FileReader support. Please use a more latest browser'), {
         id: 'file_upload_err_brow'
@@ -89,7 +95,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
     $(this.element)
-      .on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+      .on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
         e.preventDefault();
         e.stopPropagation();
       })
@@ -99,7 +105,7 @@ export default Component.extend({
       .on('dragleave dragend drop', () => {
         $('.upload.segment', this.element).removeClass('drag-hover');
       })
-      .on('drop', e => {
+      .on('drop', (e) => {
         this.processFiles(e.originalEvent.dataTransfer.files);
       });
   },
@@ -108,5 +114,4 @@ export default Component.extend({
     this._super(...arguments);
     $(this.element).off('drag dragstart dragend dragover dragenter dragleave drop');
   }
-
 });

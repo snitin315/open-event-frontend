@@ -6,10 +6,10 @@ import UiModal from 'semantic-ui-ember/components/ui-modal';
 import { isTesting } from 'open-event-frontend/utils/testing';
 
 export default UiModal.extend({
-  tagName           : 'div',
-  classNameBindings : ['isFullScreen:fullscreen', 'isSmall:small', 'isLarge:large'],
+  tagName: 'div',
+  classNameBindings: ['isFullScreen:fullscreen', 'isSmall:small', 'isLarge:large'],
 
-  openObserver: observer('isOpen', function() {
+  openObserver: observer('isOpen', function () {
     const $element = $(this.element);
     if (this.isOpen) {
       $element.modal('show');
@@ -32,7 +32,7 @@ export default UiModal.extend({
     }
   },
 
-  didRender()  {
+  didRender() {
     this._super(...arguments);
     try {
       $(this.element).modal('refresh');
@@ -42,16 +42,15 @@ export default UiModal.extend({
     }
   },
 
-
   willInitSemantic(settings) {
     this._super(...arguments);
 
     const defaultOptions = {
-      detachable     : false,
-      duration       : isTesting ? 0 : 200,
-      dimmerSettings : {
-        dimmerName : `${this.elementId}-modal-dimmer`,
-        variation  : 'inverted'
+      detachable: false,
+      duration: isTesting ? 0 : 200,
+      dimmerSettings: {
+        dimmerName: `${this.elementId}-modal-dimmer`,
+        variation: 'inverted'
       },
       onHide: () => {
         this.set('isOpen', false);

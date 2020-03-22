@@ -2,8 +2,8 @@ import FormMixin from 'open-event-frontend/mixins/form';
 import ModalBase from 'open-event-frontend/components/modals/modal-base';
 
 export default ModalBase.extend(FormMixin, {
-  isSmall            : true,
-  autoScrollToErrors : false,
+  isSmall: true,
+  autoScrollToErrors: false,
 
   actions: {
     addRole() {
@@ -20,31 +20,30 @@ export default ModalBase.extend(FormMixin, {
   },
 
   getValidationRules() {
-
     return {
-      inline : true,
-      delay  : false,
-      on     : 'blur',
-      fields : {
+      inline: true,
+      delay: false,
+      on: 'blur',
+      fields: {
         email: {
-          identifier : 'user_email',
-          rules      : [
+          identifier: 'user_email',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please enter an email for user')
+              type: 'empty',
+              prompt: this.l10n.t('Please enter an email for user')
             },
             {
-              type   : 'email',
-              prompt : this.l10n.t('Please enter a valid email address  for user')
+              type: 'email',
+              prompt: this.l10n.t('Please enter a valid email address  for user')
             }
           ]
         },
         role: {
-          identifier : 'user_role',
-          rules      : [
+          identifier: 'user_role',
+          rules: [
             {
-              type   : 'empty',
-              prompt : this.l10n.t('Please select a role')
+              type: 'empty',
+              prompt: this.l10n.t('Please select a role')
             }
           ]
         }

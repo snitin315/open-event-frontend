@@ -7,7 +7,6 @@ module('Integration | Component | ui table/cell/admin/users/cell user links', fu
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     await render(hbs`{{ui-table/cell/admin/users/cell-user-links}}`);
     assert.ok(this.element.innerHTML.trim().includes(''));
   });

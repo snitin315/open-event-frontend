@@ -14,4 +14,3 @@ module('Integration | Helper | currency-symbol', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'US$');
   });
 });
-

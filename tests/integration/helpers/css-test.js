@@ -10,4 +10,3 @@ module('Integration | Helper | css', function(hooks) {
     assert.equal(this.element.textContent.trim(), 'background-color: #ffffff;color: #000000;');
   });
 });
-

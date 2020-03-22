@@ -8,8 +8,8 @@ export default Route.extend({
   model() {
     return [
       {
-        code      : 'en',
-        sourceUrl : '#'
+        code: 'en',
+        sourceUrl: '#'
       }
     ];
   }

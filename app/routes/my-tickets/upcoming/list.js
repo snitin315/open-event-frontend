@@ -14,89 +14,89 @@ export default Route.extend({
     this.set('params', params);
     let filterOptions = [];
     if (params.ticket_status === 'completed') {
-      filterOptions.push(
-        {
-          and: [
-            {
-              name : 'event',
-              op   : 'has',
-              val  : {
-                name : 'starts-at',
-                op   : 'ge',
-                val  : moment().toISOString()
-              }
-            },
-            { or: [
+      filterOptions.push({
+        and: [
+          {
+            name: 'event',
+            op: 'has',
+            val: {
+              name: 'starts-at',
+              op: 'ge',
+              val: moment().toISOString()
+            }
+          },
+          {
+            or: [
               {
-                name : 'status',
-                op   : 'eq',
-                val  : 'completed'
+                name: 'status',
+                op: 'eq',
+                val: 'completed'
               },
               {
-                name : 'status',
-                op   : 'eq',
-                val  : 'placed'
+                name: 'status',
+                op: 'eq',
+                val: 'placed'
               }
-            ] },
-            {
-              name : 'event',
-              op   : 'has',
-              val  : {
-                name : 'deleted-at',
-                op   : 'eq',
-                val  : null
-              }
+            ]
+          },
+          {
+            name: 'event',
+            op: 'has',
+            val: {
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
             }
-          ]
-        }
-      );
+          }
+        ]
+      });
     } else if (params.ticket_status === 'open') {
-      filterOptions.push(
-        {
-          and: [
-            {
-              name : 'event',
-              op   : 'has',
-              val  : {
-                name : 'starts-at',
-                op   : 'ge',
-                val  : moment().toISOString()
-              }
-            },
-            { or: [
+      filterOptions.push({
+        and: [
+          {
+            name: 'event',
+            op: 'has',
+            val: {
+              name: 'starts-at',
+              op: 'ge',
+              val: moment().toISOString()
+            }
+          },
+          {
+            or: [
               {
-                name : 'status',
-                op   : 'eq',
-                val  : 'pending'
+                name: 'status',
+                op: 'eq',
+                val: 'pending'
               },
               {
-                name : 'status',
-                op   : 'eq',
-                val  : 'initializing'
+                name: 'status',
+                op: 'eq',
+                val: 'initializing'
               }
-            ] },
-            {
-              name : 'event',
-              op   : 'has',
-              val  : {
-                name : 'deleted-at',
-                op   : 'eq',
-                val  : null
-              }
+            ]
+          },
+          {
+            name: 'event',
+            op: 'has',
+            val: {
+              name: 'deleted-at',
+              op: 'eq',
+              val: null
             }
-          ]
-        }
-      );
+          }
+        ]
+      });
     }
 
     return this.infinity.model('orders', {
-      include      : 'event',
-      filter       : filterOptions,
-      perPage      : 10,
-      startingPage : 1,
-      perPageParam : 'page[size]',
-      pageParam    : 'page[number]',
-      store        : this.authManager.currentUser
+      include: 'event',
+      filter: filterOptions,
+      perPage: 10,
+      startingPage: 1,
+      perPageParam: 'page[size]',
+      pageParam: 'page[number]',
+      store: this.authManager.currentUser
     });
   }
 });

@@ -6,8 +6,8 @@ export default Route.extend({
   },
   model() {
     return this.store.query('event-topic', {
-      include : 'event-sub-topics',
-      sort    : 'name'
+      include: 'event-sub-topics',
+      sort: 'name'
     });
   },
   afterModel(model, transition) {

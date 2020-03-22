@@ -10,7 +10,9 @@ module('Integration | Component | modals/event delete modal', function(hooks) {
     this.set('isOpen', false);
     this.set('eventName', 'sample');
     this.set('deleteEvent', () => {});
-    await render(hbs`{{modals/event-delete-modal isOpen=isOpen eventName=eventName deleteEvent=(action deleteEvent)}}`);
+    await render(
+      hbs`{{modals/event-delete-modal isOpen=isOpen eventName=eventName deleteEvent=(action deleteEvent)}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('Are you sure'));
   });
 });

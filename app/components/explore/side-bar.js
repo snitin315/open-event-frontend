@@ -5,7 +5,6 @@ import { not } from '@ember/object/computed';
 import { getDateRanges } from 'open-event-frontend/utils/dictionary/filters';
 
 export default class extends Component {
-
   classNames = ['ui', 'fluid', 'explore', 'vertical', 'menu'];
 
   customStartDate = moment().toISOString();
@@ -14,9 +13,27 @@ export default class extends Component {
   showFilters = false;
   isMapVisible = true;
 
-  @computed('category', 'sub_category', 'event_type', 'startDate', 'endDate', 'location', 'ticket_type', 'cfs')
+  @computed(
+    'category',
+    'sub_category',
+    'event_type',
+    'startDate',
+    'endDate',
+    'location',
+    'ticket_type',
+    'cfs'
+  )
   get hideClearFilters() {
-    return !(this.category || this.sub_category || this.event_type || this.startDate || this.endDate || this.location || this.ticket_type || this.cfs);
+    return !(
+      this.category ||
+      this.sub_category ||
+      this.event_type ||
+      this.startDate ||
+      this.endDate ||
+      this.location ||
+      this.ticket_type ||
+      this.cfs
+    );
   }
 
   @computed('category', 'sub_category')
@@ -33,7 +50,7 @@ export default class extends Component {
 
   @computed('device.isMobile', 'showFilters')
   get showFiltersOnMobile() {
-    return (!this.device.isMobile || this.showFilters);
+    return !this.device.isMobile || this.showFilters;
   }
 
   @action
@@ -47,8 +64,11 @@ export default class extends Component {
 
   @action
   selectCategory(category, subCategory) {
-    this.set('category', (category === this.category && !subCategory) ? null : category);
-    this.set('sub_category', (!subCategory || subCategory === this.sub_category) ? null : subCategory);
+    this.set('category', category === this.category && !subCategory ? null : category);
+    this.set(
+      'sub_category',
+      !subCategory || subCategory === this.sub_category ? null : subCategory
+    );
   }
 
   @action
@@ -137,10 +157,9 @@ export default class extends Component {
   @action
   clearFilterCategory() {
     this.setProperties({
-      category     : null,
-      sub_category : null
+      category: null,
+      sub_category: null
     });
-
   }
 
   @action
@@ -151,15 +170,15 @@ export default class extends Component {
   @action
   clearFilters() {
     this.setProperties({
-      startDate    : null,
-      endDate      : null,
-      dateType     : null,
-      category     : null,
-      sub_category : null,
-      event_type   : null,
-      location     : null,
-      ticket_type  : null,
-      cfs          : null
+      startDate: null,
+      endDate: null,
+      dateType: null,
+      category: null,
+      sub_category: null,
+      event_type: null,
+      location: null,
+      ticket_type: null,
+      cfs: null
     });
   }
 

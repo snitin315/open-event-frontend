@@ -7,7 +7,7 @@ module('Integration | Component | ui table select', function(hooks) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs `{{ui-table-select}}`);
+    await render(hbs`{{ui-table-select}}`);
     assert.ok(this.element.innerHTML.trim().includes('10'));
   });
 });

@@ -10,7 +10,9 @@ module('Integration | Component | ui table/cell/cell buttons', function(hooks) {
     this.set('editEvent', () => {});
     this.set('moveToDetails', () => {});
     this.set('openDeleteEventModal', () => {});
-    await render(hbs`{{ui-table/cell/cell-buttons editEvent=(action editEvent) moveToDetails=(action moveToDetails) openDeleteEventModal=(action openDeleteEventModal)}}`);
+    await render(
+      hbs`{{ui-table/cell/cell-buttons editEvent=(action editEvent) moveToDetails=(action moveToDetails) openDeleteEventModal=(action openDeleteEventModal)}}`
+    );
     assert.ok(this.element.textContent.trim().includes(''));
   });
 });

@@ -7,8 +7,8 @@ export default class extends Route {
 
   model(params) {
     return this.store.findRecord('event-invoice', params.invoice_identifier, {
-      include : 'event,user',
-      reload  : true
+      include: 'event,user',
+      reload: true
     });
   }
 

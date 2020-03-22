@@ -13,17 +13,16 @@ export default Route.extend({
   _loadEvents(params, mode) {
     let filterOptions = [
       {
-        and:
-        [
+        and: [
           {
-            name : 'state',
-            op   : 'eq',
-            val  : 'published'
+            name: 'state',
+            op: 'eq',
+            val: 'published'
           },
           {
-            name : 'privacy',
-            op   : 'eq',
-            val  : 'public'
+            name: 'privacy',
+            op: 'eq',
+            val: 'public'
           }
         ]
       }
@@ -31,81 +30,80 @@ export default Route.extend({
 
     if (params.location) {
       filterOptions.push({
-        name : 'location_name',
-        op   : 'ilike',
-        val  : `%${params.location}%`
+        name: 'location_name',
+        op: 'ilike',
+        val: `%${params.location}%`
       });
     }
 
     if (params.event_name) {
       filterOptions.push({
-        name : 'name',
-        op   : 'ilike',
-        val  : `%${params.event_name}%`
+        name: 'name',
+        op: 'ilike',
+        val: `%${params.event_name}%`
       });
     }
 
     if (params.start_date && params.end_date) {
       filterOptions.push({
-        or:
-          [
-            {
-              and: [
-                {
-                  name : 'starts-at',
-                  op   : 'ge',
-                  val  : params.start_date
-                },
-                {
-                  name : 'starts-at',
-                  op   : 'le',
-                  val  : params.end_date
-                }
-              ]
-            },
-            {
-              and: [
-                {
-                  name : 'ends-at',
-                  op   : 'ge',
-                  val  : params.start_date
-                },
-                {
-                  name : 'ends-at',
-                  op   : 'le',
-                  val  : params.end_date
-                }
-              ]
-            },
-            {
-              and: [
-                {
-                  name : 'starts-at',
-                  op   : 'le',
-                  val  : params.start_date
-                },
-                {
-                  name : 'ends-at',
-                  op   : 'ge',
-                  val  : params.end_date
-                }
-              ]
-            }
-          ]
+        or: [
+          {
+            and: [
+              {
+                name: 'starts-at',
+                op: 'ge',
+                val: params.start_date
+              },
+              {
+                name: 'starts-at',
+                op: 'le',
+                val: params.end_date
+              }
+            ]
+          },
+          {
+            and: [
+              {
+                name: 'ends-at',
+                op: 'ge',
+                val: params.start_date
+              },
+              {
+                name: 'ends-at',
+                op: 'le',
+                val: params.end_date
+              }
+            ]
+          },
+          {
+            and: [
+              {
+                name: 'starts-at',
+                op: 'le',
+                val: params.start_date
+              },
+              {
+                name: 'ends-at',
+                op: 'ge',
+                val: params.end_date
+              }
+            ]
+          }
+        ]
       });
     } else {
       params.start_date = moment().toISOString();
       filterOptions.push({
         or: [
           {
-            name : 'starts-at',
-            op   : 'ge',
-            val  : params.start_date
+            name: 'starts-at',
+            op: 'ge',
+            val: params.start_date
           },
           {
-            name : 'ends-at',
-            op   : 'ge',
-            val  : params.start_date
+            name: 'ends-at',
+            op: 'ge',
+            val: params.start_date
           }
         ]
       });
@@ -114,21 +112,20 @@ export default Route.extend({
       return filterOptions;
     } else {
       return this.store.query('event', {
-        sort    : 'starts-at',
-        include : 'event-topic,event-sub-topic,event-type,speakers-call',
-        filter  : filterOptions
+        sort: 'starts-at',
+        include: 'event-topic,event-sub-topic,event-type,speakers-call',
+        filter: filterOptions
       });
     }
-
   },
 
   async model(params) {
-    let filterOptions =  this._loadEvents(params, 'filterOptions');
+    let filterOptions = this._loadEvents(params, 'filterOptions');
     return {
       filteredEvents: await this.store.query('event', {
-        sort    : 'starts-at',
-        include : 'event-topic,event-sub-topic,event-type,speakers-call',
-        filter  : filterOptions
+        sort: 'starts-at',
+        include: 'event-topic,event-sub-topic,event-type,speakers-call',
+        filter: filterOptions
       })
     };
   },

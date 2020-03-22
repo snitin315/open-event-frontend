@@ -21,7 +21,7 @@ module('Integration | Component | ui table/cell/cell event', function(hooks) {
       record,
       props
     });
-    await render(hbs `{{ui-table/cell/cell-event record=record props=props}}`);
+    await render(hbs`{{ui-table/cell/cell-event record=record props=props}}`);
     assert.ok(this.element.innerHTML.trim().includes('Event'));
   });
 });

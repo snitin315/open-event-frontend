@@ -14,8 +14,10 @@ module('Integration | Component | modals/cropper modal', function(hooks) {
   test('it renders', async function(assert) {
     this.set('isOpen', false);
     this.set('imgData', '');
-    this.actions.imageCropped = function() { };
-    await render(hbs`{{modals/cropper-modal isOpen=isOpen imgData=imgData onImageCrop=(action 'imageCropped')}}`);
+    this.actions.imageCropped = function() {};
+    await render(
+      hbs`{{modals/cropper-modal isOpen=isOpen imgData=imgData onImageCrop=(action 'imageCropped')}}`
+    );
     assert.ok(this.element.innerHTML.trim().includes('Crop Image'));
   });
 });

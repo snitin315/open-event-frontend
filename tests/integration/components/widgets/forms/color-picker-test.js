@@ -7,7 +7,6 @@ module('Integration | Component | widgets/forms/color picker', function(hooks) {
   setupIntegrationTest(hooks);
 
   test('it renders', async function(assert) {
-
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 

@@ -7,24 +7,24 @@ export default Route.extend({
   async model() {
     const eventDetails = this.modelFor('events.view');
     return {
-      event : eventDetails,
-      form  : await eventDetails.query('customForms', {
-        'page[size]' : 0,
-        sort         : 'id'
+      event: eventDetails,
+      form: await eventDetails.query('customForms', {
+        'page[size]': 0,
+        sort: 'id'
       }),
       session: await this.store.createRecord('session', {
-        event   : eventDetails,
-        creator : this.get('authManager.currentUser')
+        event: eventDetails,
+        creator: this.get('authManager.currentUser')
       }),
       sessions: await eventDetails.query('sessions', {
         'page[size]': 0
       }),
       speaker: await this.store.createRecord('speaker', {
-        event : eventDetails,
-        user  : this.get('authManager.currentUser')
+        event: eventDetails,
+        user: this.get('authManager.currentUser')
       }),
-      tracks       : await eventDetails.query('tracks', {}),
-      sessionTypes : await eventDetails.query('sessionTypes', {})
+      tracks: await eventDetails.query('tracks', {}),
+      sessionTypes: await eventDetails.query('sessionTypes', {})
     };
   },
   resetController(controller) {

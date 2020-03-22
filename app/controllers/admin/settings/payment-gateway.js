@@ -6,19 +6,18 @@ export default class extends Controller {
   updateSettings() {
     this.set('isLoading', true);
     let settings = this.model;
-    settings.save()
+    settings
+      .save()
       .then(() => {
-        this.notify.success(this.l10n.t('Settings have been saved successfully.'),
-          {
-            id: 'setting_payment_save'
-          });
+        this.notify.success(this.l10n.t('Settings have been saved successfully.'), {
+          id: 'setting_payment_save'
+        });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error('Error while saving payment gateway settings', e);
-        this.notify.error(this.l10n.t('An unexpected error has occurred. Settings not saved.'),
-          {
-            id: 'setting_payment_error'
-          });
+        this.notify.error(this.l10n.t('An unexpected error has occurred. Settings not saved.'), {
+          id: 'setting_payment_error'
+        });
       })
       .finally(() => {
         this.set('isLoading', false);

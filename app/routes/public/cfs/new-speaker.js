@@ -13,17 +13,17 @@ export default Route.extend({
       userName = `${currentUser.firstName} ${currentUser.lastName}`;
     }
     return {
-      event : eventDetails,
-      forms : await eventDetails.query('customForms', {
-        sort         : 'id',
-        'page[size]' : 0
+      event: eventDetails,
+      forms: await eventDetails.query('customForms', {
+        sort: 'id',
+        'page[size]': 0
       }),
       speaker: await this.store.createRecord('speaker', {
-        email    : currentUser.email,
-        name     : userName,
-        photoUrl : currentUser.avatarUrl,
-        event    : eventDetails,
-        user     : currentUser
+        email: currentUser.email,
+        name: userName,
+        photoUrl: currentUser.avatarUrl,
+        event: eventDetails,
+        user: currentUser
       })
     };
   },
